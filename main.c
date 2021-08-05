@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-typedef enum e_states t_states;
+typedef enum e_states t_type;
 
 enum e_states
 {
@@ -26,7 +26,7 @@ typedef struct s_quote
 
 typedef struct s_token
 {
-	t_states		type;
+	t_type		type;
 	void			*value; //make it void
 	int				closed;
 	struct s_token	*next;
@@ -94,7 +94,7 @@ char	*ft_strndup(const char *s, size_t n)
 	return (res);
 }
 
-t_token	*new_token(t_states type, char *value)
+t_token	*new_token(t_type type, char *value)
 {
 	t_token	*new;
 
@@ -126,6 +126,8 @@ void	add_back(t_token **head, t_token *new)
 	temp->next = new;
 	new->prev = temp;
 }
+
+
 
 int	parser(t_token *tokens)
 {
