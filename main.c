@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 
 typedef enum e_states t_states;
@@ -11,15 +12,35 @@ enum e_states
 	HEREDOC,
 	WHITE_SPACE = ' ',
 	PIPE = '|',
+	DOUBLE_QUOTE = '"',
+	SIMPLE_QUOTE = '\'',
+	DOLLARSIGN = '$'
 };
+
+typedef struct s_quote
+{
+	int				openend;
+	int				closed;	
+}				t_quote;
+
 
 typedef struct s_token
 {
-	t_states				type;
-	char				*value;
+	t_states		type;
+	void			*value; //make it void
+	int				closed;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
+
+t_quote	new_quote()
+{
+	t_quote new;
+
+	new.closed = 0;
+	new.openend = 0;
+	return (new);
+}
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -84,6 +105,7 @@ t_token	*new_token(t_states type, char *value)
 	new->value = value;
 	new->next = NULL;
 	new->prev = NULL;
+	new->closed = 0;
 	return (new);
 }
 
@@ -130,6 +152,26 @@ int	parser(t_token *tokens)
 		{
 			//code
 		}
+		else if (tokens->type == DOUBLE_QUOTE)
+		{
+			//code
+			if (tokens->closed)
+				printf("closed double quotes\n");
+			else
+				printf("double quotes not close\n");
+		}
+		else if (tokens->type == SIMPLE_QUOTE)
+		{
+			//code
+			if (tokens->closed)
+				printf("closed simple quotes\n");
+			else
+				printf("simple quotes not close\n");
+		}
+		else if (tokens->type == DOLLARSIGN)
+		{
+			//code
+		}
 		else
 		{
 			printf("minishell: unexpected token near `%s`\n", tokens->value);
@@ -146,13 +188,15 @@ t_token	*get_tokens(char *str)
 	t_token		*head;
 	char		*temp;
 	int			cursor;
+	t_token		*new;
 
 	head = NULL;
 	i = -1;
+	new = NULL;
 	while (str[++i])
 	{
 		cursor = -1;
-		if (str[i] == WHITE_SPACE)
+		if (str[i] == WHITE_SPACE || str[i] == '\\')
 			continue ;
 		else if (str[i] == '|')	
 			add_back(&head, new_token(PIPE, ft_strndup(&str[i], 1)));
@@ -183,6 +227,53 @@ t_token	*get_tokens(char *str)
 			add_back(&head, new_token(WORD, ft_strndup(temp, cursor)));
 			i += cursor - 1;
 		}
+		else if (str[i] == DOLLARSIGN)
+		{
+			temp = &str[i + 1];
+			while (temp[++cursor] && temp[cursor] != WHITE_SPACE); 
+			add_back(&head, new_token(DOLLARSIGN, ft_strndup(&str[i], cursor + 1)));
+			i += cursor;
+		}
+		else if (str[i] == DOUBLE_QUOTE)
+		{
+			temp = &str[i + 1];
+			while (temp[++cursor])
+			{
+				if (temp[cursor] == '"')
+				{
+					new = new_token(DOUBLE_QUOTE, ft_strndup(&str[i], cursor + 2));
+					new->closed = 1;
+					add_back(&head, new);
+					i += cursor;
+					break ;
+				}
+			}
+			if (!temp[cursor])
+			{
+				add_back(&head, new_token(DOUBLE_QUOTE, ft_strndup(&str[i], cursor + 1)));
+				i += cursor;
+			}
+		}
+		else if (str[i] == SIMPLE_QUOTE)
+		{
+			temp = &str[i + 1];
+			while (temp[++cursor])
+			{
+				if (temp[cursor] == '\'')
+				{
+					new = new_token(SIMPLE_QUOTE, ft_strndup(&str[i], cursor + 2));
+					new->closed = 1;
+					add_back(&head, new);
+					i += cursor;
+					break ;
+				}
+			}
+			if (!temp[cursor])
+			{
+				add_back(&head, new_token(SIMPLE_QUOTE, ft_strndup(&str[i], cursor + 1)));
+				i += cursor;
+			}
+		}
 		else
 			add_back(&head, new_token(UNKNOWN, ft_strndup(&str[i], 1)));
 	}
@@ -194,11 +285,11 @@ int main(int argc, char const *argv[])
 	t_token *tokens;
 	t_token	*temp;
 
-	tokens = get_tokens("<< echo 123 | >> -f |grep ;include");
+	tokens = get_tokens("<< echo $USER \"hello $USER\" 'hello $HOME | >> -f |grep include");
 	temp = tokens;
 	while (temp)
 	{
-		printf("%s\n", temp->value);
+		printf("%s\n", (char *)temp->value);
 		temp = temp->next;
 	}
 	if (parser(tokens) == -1)
