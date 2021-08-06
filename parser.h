@@ -9,6 +9,13 @@ typedef struct s_parser
     t_token     *lookahead;
 }               t_parser;
 
+typedef struct s_AST_body
+{
+    char                *type;
+    char                *value;
+    struct s_AST_body   *next;
+}               t_body;
+
 typedef struct s_AST
 {
     t_type      type;
