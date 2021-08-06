@@ -37,8 +37,7 @@ t_AST	*program(t_parser **p)
 		return (NULL);
 	AST->type = PROGRAM;
 	AST->body = word(*p);
-	AST->parser = p;
-	AST->t = &((*p)->t);
+	AST->parser = *p;
 	return (AST);
 }
 
@@ -59,12 +58,17 @@ t_AST	*parse(char *str)
 int main(int argc, char const *argv[])
 {
 	t_AST		*AST;
+	t_parser	*p;
 
-	AST = parse("cat");
+	AST = parse("echo grep");
+	p = AST->parser;
 	printf("%s\n", ((t_token *)AST->body)->value);
-	free(*(AST->t));
-	free(*(AST->parser));
-	//free((*(AST->parser))->lookahead);
+	printf("%s\n", p->lookahead->value);
+	free(p->lookahead->value);
+	free(p->lookahead);
+	free(p->t);
+	free(p);
+	free(((t_token *)AST->body)->value);
 	free(AST->body);
 	free(AST);
 	return 0;

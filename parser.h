@@ -11,10 +11,9 @@ typedef struct s_parser
 
 typedef struct s_AST
 {
-    t_type  type;
-    void    *body;
-    t_parser    **parser;
-    t_tokenizer **t;
+    t_type      type;
+    void        *body;
+    t_parser    *parser;
 }               t_AST;
 
 

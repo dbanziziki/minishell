@@ -7,9 +7,12 @@ int main(int argc, char const *argv[])
     int         ret;
     t_token     *token;
 
-    t = init("   cat grep");
+    t = init("\"hello there cat $USER\" | grep hello");
     token = get_next_token(t);
-    ret = has_more_tokens(t);
+    printf("token value: %s\n", token->value);
+    free(token->value);
+    free(token);
+    token = get_next_token(t);
     printf("token value: %s\n", token->value);
     free(token->value);
     free(token);
@@ -17,8 +20,14 @@ int main(int argc, char const *argv[])
     printf("token value: %s\n", token->value);
     free(token->value);
     free(token);
-    ret = has_more_tokens(t);
-    printf("cursor %lu len: %lu\n", t->cursor, t->len);
+    token = get_next_token(t);
+    printf("token value: %s\n", token->value);
+    free(token->value);
+    free(token);
+    /*token = get_next_token(t);
+    printf("token value: %s\n", token->value);
+    free(token->value);
+    free(token);*/
     free(t);
     return 0;
 }
