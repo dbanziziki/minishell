@@ -3,6 +3,13 @@
 
 #include "tokenizer.h"
 
+typedef struct s_cmd
+{
+    char    *cmd;
+    char    **argv;
+}               t_cmd;
+
+
 typedef struct s_parser
 {
     t_tokenizer *t;
