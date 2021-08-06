@@ -23,23 +23,8 @@ t_token	*eat(t_parser *p, t_type type)
 t_token	*word(t_parser *p)
 {
 	t_token	*new;
-	t_cmd	*cmd;
-	size_t	argv_len;
 
 	new = eat(p, WORD);
-	cmd = NULL;
-	if (p->lookahead->type == WORD)
-	{
-		cmd = malloc(sizeof(t_cmd));
-		if (!cmd)
-			return (NULL);
-		cmd->cmd = new->value;
-		while (p->lookahead->type == WORD)
-		{
-			free(p);
-
-		}
-	}
 	return (new);
 }
 

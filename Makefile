@@ -1,8 +1,10 @@
 PARSER = parser
 
+RM = rm -f
+
 INC_DIR = include
 
-PARSER_INC = $(INCLUDE)/parser
+PARSER_INC = $(INC_DIR)/parser
 
 SRCS_DIR = srcs
 
@@ -37,19 +39,25 @@ UTILS_SRCS = $(addprefix $(UTILS_DIR)/, \
 SRCS = $(PARSER_SRCS) \
 		$(UTILS_SRCS) \
 
-OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
-
 HADERS = $(UTILS_HEADERS) \
 			$(PARSER_HEADERS) \
 
-$(OBJS_DIR)/%.o: %.c
+#OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
+OBJS = $(SRCS:.c=.o)
+
+%.o: %.c
 	$(CC) -I $(PARSER_INC) -I $(INC_DIR) -c $< -o $@
 
-$(PARSER): $(HADERS) $(OBJS) 
+$(PARSER): $(OBJS) $(HADERS)
 	$(CC) -I $(PARSER_INC) -I $(INC_DIR) $(OBJS) -o $@
 
-
 all: $(PARSER)
+
+clean:
+	$(RM) $(OBJS)
+
+fclean: clean
+	$(RM) $(PARSER)
 
 test:
 	@echo $(OBJS)
