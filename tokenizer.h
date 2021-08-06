@@ -30,10 +30,12 @@ typedef struct s_tokenizer
 {
 	char				*str;
 	size_t				len;
-	int					cursor;
+	size_t				cursor;
 }						t_tokenizer;
 
 t_tokenizer	*init(char *str);
 t_token		*get_next_token(t_tokenizer *t);
+t_token		*new_token(t_type type, char *value);
+int			has_more_tokens(t_tokenizer *t);
 
 #endif

@@ -34,18 +34,28 @@ t_token	*new_token(t_type type, char *value)
 
 t_token	*get_next_token(t_tokenizer *t)
 {
-	char	*temp;
-	t_token	*token;
+	char		*temp;
+	t_token		*token;
+	size_t		i;
 	
-	temp = &t->str[t->cursor];
 	token = NULL;
 	if (!has_more_tokens(t))
 		return (NULL);
+	printf("cursor [%lu]\n", t->cursor);
+	temp = &(t->str[t->cursor]);
+	if (temp[0] == ' ')
+	{
+		while (t->str[t->cursor] == ' ')
+			t->cursor++;
+		temp = &(t->str[t->cursor]);
+	}
+	printf("%s\n", temp);
+	i = t->cursor;
 	if (ft_isalpha(temp[0]))
 	{
-		while (ft_isalpha(temp[t->cursor]))
+		while (ft_isalpha(t->str[t->cursor]))
 			t->cursor++;
-		token = new_token(WORD, ft_strndup(temp, t->cursor));
+		token = new_token(WORD, ft_strndup(temp, t->cursor - i));
 	}
 	else
 	{
