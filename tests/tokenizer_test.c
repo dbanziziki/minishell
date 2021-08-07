@@ -7,7 +7,7 @@ int main(int argc, char const *argv[])
     int         ret;
     t_token     *token;
 
-    t = init("\"hello there cat $USER\" | grep hello");
+    t = init_tokenizer("\"hello there cat $USER\" | grep hello");
     token = get_next_token(t);
     printf("token value: %s\n", token->value);
     free(token->value);

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "istream": "c",
+        "*.tcc": "c",
+        "parser.h": "c",
+        "ast.h": "c"
+    }
+}

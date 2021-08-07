@@ -2,6 +2,7 @@
 # define PARSER_H
 
 #include "tokenizer.h"
+#include "AST.h"
 
 typedef struct s_cmd
 {
@@ -13,22 +14,11 @@ typedef struct s_cmd
 typedef struct s_parser
 {
     t_tokenizer *t;
-    t_token     *lookahead;
+    t_token     *token;
 }               t_parser;
 
-typedef struct s_AST_body
-{
-    char                *type;
-    char                *value;
-    struct s_AST_body   *next;
-}               t_body;
-
-typedef struct s_AST
-{
-    t_type      type;
-    void        *body;
-    t_parser    *parser;
-}               t_AST;
-
-
+t_parser	*init_parser(char *str);
+t_token		*eat(t_parser *p, int type);
+t_AST       *word(t_parser *p);
+t_AST	    *parse(t_parser *p);
 #endif

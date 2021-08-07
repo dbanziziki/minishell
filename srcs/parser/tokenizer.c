@@ -1,8 +1,7 @@
 #include "tokenizer.h"
-#include <stdio.h>
 #include "utils.h"
 
-t_tokenizer *init(char *str)
+t_tokenizer *init_tokenizer(char *str)
 {
 	t_tokenizer *new;
 
@@ -20,7 +19,7 @@ int	has_more_tokens(t_tokenizer *t)
 	return (t->cursor < t->len);
 }
 
-t_token	*new_token(t_type type, char *value)
+t_token	*new_token(int type, char *value)
 {
 	t_token *new;
 
@@ -38,7 +37,10 @@ t_token	*word_token(t_tokenizer *t, char *temp)
 	t_token	*token;
 
 	i = t->cursor;
-	while (t->str[t->cursor] && t->str[t->cursor] != ' ')
+	while (t->str[t->cursor] && t->str[t->cursor] != ' ' &&
+			t->str[t->cursor] != PIPE &&
+			t->str[t->cursor] != '<' &&
+			t->str[t->cursor] != '>')
 			t->cursor++;
 	token = new_token(WORD, ft_strndup(temp, t->cursor - i));
 	if (!token)
@@ -46,7 +48,7 @@ t_token	*word_token(t_tokenizer *t, char *temp)
 	return (token);
 }
 
-t_token	*simple_token(t_tokenizer	*t, char *temp, t_type type)
+t_token	*simple_token(t_tokenizer	*t, char *temp, int type)
 {
 	t_token	*token;
 
@@ -57,7 +59,7 @@ t_token	*simple_token(t_tokenizer	*t, char *temp, t_type type)
 	return (token);
 }
 
-t_token	*double_redirect_token(t_tokenizer *t, char *temp, t_type type)
+t_token	*double_redirect_token(t_tokenizer *t, char *temp, int type)
 {
 	t_token	*token;
 
@@ -86,7 +88,7 @@ t_token	*quote_token(t_tokenizer *t, char *temp)
 {
 	t_token	*token;
 	size_t	i;
-	t_type	type;
+	int		type;
 
 	if (temp[0] == DOUBLE_QUOTE)
 		type = DOUBLE_QUOTE;
@@ -109,8 +111,6 @@ t_token	*get_next_token(t_tokenizer *t)
 	t_token		*token;
 	
 	token = NULL;
-	if (!has_more_tokens(t))
-		return (NULL);
 	temp = &(t->str[t->cursor]);
 	if (temp[0] == ' ')
 	{
@@ -132,24 +132,10 @@ t_token	*get_next_token(t_tokenizer *t)
 		return (dollarsign_token(t, temp));
 	else if (temp[0] == DOUBLE_QUOTE || temp[0] == SIMPLE_QUOTE)
 		return (quote_token(t, temp));
+	else if (!temp[0])
+		return (new_token(EOF_TOKEN, ft_strndup("EOF", 3)));	
 	else
-	{
-		printf("unexpected token\n");
 		return (NULL);
-	}
 	return (token);
 }
 
-/*int main(int argc, char const *argv[])
-{
-	t_tokenizer	*t;
-	t_token		*token;
-
-	t = init("cat ");
-	token = get_next_token(t);
-	printf("%s - %d\n", token->value, t->cursor);
-	free(t);
-	free(token->value);
-	free(token);
-	return 0;
-}*/

@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strndup(const char *s, size_t n);
