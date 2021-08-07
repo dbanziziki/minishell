@@ -7,9 +7,18 @@ typedef struct s_AST
 	{
 		PROGRAM,
 		CMD_AND_ARG,
-	} type;
-}               t_AST;
+	}				type;
+	void			*body;
+	struct s_AST	*next;
+}					t_AST;
 
-t_AST	*init_AST(int type);
+typedef struct	s_program
+{
+	int			nb_pipes;
+	int			has_pipes;
+}				t_program;
+
+t_AST	*init_AST(int type, void *body);
+void	addback_AST(t_AST **ast, t_AST *new);
 
 #endif

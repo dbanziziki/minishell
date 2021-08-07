@@ -14,7 +14,7 @@ SRCS_DIR = srcs
 
 CC = gcc
 
-CFLAGS = -g -fsanitize=address
+CFLAGS = -g #-fsanitize=address
 
 PARSER_DIR = $(SRCS_DIR)/parser
 
@@ -57,6 +57,7 @@ LIST_SRCS = $(addprefix $(LIST_DIR)/, \
 
 SRCS = $(PARSER_SRCS) \
 		$(UTILS_SRCS) \
+		$(LIST_SRCS)
 
 HADERS = $(UTILS_HEADERS) \
 			$(PARSER_HEADERS) \
