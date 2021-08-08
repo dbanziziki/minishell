@@ -53,7 +53,7 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 		addback_AST(&ast, parse_word(p));
 	else
 	{
-		printf("unexpected token `%s`\n", p->token->value);
+		printf("unexpected token at `%s`\n", p->token->value);
 		exit(1);
 	}
 	/*if (p->token->type == PIPE)

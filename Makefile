@@ -70,13 +70,13 @@ LIST_OBJS = $(LIST_SRCS:.c=.o)
 
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -c $< -o $@
 
 $(PARSER): $(OBJS) $(LIST_OBJS) $(HADERS)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) -o $@
+	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) -o $@
 
 $(LIST): $(LIST_OBJS)
-	$(CC) $(CFLAGS) -I $(LIST_INC) $(LIST_OBJS) $(LIST_DIR)/main.c -o $@
+	@$(CC) $(CFLAGS) -I $(LIST_INC) $(LIST_OBJS) $(LIST_DIR)/main.c -o $@
 
 all: $(PARSER)
 
@@ -86,10 +86,10 @@ run: re all
 re: fclean all
 
 clean:
-	$(RM) $(OBJS) $(LIST_OBJS)
+	@$(RM) $(OBJS) $(LIST_OBJS)
 
 fclean: clean
-	$(RM) $(PARSER) $(LIST)
+	@$(RM) $(PARSER) $(LIST)
 
 test:
 	@echo $(INC_DIR)
