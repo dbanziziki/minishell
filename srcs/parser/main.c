@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
 	base->has_pipes = 0;
 	base->nb_pipes = 0;
 	root = init_AST(PROGRAM, base);
-	p = init_parser("cat hello main.c");
+	p = init_parser("& cat hello main.c");
 	i = -1;
 	root = parse(p, root);
 	cmd = (t_cmd *)(root->next->body);

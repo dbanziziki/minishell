@@ -135,7 +135,7 @@ t_token	*get_next_token(t_tokenizer *t)
 	else if (!temp[0])
 		return (new_token(EOF_TOKEN, ft_strndup("EOF", 3)));	
 	else
-		return (NULL);
+		return (new_token(UNKNOWN, ft_strndup(temp, 1)));
 	return (token);
 }
 

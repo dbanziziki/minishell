@@ -51,6 +51,11 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 		return (ast);
 	if (p->token->type == WORD)
 		addback_AST(&ast, parse_word(p));
+	else
+	{
+		printf("unexpected token `%s`\n", p->token->value);
+		exit(1);
+	}
 	/*if (p->token->type == PIPE)
 		addback_AST(&ast, parse_pipe(p));*/
 	/*add a token to parse in an if statement*/
