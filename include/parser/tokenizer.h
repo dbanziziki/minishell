@@ -3,24 +3,23 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-
-typedef enum e_states t_type;
-
+#include "tokens.h"
+#include "utils.h"
 
 typedef struct s_token
 {
 	enum
 	{
-		WORD,
-		REDIRECT,
-		UNKNOWN,
-		HEREDOC,
+		WORD_TOKEN,
+		REDIRECT_TOKEN,
+		UNKNOWN_TOKEN,
+		HEREDOC_TOKEN,
 		EOF_TOKEN,
-		WHITE_SPACE = ' ',
-		PIPE = '|',
-		DOUBLE_QUOTE = '"',
-		SIMPLE_QUOTE = '\'',
-		DOLLARSIGN = '$'
+		WHITE_SPACE_TOKEN,
+		PIPE_TOKEN,
+		DOUBLE_QUOTE_TOKEN,
+		SIMPLE_QUOTE_TOKEN,
+		DOLLARSIGN_TOKEN
 	}			type;
 	char		*value;
 }				t_token;
@@ -36,5 +35,6 @@ t_tokenizer	*init_tokenizer(char *str);
 t_token		*get_next_token(t_tokenizer *t);
 t_token		*new_token(int type, char *value);
 int			has_more_tokens(t_tokenizer *t);
+char		*token_to_str(int token);
 
 #endif

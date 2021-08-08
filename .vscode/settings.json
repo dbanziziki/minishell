@@ -3,6 +3,9 @@
         "istream": "c",
         "*.tcc": "c",
         "parser.h": "c",
-        "ast.h": "c"
+        "ast.h": "c",
+        "tokenizer.h": "c",
+        "tokens.h": "c",
+        "utils.h": "c"
     }
 }

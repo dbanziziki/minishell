@@ -41,7 +41,7 @@ t_AST	*parse_pipe(t_parser *p)
 {
 	t_token	*token;
 
-	token = eat(p, PIPE);
+	token = eat(p, PIPE_TOKEN);
 	return (init_AST(PROGRAM, NULL));
 }
 
@@ -49,7 +49,7 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 {
 	if (p->token->type == EOF_TOKEN)
 		return (ast);
-	if (p->token->type == WORD)
+	if (p->token->type == WORD_TOKEN)
 		addback_AST(&ast, parse_word(p));
 	else
 	{
@@ -72,14 +72,15 @@ t_AST	*parse_word(t_parser *p)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	token = eat(p, WORD);
+	token = eat(p, WORD_TOKEN);
+	printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), token->value);
 	cmd->cmd = token->value;
 	cmd->argv = init_list(sizeof(char *));
 	list_push(cmd->argv, token->value);
 	free(token);
-	while (p->token->type == WORD)
+	while (p->token->type == WORD_TOKEN)
 	{
-		token = eat(p, WORD);
+		token = eat(p, WORD_TOKEN);
 		list_push(cmd->argv, token->value);
 		free(token);
 		token = NULL;

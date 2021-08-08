@@ -34,6 +34,7 @@ PARSER_HEADERS = $(addprefix $(PARSER_INC)/, \
 								parser.h \
 								tokenizer.h \
 								AST.h \
+								tokens.h \
 )
 
 PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
@@ -41,6 +42,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								tokenizer.c \
 								AST.c \
 								main.c \
+								tokenizer_helper.c \
 )
 
 LIST_HEADERS = $(addprefix $(LIST_INC)/, \
