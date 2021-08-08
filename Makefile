@@ -14,7 +14,7 @@ SRCS_DIR = srcs
 
 CC = gcc
 
-CFLAGS = -g #-fsanitize=address
+CFLAGS = -g -fsanitize=address
 
 PARSER_DIR = $(SRCS_DIR)/parser
 

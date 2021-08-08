@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "AST.h"
 #include <stdio.h>
 
 t_parser	*init_parser(char *str)
@@ -36,26 +37,28 @@ t_token	*eat(t_parser *p, int type)
 	return (token);
 }
 
-t_AST	*parse(t_parser *p)
+t_AST	*parse_pipe(t_parser *p)
 {
-	t_AST		*ast;
-	t_program	*prog;
-	t_cmd		*cmd;
-	t_token		*token;
+	t_token	*token;
 
-	prog = (t_program *)malloc(sizeof(t_program));
-	if (!prog)
-		return (NULL);
-	ast = init_AST(PROGRAM, prog);
-	token = eat(p, WORD);
-	prog->has_pipes = 0;
-	prog->nb_pipes = 0;
-	if (token->type == WORD)
-		addback_AST(&ast, word(token, p));
+	token = eat(p, PIPE);
+	return (init_AST(PROGRAM, NULL));
+}
+
+t_AST	*parse(t_parser *p, t_AST *ast)
+{
+	if (p->token->type == EOF_TOKEN)
+		return (ast);
+	if (p->token->type == WORD)
+		addback_AST(&ast, parse_word(p));
+	/*if (p->token->type == PIPE)
+		addback_AST(&ast, parse_pipe(p));*/
+	/*add a token to parse in an if statement*/
+	parse(p, ast);
 	return (ast);
 }
 
-t_AST	*word(t_token *curr_token, t_parser *p)
+t_AST	*parse_word(t_parser *p)
 {
 	t_AST	*new;
 	t_cmd	*cmd;
@@ -64,18 +67,17 @@ t_AST	*word(t_token *curr_token, t_parser *p)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->cmd = curr_token->value;
-	free(curr_token);
 	token = eat(p, WORD);
+	cmd->cmd = token->value;
 	cmd->argv = init_list(sizeof(char *));
-	while (token->type == WORD)
+	list_push(cmd->argv, token->value);
+	free(token);
+	while (p->token->type == WORD)
 	{
+		token = eat(p, WORD);
 		list_push(cmd->argv, token->value);
 		free(token);
-		token = eat(p, p->token->type);
+		token = NULL;
 	}
-	//NOT THE GOOD PLACE TO FREE
-	free(token->value);
-	free(token);
 	return (init_AST(CMD_AND_ARG, cmd));
 }
