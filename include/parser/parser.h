@@ -6,10 +6,21 @@
 #include "list.h"
 #include "utils.h"
 
+typedef struct s_io_modifier
+{
+	enum
+	{
+		NONE,
+	}			type;
+	char		*infile;
+	char		*oufile;
+}				t_io_mod;
+
 typedef struct s_cmd
 {
 	char 		*cmd;
 	t_list		*argv;
+	t_io_mod	*io_mod;
 } 				t_cmd;
 
 typedef struct s_pipe

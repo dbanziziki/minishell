@@ -4,8 +4,10 @@ char    *token_to_str(int token)
 {
     if (token == WORD_TOKEN)
         return "WORD";
-    else if (token == REDIRECT_TOKEN)
-        return "REDIRECT";
+    else if (token == GREATER_THAN_TOKEN)
+        return "GREATER THAN";
+    else if (token == LESS_THAN_TOKEN)
+        return "LESS THAN";
     else if (token == HEREDOC_TOKEN)
         return "HEREDOC";
     else if (token == EOF_TOKEN)
@@ -19,5 +21,5 @@ char    *token_to_str(int token)
     else if (token == DOLLARSIGN_TOKEN)
         return "DOLLARSIGN";
     else
-        return "UNKNOWN"; 
+        return "UNKNOWN";
 }

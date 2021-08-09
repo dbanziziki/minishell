@@ -29,7 +29,8 @@ t_token	*eat(t_parser *p, int type)
 	}
 	if (token->type != type)
 	{
-		printf("wrong token type\n");
+		printf("minishell: parse error near `%s`\n", token->value);
+		exit(1);
 		return (NULL);
 	}
 	p->token = get_next_token(p->t);
@@ -72,9 +73,10 @@ t_AST	*parse_word(t_parser *p)
 	if (!cmd)
 		return (NULL);
 	token = eat(p, WORD_TOKEN);
-	printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), token->value);
+	//printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), token->value);
 	cmd->cmd = token->value;
 	cmd->argv = init_list(sizeof(char *));
+	cmd->io_mod = NULL;
 	list_push(cmd->argv, token->value);
 	free(token);
 	while (p->token->type == WORD_TOKEN)
@@ -83,6 +85,24 @@ t_AST	*parse_word(t_parser *p)
 		list_push(cmd->argv, token->value);
 		free(token);
 		token = NULL;
+	}
+	if (p->token->type == GREATER_THAN_TOKEN)
+	{
+		token = eat(p, GREATER_THAN_TOKEN);
+		/*if (p->token->type != WORD_TOKEN)
+		{
+			printf("minishell: parse error near `%s`\n", p->token->value);
+			exit(1);
+		}*/
+		cmd->io_mod = (t_io_mod *)malloc(sizeof(t_io_mod));
+		if (!cmd->io_mod)
+			return (NULL);
+		free(token->value);
+		free(token);
+		token = eat(p, WORD_TOKEN);
+		cmd->io_mod->oufile = token->value;
+		cmd->io_mod->infile = NULL;
+		free(token);
 	}
 	return (init_AST(CMD_AND_ARG, cmd));
 }

@@ -47,10 +47,17 @@ t_token	*word_token(t_tokenizer *t, char *temp)
 	return (token);
 }
 
-t_token	*simple_token(t_tokenizer	*t, char *temp, int type)
+t_token	*simple_token(t_tokenizer *t, char *temp)
 {
 	t_token	*token;
+	int		type;
 
+	if (temp[0] == LEFT_REDIRECT)
+		type = LESS_THAN_TOKEN;
+	else if (temp[0] == RIGHT_REDIRECT)
+		type = GREATER_THAN_TOKEN;
+	else
+		type = PIPE_TOKEN;
 	token = new_token(type, ft_strndup(temp, 1));
 	if (!token)
 		return (NULL);
@@ -122,14 +129,14 @@ t_token	*get_next_token(t_tokenizer *t)
 	temp = skip_whitespace(&(t->str[t->cursor]), t);	
 	if (ft_isalpha(temp[0]) || temp[0] == '-')
 		return (word_token(t, temp));
-	else if (temp[0] == PIPE_TOKEN)
-		return (simple_token(t, temp, PIPE_TOKEN));
+	else if (temp[0] == PIPE)
+		return (simple_token(t, temp));
 	else if (!ft_strncmp(temp, HEREDOC, 2))
 		return (double_redirect_token(t, temp, HEREDOC_TOKEN));
 	else if (!ft_strncmp(temp, REDIRECT_APPEND, 2))
 		return (double_redirect_token(t, temp, REDIRECT_TOKEN));
 	else if (temp[0] == LEFT_REDIRECT || temp[0] == RIGHT_REDIRECT)
-		return (simple_token(t, temp, REDIRECT_TOKEN));
+		return (simple_token(t, temp));
 	else if (temp[0] == DOLLARSIGN)
 		return (dollarsign_token(t, temp));
 	else if (temp[0] == DOUBLE_QUOTE || temp[0] == SINGLE_QUOTE)
