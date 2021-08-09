@@ -11,6 +11,8 @@ typedef struct s_io_modifier
 	enum
 	{
 		NONE,
+		REDIRECT_OUTPUT,
+		REDIRECT_INPUT
 	}			type;
 	char		*infile;
 	char		*oufile;
