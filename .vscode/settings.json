@@ -6,6 +6,7 @@
         "ast.h": "c",
         "tokenizer.h": "c",
         "tokens.h": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "history.h": "c"
     }
 }

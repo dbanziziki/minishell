@@ -66,7 +66,7 @@ t_AST	*parse_word(t_parser *p)
 		token = eat(p, LESS_THAN_TOKEN);
 		free(token->value);
 		free(token);
-		if (cmd->argv->items) /*if we already have argv we skip the token*/
+		if (cmd->argv->size > 2) /*if we already have argv we skip the token*/
 		{
 			token = eat(p, WORD_TOKEN);
 			free(token->value);

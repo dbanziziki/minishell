@@ -42,4 +42,6 @@ t_token		*eat(t_parser *p, int type);
 t_AST		*parse_word(t_parser *p);
 t_AST		*parse(t_parser *p, t_AST *ast);
 t_AST		*parse_pipe(t_parser *p);
+t_cmd   	*init_cmd(char *value);
+t_io_mod    *init_io_mod(char *infile, char *outfile, int type);
 #endif
