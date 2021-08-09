@@ -1,6 +1,5 @@
-#include "parser.h"
-#include "AST.h"
 #include <stdio.h>
+#include "parser.h"
 
 t_parser	*init_parser(char *str)
 {

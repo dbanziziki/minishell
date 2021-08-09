@@ -39,7 +39,7 @@ int main(int argc, char const *argv[])
 		printf("%s, ", (char *)(cmd->argv->items[i]));
 	printf("]\n");
 	i = -1;
-	while (++i< cmd->argv->size)
+	while (++i < cmd->argv->size)
 		free(cmd->argv->items[i]);	
 	free(cmd->argv->items);
 	free(cmd->argv);
