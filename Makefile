@@ -57,6 +57,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								AST.c \
 								tokenizer_helper.c \
 								parse_word.c \
+								AST_utils.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c
@@ -82,6 +83,7 @@ LIST_SRCS = $(addprefix $(LIST_DIR)/, \
 MINISHELL_SRCS = $(addprefix $(SRCS_DIR)/$(NAME)/, \
 								minishell.c \
 								cmd_and_args.c \
+								minishell_utils.c \
 )
 
 SRCS_PARSER = $(PARSER_SRCS) \

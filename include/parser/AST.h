@@ -19,7 +19,7 @@ typedef struct	s_program
 	int			has_pipes;
 }				t_program;
 
-t_AST	*init_AST(int type, void *body);
-void	addback_AST(t_AST **ast, t_AST *new);
-
+t_AST		*init_AST(int type, void *body);
+void		addback_AST(t_AST **ast, t_AST *new);
+t_program	*init_prog();
 #endif

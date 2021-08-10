@@ -18,6 +18,10 @@ typedef struct s_minishell
     t_AST       *ast;
 }               t_minishell;
 
-int cmd_and_args(t_AST *head, t_cmd *cmd);
-
+int         cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);
+t_AST	    *init_minishell_parse(t_minishell **ms, char *str);
+t_minishell *init_minishell_struct(void);
+int         **init_pipes(int nb_proc);
+void        free_all(t_parser *p, t_AST *root);
+int         close_unused_pipes(int **pipes, int size, int i);
 #endif
