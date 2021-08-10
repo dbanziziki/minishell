@@ -61,6 +61,7 @@ t_AST	*parse_word(t_parser *p)
         cmd->io_mod = init_io_mod(NULL, token->value, REDIRECT_OUTPUT);
 		free(token);
 	}
+	/* Input redirection */
 	else if (p->token->type == LESS_THAN_TOKEN)
 	{
 		token = eat(p, LESS_THAN_TOKEN);

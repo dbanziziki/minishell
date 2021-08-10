@@ -12,7 +12,7 @@ INC_DIR = include
 
 PARSER_INC = $(INC_DIR)/parser
 
-READLINE_FLAG =  
+READLINE_FLAG =  -lreadline
 
 LIST_INC = $(INC_DIR)/list
 
@@ -27,6 +27,8 @@ PARSER_DIR = $(SRCS_DIR)/parser
 MAIN = $(SRCS_DIR)/main.c
 
 OBJS_DIR = objs
+
+MINISHELL_INC_DIR = $(INC_DIR)/$(NAME)
 
 UTILS_DIR = $(SRCS_DIR)/utils
 
@@ -63,6 +65,10 @@ LIST_HEADERS = $(addprefix $(LIST_INC)/, \
 							list.h \
 )
 
+MINISHELL_HEADERS = $(addprefix $(INC_DIR)/$(NAME)/, \
+								minishell.h \
+)
+
 UTILS_SRCS = $(addprefix $(UTILS_DIR)/, \
 							utils.c \
 )
@@ -71,8 +77,9 @@ LIST_SRCS = $(addprefix $(LIST_DIR)/, \
 							list.c \
 )
 
-MINISHELL_SRCS = $(addprefix $(SRCS_DIR)/, \
+MINISHELL_SRCS = $(addprefix $(SRCS_DIR)/$(NAME)/, \
 								minishell.c \
+								cmd_and_args.c \
 )
 
 SRCS_PARSER = $(PARSER_SRCS) \
@@ -95,10 +102,10 @@ LIST_OBJS = $(LIST_SRCS:.c=.o)
 TEST_OBJS = $(TEST_SRCS_DIR:.c=.o)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -c $< -o $@
 
-$(NAME): $(MINISHELL_OBJS) $(HEADERS)
-	@$(CC) $(CFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(MINISHELL_OBJS) -o $@
+$(NAME): $(MINISHELL_OBJS) $(HEADERS) $(MINISHELL_HEADERS)
+	@$(CC) $(CFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) $(MINISHELL_OBJS) -o $@
 
 $(PARSER): $(OBJS) $(LIST_OBJS) $(HEADERS)
 	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) -o $@
@@ -115,6 +122,9 @@ run: re all
 	./$(NAME)
 
 re: fclean all
+
+print:
+	@echo $(MINISHELL_INC_DIR)
 
 clean:
 	@$(RM) $(OBJS) $(LIST_OBJS) $(MINISHELL_OBJS)

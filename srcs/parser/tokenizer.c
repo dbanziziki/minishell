@@ -127,7 +127,7 @@ t_token	*get_next_token(t_tokenizer *t)
 	t_token		*token;
 	
 	temp = skip_whitespace(&(t->str[t->cursor]), t);	
-	if (ft_isalpha(temp[0]) || temp[0] == '-')
+	if (ft_isalpha(temp[0]) || temp[0] == '-' || temp[0] == '.')
 		return (word_token(t, temp));
 	else if (temp[0] == PIPE)
 		return (simple_token(t, temp));
