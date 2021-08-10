@@ -1,7 +1,9 @@
 #include "minishell.h"
+#include <stdio.h>
 
 int	redirect_output(t_cmd *cmd)
 {
+	/*TODO: handle append */
 	cmd->io_mod->fds[1] = open(cmd->io_mod->oufile, O_TRUNC | O_CREAT | O_WRONLY, 0777);
 	if (cmd->io_mod->fds[1] < 0)
 		return (1);
@@ -24,12 +26,10 @@ int	redirect_input(t_cmd *cmd)
 
 int cmd_and_args(t_AST *head, t_cmd *cmd)
 {
-	if (head->body)
-	{
-		printf("nb pipes [%d]\n", ((t_program *)head->body)->nb_pipes);
-	}
+	//if (head->body)
+	//	printf("nb pipes [%d]\n", ((t_program *)head->body)->nb_pipes);
 	if (cmd->io_mod && cmd->io_mod->type == REDIRECT_OUTPUT)
-		redirect_output(cmd);	
+		redirect_output(cmd);
 	else if (cmd->io_mod && cmd->io_mod->type == REDIRECT_INPUT)
 		redirect_input(cmd);
 	execvp(cmd->cmd, (char **)(cmd->argv->items));

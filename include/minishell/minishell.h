@@ -12,7 +12,8 @@
 
 typedef struct s_minishell
 {
-    int         *pipes;
+    int         **pipes;
+    pid_t       *p_ids;
     t_parser    *p;
     t_AST       *ast;
 }               t_minishell;

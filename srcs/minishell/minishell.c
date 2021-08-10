@@ -51,6 +51,7 @@ t_minishell	*init_minishell_struct()
 	ms->ast = 0;
 	ms->p = 0;
 	ms->pipes = 0;
+	ms->p_ids = 0;
 	return (ms);
 }
 
@@ -73,44 +74,82 @@ t_AST	*init_minishell_parse(t_minishell **ms, char *str)
 	return (ast);
 }
 
+int	**init_pipes(int nb_proc)
+{
+	int	**pipes;
+	int	i;
+
+	if (nb_proc == 1)
+		return (NULL);
+	i = -1;
+	pipes = (int **)malloc(sizeof(int *));
+	if (!pipes)
+		return (NULL);
+	while (++i < nb_proc)	
+	{
+		pipes[i] = (int *)malloc(sizeof(int) * 2);
+		if (!pipes[i] || pipe(pipes[i]) == -1)
+		{
+			while (--i)
+				free(pipes[i]);
+			return (NULL);
+		}
+	}
+	return (pipes);
+}
+
 int main(int argc, char const *argv[])
 {
 	t_minishell	*ms;
 	char		*line;
 	t_cmd		*cmd;
-	//t_cmd		*cmd1;
-	int			i;
+	t_AST		*ast;
+	int			nb_proc;
 	pid_t		pid;
 	t_program	*prog;
+	char		curr_dir[1024];
+	char		*dir;
 
 	ms = init_minishell_struct();
 	if (!ms)
 		return (1);
 	while (1)
 	{
-		i = -1;
-		line = readline("(minishell)> ");
+		getcwd(curr_dir, 1024);
+		dir = ft_strjoin_sep(curr_dir, "> ", ' ');
+		line = readline(dir);
 		ms->ast = init_minishell_parse(&ms, line);
 		prog = (t_program *)ms->ast->body;
-		cmd = (t_cmd *)ms->ast->next->body;
-		/*if (ms->ast->next->next)
+		nb_proc = prog->nb_pipes + 1;
+		ms->pipes = init_pipes(nb_proc);
+		ms->p_ids = (pid_t *)malloc(nb_proc * sizeof(pid_t));
+		ast = ms->ast->next; /* the first cmd to run */
+		for (int i = 0; i < nb_proc; i++)
 		{
-			cmd1 = (t_cmd *)ms->ast->next->next->body;
-			if (ms->ast->body && prog->has_pipes)
-				printf("this prog has %d pipes\n", prog->nb_pipes);
-		}*/
-		//while (cmd->argv->items[++i])
-		//  printf("%s ", (char *)(cmd->argv->items[i]));
-		//printf("[INFILE]: %s\n", cmd->io_mod->infile);
-		pid = fork();
-		if (pid == 0)
-		{
-			cmd_and_args(ms->ast, cmd);
-			return (1);
+			ms->p_ids[i] = fork();
+			if (ms->p_ids[i] == -1)
+				return (1);
+			/* close all the unused pipes */
+			if (ms->p_ids[i] == 0)
+			{
+				cmd = (t_cmd *)ast->body;
+				cmd->proc_idx = i;
+				cmd_and_args(ms->ast, cmd);
+				return (0); /* to avoid that the child process runs the for loop */
+			}
+			ast = ast->next; /* advence to the next cmd */
 		}
-		wait(NULL);
-		printf("\n");
+		for (int i = 0; i < nb_proc; i++)
+			waitpid(ms->p_ids[i], NULL, 0);
 		free(line);
+		free(ms->p_ids);
+		if (ms->pipes)
+		{
+			for (int i = 0; i < nb_proc; i++)
+				free(ms->pipes[i]);
+		}
+		free(ms->pipes);
+		free(dir);
 		free_all(ms->p, ms->ast);
 	}
 	return 0;

@@ -24,7 +24,7 @@ t_token	*eat(t_parser *p, int type)
 	token = p->token;
 	if (!token)
 	{
-		printf("unexpected end of input\n");
+		printf("minishell: unexpected end of input\n");
 		exit(EXIT_FAILURE);
 		return (NULL);
 	}
@@ -48,7 +48,6 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	prog = (t_program *)ast->body;
 	prog->has_pipes = 1;
 	prog->nb_pipes++;
-	printf("[PIPE_TOKEN]: %s\n", token->value);
 	free(token->value);
 	free(token);
 	token =	eat(p, WORD_TOKEN);

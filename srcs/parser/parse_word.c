@@ -10,6 +10,7 @@ t_cmd   *init_cmd(char *value)
     cmd->cmd = value;
     cmd->argv = init_list(sizeof(char *));
     cmd->io_mod = NULL;
+	cmd->proc_idx = 0;
     return (cmd);
 }
 
@@ -69,6 +70,7 @@ t_AST	*parse_word(t_parser *p)
 		free(token);
 		if (cmd->argv->size > 2) /*if we already have argv we skip the token*/
 		{
+			/*doesnt work for grep include < infile for ex*/
 			token = eat(p, WORD_TOKEN);
 			free(token->value);
 			free(token);

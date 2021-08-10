@@ -8,6 +8,8 @@ TEST_DIR = tests
 
 RM = rm -f
 
+OBJS_DIR = objs
+
 INC_DIR = include
 
 PARSER_INC = $(INC_DIR)/parser

@@ -21,6 +21,7 @@ typedef struct s_io_modifier
 
 typedef struct s_cmd
 {
+	int			proc_idx;
 	char 		*cmd;
 	t_list		*argv;
 	t_io_mod	*io_mod;
