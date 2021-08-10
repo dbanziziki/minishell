@@ -4,13 +4,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-typedef struct s_list
+typedef struct s_array
 {
     void    **items;
     size_t  size;
     size_t  item_size;
-}               t_list;
+}               t_array;
 
-t_list  *init_list(size_t item_size);
-void    list_push(t_list *list, void *item);
+t_array  *init_list(size_t item_size);
+void    list_push(t_array *list, void *item);
 #endif

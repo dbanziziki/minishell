@@ -1,14 +1,17 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#ifdef __APPLE__
 #include <readline/readline.h>
 #include <readline/history.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/wait.h>
 #include "AST.h"
 #include "parser.h"
+#include "libft.h"
 
 typedef struct s_minishell
 {

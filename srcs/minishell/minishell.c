@@ -1,5 +1,7 @@
 #include "minishell.h"
+#include "libft.h"
 #include <stdio.h>
+
 
 int main(int argc, char const *argv[])
 {
@@ -20,7 +22,11 @@ int main(int argc, char const *argv[])
 	{
 		getcwd(curr_dir, 1024);
 		dir = ft_strjoin_sep(curr_dir, "> ", ' ');
+		#ifdef __APPLE__
 		line = readline(dir);
+		#else
+		get_next_line(STDIN_FILENO, &line);
+		#endif
 		ms->ast = init_minishell_parse(&ms, line);
 		prog = (t_program *)ms->ast->body;
 		nb_proc = prog->nb_pipes + 1;
@@ -32,13 +38,13 @@ int main(int argc, char const *argv[])
 			ms->p_ids[i] = fork();
 			if (ms->p_ids[i] == -1)
 				return (1);
-			/* close all the unused pipes */
 			if (ms->p_ids[i] == 0)
 			{
 				close_unused_pipes(ms->pipes, nb_proc - 1, i);
 				cmd = (t_cmd *)ast->body;
 				cmd->proc_idx = i;
 				cmd_and_args(ms, ast, cmd);
+				exit(EXIT_FAILURE);
 				return (0); /* to avoid that the child process runs the for loop */
 			}
 			ast = ast->next; /* advence to the next cmd */

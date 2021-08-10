@@ -1,8 +1,14 @@
 PARSER = parser
 
+LIBFT_LIB = libft.a
+
 NAME = minishell
 
 LIST = list
+
+LIBFT_INC_DIR = libft
+
+LIBFT_DIR = libft
 
 TEST_DIR = tests
 
@@ -106,10 +112,10 @@ LIST_OBJS = $(LIST_SRCS:.c=.o)
 TEST_OBJS = $(TEST_SRCS_DIR:.c=.o)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) -c $< -o $@
 
-$(NAME): $(MINISHELL_OBJS) $(HEADERS) $(MINISHELL_HEADERS)
-	@$(CC) $(CFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) $(MINISHELL_OBJS) -o $@
+$(NAME): $(LIBFT_LIB) $(MINISHELL_OBJS) $(HEADERS) $(MINISHELL_HEADERS)
+	@$(CC) $(CFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
 
 $(PARSER): $(OBJS) $(LIST_OBJS) $(HEADERS)
 	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) -o $@
@@ -120,20 +126,34 @@ test: $(OBJS) $(TEST_OBJS)
 $(LIST): $(LIST_OBJS)
 	@$(CC) $(CFLAGS) -I $(LIST_INC) $(LIST_OBJS) $(LIST_DIR)/main.c -o $@
 
+#LIBFT
+libft: $(LIBFT_LIB)
+
+$(LIBFT_LIB):
+	@make -C $(LIBFT_DIR)
+
+LIBFT_NAME = libft
+
+$(LIBFT_NAME)_clean:
+	@make clean -C $(LIBFT_DIR)
+
+$(LIBFT_NAME)_fclean:
+	@make fclean -C $(LIBFT_DIR)
+
 all: $(NAME)
 
 run: re all
 	./$(NAME)
 
-re: fclean all
+re: fclean all $(LIBFT_NAME)_fclean
 
 print:
 	@echo $(MINISHELL_INC_DIR)
 
-clean:
+clean: $(LIBFT_NAME)_clean
 	@$(RM) $(OBJS) $(LIST_OBJS) $(MINISHELL_OBJS)
 
-fclean: clean
+fclean: clean $(LIBFT_NAME)_fclean
 	@$(RM) $(PARSER) $(LIST) $(NAME)
 
 

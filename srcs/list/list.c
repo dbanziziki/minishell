@@ -1,10 +1,10 @@
 #include "list.h"
 
-t_list  *init_list(size_t item_size)
+t_array  *init_list(size_t item_size)
 {
-	t_list  *list;
+	t_array  *list;
 
-	list = (t_list *)malloc(sizeof(t_list));
+	list = (t_array *)malloc(sizeof(t_array));
 	if (!list)
 		return (NULL);
 	list->item_size = item_size;
@@ -13,7 +13,7 @@ t_list  *init_list(size_t item_size)
 	return (list);
 }
 
-void    list_push(t_list *list, void *item)
+void    list_push(t_array *list, void *item)
 {
 	list->size++;
 	if (!list->items)

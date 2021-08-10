@@ -1,4 +1,5 @@
 #include "tokenizer.h"
+#include "libft.h"
 
 t_tokenizer *init_tokenizer(char *str)
 {

@@ -5,6 +5,7 @@
 #include "AST.h"
 #include "list.h"
 #include "utils.h"
+#include "libft.h"
 
 typedef struct s_io_modifier
 {
@@ -23,7 +24,7 @@ typedef struct s_cmd
 {
 	int			proc_idx;
 	char 		*cmd;
-	t_list		*argv;
+	t_array		*argv;
 	t_io_mod	*io_mod;
 } 				t_cmd;
 

@@ -6,7 +6,7 @@
 
 int main(int argc, char const *argv[])
 {
-	t_list *list;
+	t_array *list;
 	int 	i;
 
 	list = init_list(sizeof(char *));
