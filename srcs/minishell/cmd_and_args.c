@@ -48,10 +48,11 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 	else if (cmd->io_mod && cmd->io_mod->type == REDIRECT_INPUT)
 		redirect_input(cmd);
 	/* if it's not the first process */
-	if (next_cmd && cmd->proc_idx != 0) 
+	if (next_cmd && cmd->proc_idx != 0)
 	{
-		close_used_pipes(ms->pipes, cmd->proc_idx);
-		dup2(ms->pipes[cmd->proc_idx][0], STDIN_FILENO);
+		printf("next cmd is %s\n", next_cmd->cmd);
+		/*close_used_pipes(ms->pipes, cmd->proc_idx);
+		dup2(ms->pipes[cmd->proc_idx][0], STDIN_FILENO);*/
 	}
 	/* not clear yet up to here */
 	execvp(cmd->cmd, (char **)(cmd->argv->items));

@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
 	while (1)
 	{
 		getcwd(curr_dir, 1024);
-		dir = ft_strjoin_sep(curr_dir, "> ", ' ');
+		dir = ft_strjoin_sep(curr_dir, "> ", '-');
 		#ifdef __APPLE__
 		line = readline(dir);
 		#else

@@ -56,7 +56,7 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	while (p->token->type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
-		printf("cmd arg: [%s]\n", token->value);
+		printf("[PIPE CMD_AND_ARG]: [%s]\n", token->value);
 		list_push(cmd->argv, token->value);
 		free(token);
 		token =	NULL;
