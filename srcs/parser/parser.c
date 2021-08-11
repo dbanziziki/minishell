@@ -52,22 +52,34 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	free(token);
 	token =	eat(p, WORD_TOKEN);
 	cmd = init_cmd(token->value);
+	list_push(cmd->argv, token->value);
 	free(token);
+	//printf("[CMD TO EXECUTE] %s\n", cmd->cmd);
 	while (p->token->type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
-		printf("[PIPE CMD_AND_ARG]: [%s]\n", token->value);
+		//printf("[PIPE CMD_AND_ARG]: [%s]\n", token->value);
 		list_push(cmd->argv, token->value);
 		free(token);
 		token =	NULL;
 	}
 	/* parse redirections if any*/
+	if (p->token->type == GREATER_THAN_TOKEN)
+	{
+        /*TODO: chained redirection*/
+		token = eat(p, GREATER_THAN_TOKEN);
+		free(token->value);
+		free(token);
+		token = eat(p, WORD_TOKEN);
+        cmd->io_mod = init_io_mod(NULL, token->value, REDIRECT_OUTPUT);
+		free(token);
+	}
 	return (init_AST(PIPE_CMD_AND_ARG, cmd));
 }
 
 t_AST	*parse(t_parser *p, t_AST *ast)
 {
-	if (p->token->type == EOF_TOKEN)
+	if (!p->token || p->token->type == EOF_TOKEN)
 		return (ast);
 	if (p->token->type == WORD_TOKEN)
 		addback_AST(&ast, parse_word(p));

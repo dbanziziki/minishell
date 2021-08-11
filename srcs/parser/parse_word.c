@@ -37,8 +37,8 @@ t_AST	*parse_word(t_parser *p)
 	if (!cmd)
 		return (NULL);
 	token = eat(p, WORD_TOKEN);
-	printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), token->value);
-	printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), p->token->value);
+	//printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), token->value);
+	//printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), p->token->value);
     cmd = init_cmd(token->value);
     if (!cmd)
         return (NULL);

@@ -33,24 +33,28 @@ t_AST	*init_minishell_parse(t_minishell **ms, char *str)
 	return (ast);
 }
 
-int	**init_pipes(int nb_proc)
+int	**init_pipes(int nb_pipes)
 {
 	int	**pipes;
 	int	i;
 
-	if (nb_proc == 1)
+	if (nb_pipes == 1)
 		return (NULL);
 	i = -1;
-	pipes = (int **)malloc(sizeof(int *) * nb_proc);
+	pipes = (int **)malloc(sizeof(int *) * nb_pipes);
 	if (!pipes)
 		return (NULL);
-	while (++i < nb_proc)	
+	while (++i < nb_pipes)	
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipes[i] || pipe(pipes[i]) == -1)
 		{
 			while (--i)
+			{
+				close(pipes[i][0]);
+				close(pipes[i][1]);
 				free(pipes[i]);
+			}
 			return (NULL);
 		}
 	}
