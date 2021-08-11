@@ -27,4 +27,6 @@ t_minishell *init_minishell_struct(void);
 int         **init_pipes(int nb_proc);
 void        free_all(t_parser *p, t_AST *root);
 int         close_unused_pipes(int **pipes, int size, int i);
+void        hook(void);
+
 #endif

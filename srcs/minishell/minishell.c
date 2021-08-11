@@ -18,6 +18,7 @@ int main(int argc, char const *argv[])
 	ms = init_minishell_struct();
 	if (!ms)
 		return (1);
+	hook();
 	while (1)
 	{
 		getcwd(curr_dir, 1024);
@@ -27,6 +28,14 @@ int main(int argc, char const *argv[])
 		#else
 		get_next_line(STDIN_FILENO, &line);
 		#endif
+		if (line == NULL) // "CNTR + D"
+		{
+			// kill(getpid(), SIGUSR1);
+			printf("exit\n");
+			exit(0);
+		}
+		if (!ft_strcmp(line, "")) // "empty line or just enter"
+			continue ;
 		ms->ast = init_minishell_parse(&ms, line);
 		prog = (t_program *)ms->ast->body;
 		nb_proc = prog->nb_pipes + 1;
