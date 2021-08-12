@@ -8,6 +8,31 @@ void	minishell()
 	t_minishell	*ms;
 }
 
+int	run_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
+{
+	int	i;
+
+	i = -1;
+	while (++i < ms->nb_proc)
+	{
+		ms->p_ids[i] = fork();
+		if (ms->p_ids[i] == -1)
+			return (1);
+		if (ms->p_ids[i] == 0) /* child process */
+		{
+			/* closing all the unused pipes */
+			close_unused_pipes(ms->pipes, ms->nb_proc, i);
+			cmd = (t_cmd *)ast->body;
+			cmd->proc_idx = i;
+			cmd_and_args(ms, ast, cmd);
+			exit(EXIT_FAILURE);
+			return (0); /* to avoid that the child process runs the for loop */
+		}
+		ast = ast->next; /* advence to the next cmd */
+	}
+	return (0);
+}
+
 int main(int argc, char const *argv[])
 {
 	t_minishell	*ms;
@@ -39,6 +64,7 @@ int main(int argc, char const *argv[])
 		ms->p_ids = (pid_t *)malloc(nb_proc * sizeof(pid_t));
 		ms->nb_proc = nb_proc;
 		ast = ms->ast->next; /* the first cmd to run */
+		//run_process(ms, cmd, ast);// for (int i = 0; i < nb_proc; i++)
 		for (int i = 0; i < nb_proc; i++)
 		{
 			ms->p_ids[i] = fork();
@@ -47,14 +73,7 @@ int main(int argc, char const *argv[])
 			if (ms->p_ids[i] == 0) /* child process */
 			{
 				/* closing all the unused pipes */
-				for (int j = 0; j < nb_proc + 1; j++)
-				{
-					if (i != j)
-						close(ms->pipes[j][0]);
-					if (i + 1 != j)
-						close(ms->pipes[j][1]);
-				}
-				/*check if ast is not NULL */	
+				close_unused_pipes(ms->pipes, nb_proc, i);
 				cmd = (t_cmd *)ast->body;
 				cmd->proc_idx = i;
 				cmd_and_args(ms, ast, cmd);
@@ -65,17 +84,10 @@ int main(int argc, char const *argv[])
 		}
 		/* only the main process runs here */
 		/* close all the pipes in the main process */
-		for (int k = 0; k < nb_proc + 1; k++)
-		{
-			if (k != nb_proc)
-				close(ms->pipes[k][0]);
-			if (k != 0)
-				close(ms->pipes[k][1]);
-		}
-		close(ms->pipes[0][1]);
-		close(ms->pipes[nb_proc][0]);
+		close_main_pipes(ms->pipes, nb_proc);
 		for (int i = 0; i < nb_proc; i++)
 			waitpid(ms->p_ids[i], NULL, 0);
+		/* free all the allocated memory */
 		free(line);
 		free(ms->p_ids);
 		if (ms->pipes)

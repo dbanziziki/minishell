@@ -1,5 +1,43 @@
 #include "minishell.h"
 
+int	close_unused_pipes(int **pipes, int size, int i)
+{
+	int	j;
+
+	j = -1;
+	while (++j < size)
+	{
+		if (i != j)
+		{
+			if (close(pipes[j][0]) == -1)
+				return (-1);
+		}
+		if (i + 1 != j)
+		{
+			if (close(pipes[j][1]) == -1)
+				return (-1);
+		}
+	}
+	return (1);
+}
+
+int	close_main_pipes(int **pipes, int size)
+{
+	int	i;
+
+	i = -1;
+	while (++i < size + 1)
+	{
+		if (i != size)
+			close(pipes[i][0]);
+		if (i != 0)
+			close(pipes[i][1]);
+	}
+	close(pipes[0][1]);
+	close(pipes[size][0]);
+	return (1);
+}
+
 t_minishell	*init_minishell_struct(void)
 {
 	t_minishell	*ms;

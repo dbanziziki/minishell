@@ -31,5 +31,5 @@ t_minishell *init_minishell_struct(void);
 int         **init_pipes(int nb_pipes);
 void        free_all(t_parser *p, t_AST *root);
 int         close_unused_pipes(int **pipes, int size, int i);
-int         close_main_pipes(int **pipes, int size, int i);
+int         close_main_pipes(int **pipes, int size);
 #endif
