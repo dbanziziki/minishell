@@ -28,6 +28,10 @@ SRCS_DIR = srcs
 
 CC = gcc
 
+RPATH = /Users/$(USER)/.brew/opt/readline/
+
+RFLAGS = -L $(RPATH)lib -I $(RPATH)include -Wno-unused-command-line-argument
+
 CFLAGS = -g -fsanitize=address
 
 PARSER_DIR = $(SRCS_DIR)/parser
@@ -113,19 +117,19 @@ LIST_OBJS = $(LIST_SRCS:.c=.o)
 TEST_OBJS = $(TEST_SRCS_DIR:.c=.o)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) -c $< -o $@
 
 $(NAME): $(LIBFT_LIB) $(MINISHELL_OBJS) $(HEADERS) $(MINISHELL_HEADERS)
-	@$(CC) $(CFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
 
 $(PARSER): $(OBJS) $(LIST_OBJS) $(HEADERS)
-	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) -o $@
 
 test: $(OBJS) $(TEST_OBJS)
-	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) $(TEST_OBJS) -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) $(TEST_OBJS) -o $@
 
 $(LIST): $(LIST_OBJS)
-	@$(CC) $(CFLAGS) -I $(LIST_INC) $(LIST_OBJS) $(LIST_DIR)/main.c -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) -I $(LIST_INC) $(LIST_OBJS) $(LIST_DIR)/main.c -o $@
 
 #LIBFT
 libft: $(LIBFT_LIB)

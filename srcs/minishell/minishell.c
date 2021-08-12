@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include "libft.h"
 #include <stdio.h>
+// #include <readline/readline.h>
 
 
 int main(int argc, char const *argv[])
@@ -30,8 +31,9 @@ int main(int argc, char const *argv[])
 		#endif
 		if (line == NULL) // "CNTR + D"
 		{
-			// kill(getpid(), SIGUSR1);
-			printf("exit\n");
+			rl_replace_line("lol", 3);
+			rl_redisplay();
+			// printf("exit");
 			exit(0);
 		}
 		if (!ft_strcmp(line, "")) // "empty line or just enter"
