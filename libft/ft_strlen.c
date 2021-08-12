@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*   By: dbanzizi <dbanzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 13:47:13 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/05/29 14:39:57 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/08/11 16:22:16 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = -1;
 	while (s[++i] != '\0')
 		;

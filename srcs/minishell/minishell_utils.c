@@ -1,5 +1,43 @@
 #include "minishell.h"
 
+int	close_unused_pipes(int **pipes, int size, int i)
+{
+	int	j;
+
+	j = -1;
+	while (++j < size)
+	{
+		if (i != j)
+		{
+			if (close(pipes[j][0]) == -1)
+				return (-1);
+		}
+		if (i + 1 != j)
+		{
+			if (close(pipes[j][1]) == -1)
+				return (-1);
+		}
+	}
+	return (1);
+}
+
+int	close_main_pipes(int **pipes, int size)
+{
+	int	i;
+
+	i = -1;
+	while (++i < size + 1)
+	{
+		if (i != size)
+			close(pipes[i][0]);
+		if (i != 0)
+			close(pipes[i][1]);
+	}
+	close(pipes[0][1]);
+	close(pipes[size][0]);
+	return (1);
+}
+
 t_minishell	*init_minishell_struct(void)
 {
 	t_minishell	*ms;
@@ -33,24 +71,28 @@ t_AST	*init_minishell_parse(t_minishell **ms, char *str)
 	return (ast);
 }
 
-int	**init_pipes(int nb_proc)
+int	**init_pipes(int nb_pipes)
 {
 	int	**pipes;
 	int	i;
 
-	if (nb_proc == 1)
+	if (nb_pipes == 1)
 		return (NULL);
 	i = -1;
-	pipes = (int **)malloc(sizeof(int *) * nb_proc);
+	pipes = (int **)malloc(sizeof(int *) * nb_pipes);
 	if (!pipes)
 		return (NULL);
-	while (++i < nb_proc)	
+	while (++i < nb_pipes)	
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipes[i] || pipe(pipes[i]) == -1)
 		{
 			while (--i)
+			{
+				close(pipes[i][0]);
+				close(pipes[i][1]);
 				free(pipes[i]);
+			}
 			return (NULL);
 		}
 	}
@@ -67,8 +109,8 @@ void free_all(t_parser *p, t_AST *root)
 	{
 		if (cmd->io_mod->infile)
 			free(cmd->io_mod->infile);
-		if (cmd->io_mod->oufile)
-			free(cmd->io_mod->oufile);
+		if (cmd->io_mod->outfile)
+			free(cmd->io_mod->outfile);
 		free(cmd->io_mod);
 	}
 	while (++i < cmd->argv->size)
@@ -83,25 +125,4 @@ void free_all(t_parser *p, t_AST *root)
 	free(p);
 	free(root->body);
 	free(root);
-}
-
-int	close_unused_pipes(int **pipes, int size, int i)
-{
-	int	j;
-
-	j = -1;
-	while (++j < size)
-	{
-		if (i != j)
-		{
-			if (close(pipes[j][0]) == -1)
-				return (-1);
-		}
-		if (i + 1 != j)
-		{
-			if (close(pipes[j][1]) == -1)
-				return (-1);
-		}
-	}
-	return (0);
 }

@@ -13,10 +13,11 @@ typedef struct s_io_modifier
 	{
 		NONE,
 		REDIRECT_OUTPUT,
+		REDIRECT_OUTPUT_APPEND,
 		REDIRECT_INPUT
 	}			type;
 	char		*infile;
-	char		*oufile;
+	char		*outfile;
 	int			fds[2]; /* fd[0] = infile fd[1] = outfile */
 }				t_io_mod;
 
@@ -47,4 +48,5 @@ t_AST		*parse(t_parser *p, t_AST *ast);
 t_AST		*parse_pipe(t_parser *p, t_AST *ast);
 t_cmd   	*init_cmd(char *value);
 t_io_mod    *init_io_mod(char *infile, char *outfile, int type);
+void		parse_redirection(t_parser *p, t_AST *ast);
 #endif

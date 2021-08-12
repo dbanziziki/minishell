@@ -18,7 +18,8 @@
 *.ilk
 *.map
 *.exp
-
+outfile
+infile
 # Precompiled Headers
 *.gch
 *.pch

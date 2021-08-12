@@ -6,7 +6,7 @@ void    action(int signum)
     {
 		rl_replace_line("", 0);
 		rl_redisplay();
-        exit (0); /// It should redirect to the main loop and should not display new line.
+        //exit (0); /// It should redirect to the main loop and should not display new line.
     }
     else if (signum == SIGINT) // "CNTR + C"
     {
