@@ -64,6 +64,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								tokenizer_helper.c \
 								parse_word.c \
 								AST_utils.c \
+								parse_redirection.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c

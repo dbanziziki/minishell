@@ -11,8 +11,8 @@ void	free_all(t_parser *p, t_AST *root)
 	{
 		if (cmd->io_mod->infile)
 			free(cmd->io_mod->infile);
-		if (cmd->io_mod->oufile)
-			free(cmd->io_mod->oufile);
+		if (cmd->io_mod->outfile)
+			free(cmd->io_mod->outfile);
 		free(cmd->io_mod);
 	}
 	free(cmd);

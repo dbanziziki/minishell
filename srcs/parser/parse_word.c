@@ -22,7 +22,7 @@ t_io_mod    *init_io_mod(char *infile, char *outfile, int type)
 	if (!io_mod)
 		return (NULL);
     io_mod->infile = infile;
-    io_mod->oufile = outfile;
+    io_mod->outfile = outfile;
     io_mod->type = type;
     return (io_mod);
 }
@@ -37,8 +37,6 @@ t_AST	*parse_word(t_parser *p)
 	if (!cmd)
 		return (NULL);
 	token = eat(p, WORD_TOKEN);
-	//printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), token->value);
-	//printf("TOKEN: [%s] VALUE: [%s]\n", token_to_str(token->type), p->token->value);
     cmd = init_cmd(token->value);
     if (!cmd)
         return (NULL);
@@ -51,40 +49,6 @@ t_AST	*parse_word(t_parser *p)
 		list_push(cmd->argv, token->value);
 		free(token);
 		token = NULL;
-	}
-    /* when the output is redirected */
-	if (p->token->type == GREATER_THAN_TOKEN)
-	{
-        /*TODO: chained redirection*/
-		token = eat(p, GREATER_THAN_TOKEN);
-		free(token->value);
-		free(token);
-		token = eat(p, WORD_TOKEN);
-        cmd->io_mod = init_io_mod(NULL, token->value, REDIRECT_OUTPUT);
-		free(token);
-	}
-	/* Input redirection */
-	else if (p->token->type == LESS_THAN_TOKEN)
-	{
-		token = eat(p, LESS_THAN_TOKEN);
-		free(token->value);
-		free(token);
-		if (cmd->argv->size > 2) /*if we already have argv we skip the token*/
-		{
-			/*doesnt work for grep include < infile for ex*/
-			token = eat(p, WORD_TOKEN);
-			free(token->value);
-			free(token);
-		}
-		else
-		{
-			token = eat(p, WORD_TOKEN);
-			if (cmd->io_mod)
-				cmd->io_mod->infile = token->value;
-			else
-				cmd->io_mod = init_io_mod(token->value, NULL, REDIRECT_INPUT);
-			free(token);
-		}
 	}
 	return (init_AST(CMD_AND_ARG, cmd));
 }

@@ -54,25 +54,12 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	cmd = init_cmd(token->value);
 	list_push(cmd->argv, token->value);
 	free(token);
-	//printf("[CMD TO EXECUTE] %s\n", cmd->cmd);
 	while (p->token->type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
-		//printf("[PIPE CMD_AND_ARG]: [%s]\n", token->value);
 		list_push(cmd->argv, token->value);
 		free(token);
 		token =	NULL;
-	}
-	/* parse redirections if any*/
-	if (p->token->type == GREATER_THAN_TOKEN)
-	{
-        /*TODO: chained redirection*/
-		token = eat(p, GREATER_THAN_TOKEN);
-		free(token->value);
-		free(token);
-		token = eat(p, WORD_TOKEN);
-        cmd->io_mod = init_io_mod(NULL, token->value, REDIRECT_OUTPUT);
-		free(token);
 	}
 	return (init_AST(PIPE_CMD_AND_ARG, cmd));
 }
@@ -85,13 +72,15 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 		addback_AST(&ast, parse_word(p));
 	else if(p->token->type == PIPE_TOKEN)
 		addback_AST(&ast, parse_pipe(p, ast));
+	else if (p->token->type == REDIRECT_OUTPUT ||
+		p->token->type == REDIRECT_INPUT ||
+		p->token->type == REDIRECT_OUTPUT_APPEND)
+		parse_redirection(p, ast);
 	else
 	{
-		printf("here\n");
 		printf("unexpected token at `%s`\n", p->token->value);
 		exit(1);
 	}
-	/*add a token to parse in an if statement*/
 	parse(p, ast);
 	return (ast);
 }

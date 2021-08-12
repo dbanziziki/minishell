@@ -138,7 +138,7 @@ t_token	*get_next_token(t_tokenizer *t)
 		else if (!ft_strncmp(temp, HEREDOC, 2))
 			return (double_redirect_token(t, temp, HEREDOC_TOKEN));
 		else if (!ft_strncmp(temp, REDIRECT_APPEND, 2))
-			return (double_redirect_token(t, temp, REDIRECT_TOKEN));
+			return (double_redirect_token(t, temp, GGREATER_THAN_TOKEN));
 		else if (temp[0] == LEFT_REDIRECT || temp[0] == RIGHT_REDIRECT)
 			return (simple_token(t, temp));
 		else if (temp[0] == DOLLARSIGN)

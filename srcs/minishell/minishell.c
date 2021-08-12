@@ -3,6 +3,11 @@
 #include <stdio.h>
 
 
+void	minishell()
+{
+	t_minishell	*ms;
+}
+
 int main(int argc, char const *argv[])
 {
 	t_minishell	*ms;
@@ -27,10 +32,6 @@ int main(int argc, char const *argv[])
 		#else
 		get_next_line(STDIN_FILENO, &line);
 		#endif
-		if (line == NULL)
-		{
-			rl_redisplay();
-		}
 		ms->ast = init_minishell_parse(&ms, line);
 		prog = (t_program *)ms->ast->body;
 		nb_proc = prog->nb_pipes + 1;

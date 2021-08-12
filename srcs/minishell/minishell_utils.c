@@ -71,8 +71,8 @@ void free_all(t_parser *p, t_AST *root)
 	{
 		if (cmd->io_mod->infile)
 			free(cmd->io_mod->infile);
-		if (cmd->io_mod->oufile)
-			free(cmd->io_mod->oufile);
+		if (cmd->io_mod->outfile)
+			free(cmd->io_mod->outfile);
 		free(cmd->io_mod);
 	}
 	while (++i < cmd->argv->size)
@@ -87,25 +87,4 @@ void free_all(t_parser *p, t_AST *root)
 	free(p);
 	free(root->body);
 	free(root);
-}
-
-int	close_unused_pipes(int **pipes, int size, int i)
-{
-	int	j;
-
-	j = -1;
-	while (++j < size)
-	{
-		if (i != j)
-		{
-			if (close(pipes[j][0]) == -1)
-				return (-1);
-		}
-		if (i + 1 != j)
-		{
-			if (close(pipes[j][1]) == -1)
-				return (-1);
-		}
-	}
-	return (0);
 }
