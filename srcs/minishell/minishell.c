@@ -77,7 +77,7 @@ void	parse_line(t_minishell **ms, char *line)
 		return ;
 }
 
-int main(int argc, char const *argv[])
+void	minishell()
 {
 	t_minishell	*ms;
 	char		*line;
@@ -85,7 +85,7 @@ int main(int argc, char const *argv[])
 
 	ms = init_minishell_struct();
 	if (!ms)
-		return (1);
+		return ;
 	while (1)
 	{
 		line = ms_readline();
@@ -94,5 +94,10 @@ int main(int argc, char const *argv[])
 		run_process(ms, ast);
 		free(line);
 	}
+}
+
+int main(int argc, char const *argv[])
+{
+	minishell();
 	return 0;
 }
