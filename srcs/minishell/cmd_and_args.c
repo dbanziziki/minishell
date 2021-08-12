@@ -6,7 +6,7 @@ static int	redirect_output(t_cmd *cmd)
 	t_io_mod	*io_mod;
 
 	io_mod = cmd->io_mod;
-	/*TODO: handle append */
+	/*TODO: handle append && give to good file rights */
 	if (io_mod->type == REDIRECT_OUTPUT)
 		io_mod->fds[1] = open(io_mod->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0777);
 	else
@@ -21,9 +21,14 @@ static int	redirect_output(t_cmd *cmd)
 
 static int	redirect_input(t_cmd *cmd)
 {
+	/*TODO: error when file dont exit*/
 	cmd->io_mod->fds[0] = open(cmd->io_mod->infile, O_RDONLY);
 	if (cmd->io_mod->fds[0] < 0)
+	{
+		printf("minishell: no file or directory: %s\n", cmd->io_mod->infile);
+		exit(EXIT_FAILURE);
 		return (1);
+	}
 	dup2(cmd->io_mod->fds[0], STDIN_FILENO);
 	if (close(cmd->io_mod->fds[0]) == -1)
 		return (1);

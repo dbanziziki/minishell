@@ -1,3 +1,12 @@
-(#task-id) redirections:
+(#1) DEBUG:
+    - [ ] 📃 function to print the AST
+----
+(#2) redirections:
     - [ ] 🚚 chained redirections
+    - [x] 🚚 redirect input when file dont exit
+    - [ ] 🚚 redirect output "give correct file rights"
+    - [ ] 🚚 redirect input "grep include < infile" dont work with current implementation
+----
+(#3) LEAKS:
+    - [ ] 📃 function to free the AST
 ----
