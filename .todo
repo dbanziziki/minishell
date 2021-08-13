@@ -2,6 +2,7 @@
     - [ ] 📃 function to print the AST
 ----
 (#2) redirections:
+    - [ ] 🚚 < infile
     - [ ] 🚚 chained redirections
     - [x] 🚚 redirect input when file dont exit
     - [ ] 🚚 redirect output "give correct file rights"

@@ -16,8 +16,11 @@ static void	print_ast_body(t_AST *ast)
 		printf("PIPE_CMD_AND_ARGS\n");
 	printf("[CMD]: %s\n", cmd->cmd);	
 	printf("[ARGS]: ");
-	while (cmd->argv->items[++i])
-		printf("%s ", cmd->argv->items[i]);
+	if (cmd->argv->items != NULL)
+	{
+		while (cmd->argv->items[++i])
+			printf("%s ", cmd->argv->items[i]);
+	}
 	printf("\n");
 	if (io_mod)	
 	{
@@ -37,7 +40,10 @@ void	print_ast(t_AST *ast)
 	while (temp)
 	{
 		if (temp->body)
+		{
+			printf("in\n");
 			print_ast_body(temp);
+		}
 		temp = temp->next;
 	}
 }

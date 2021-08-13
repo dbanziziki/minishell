@@ -14,7 +14,8 @@ typedef struct s_io_modifier
 		NONE,
 		REDIRECT_OUTPUT,
 		REDIRECT_OUTPUT_APPEND,
-		REDIRECT_INPUT
+		REDIRECT_INPUT,
+		REDIRECT_INPUT_OUTPUT,
 	}			type;
 	char		*infile;
 	char		*outfile;

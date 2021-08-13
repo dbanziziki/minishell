@@ -38,7 +38,8 @@ int main(int argc, char const *argv[])
 	prog->has_pipes = 0;
 	prog->nb_pipes = 0;
 	root = init_AST(PROGRAM, prog);
-	p = init_parser("> infile cat test.c | grep include > outfile");
+	p = init_parser("< infile");
+	//p = init_parser("cat test.c | grep include > outfile");
 	i = -1;
 	root = parse(p, root);
 	print_ast(root);
@@ -56,7 +57,7 @@ int main(int argc, char const *argv[])
 	printf("]\n");
 	i = -1;
 	while (++i < cmd->argv->size)
-		free(cmd->argv->items[i]);	
+		free(cmd->argv->items[i]);
 	free(cmd->argv->items);
 	free(cmd->argv);
 	free_all(p, root);*/

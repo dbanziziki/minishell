@@ -21,7 +21,6 @@ static int	redirect_output(t_cmd *cmd)
 
 static int	redirect_input(t_cmd *cmd)
 {
-	/*TODO: error when file dont exit*/
 	cmd->io_mod->fds[0] = open(cmd->io_mod->infile, O_RDONLY);
 	if (cmd->io_mod->fds[0] < 0)
 	{
@@ -74,6 +73,7 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 	/*if true we need to read from a pipe*/
 	if (curr_ast->type == PIPE_CMD_AND_ARG)
 		read_from_pipe(ms, curr_ast, cmd);
+	/* if no cmd dont create process*/
 	execvp(cmd->cmd, (char **)(cmd->argv->items));
 	printf("minishell: command not found: %s\n", cmd->cmd);
 	return (1);
