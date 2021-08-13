@@ -25,6 +25,20 @@ typedef struct s_minishell
     t_AST       *ast;
 }               t_minishell;
 
+typedef struct s_buildin
+{
+	enum
+	{
+		ECHO_F,
+		PWD_F,
+		CD_F,
+		EXIT_F,
+		EXPORT_F,
+		UNSET_F,
+		ENV_F
+	}			e_build;
+}				t_buildin;
+
 int         cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);
 t_AST	    *init_minishell_parse(t_minishell **ms, char *str);
 t_minishell *init_minishell_struct(void);
@@ -34,5 +48,8 @@ int         close_unused_pipes(int **pipes, int size, int i);
 void        hook(void);
 
 int         close_main_pipes(int **pipes, int size);
-void        minishell();
+void        minishell(void);
+int			find_cmd(t_array cmd, t_array flags);
+void	echo(char *s, char *flag);
+
 #endif

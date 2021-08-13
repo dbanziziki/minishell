@@ -44,7 +44,14 @@ MINISHELL_INC_DIR = $(INC_DIR)/$(NAME)
 
 UTILS_DIR = $(SRCS_DIR)/utils
 
+BUILDIN_DIR = $(SRCS_DIR)/buildin
+
 LIST_DIR = $(SRCS_DIR)/list
+
+BUILDIN_SRCS_DIR = $(addprefix $(BUILDIN_DIR)/, \
+						echo.c \
+						find_cmd.c \
+)
 
 TEST_SRCS_DIR = $(addprefix $(TEST_DIR)/, \
 						parser_pipe_test.c \
@@ -107,6 +114,7 @@ SRCS_MINISHELL = $(PARSER_SRCS) \
 			$(UTILS_SRCS) \
 			$(LIST_SRCS) \
 			$(MINISHELL_SRCS) \
+			$(BUILDIN_SRCS_DIR) \
 
 HEADERS = $(UTILS_HEADERS) \
 			$(PARSER_HEADERS) \

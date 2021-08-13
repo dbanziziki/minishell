@@ -96,7 +96,16 @@ void	minishell()
 		if (!ft_strcmp(line, ""))
 			continue ;		
 		parse_line(&ms, line);
+
 		ast = ms->ast->next; /* the first cmd to run */
+		if (find_cmd(((t_cmd *)ast->body)->argv[0],
+			((t_cmd *)ast->body)->argv[1]))
+		{
+			ast = ast->next;
+			free(line);
+			continue ;
+		}
+		/// place for buildin commands !
 		run_process(ms, ast);
 		free(line);
 	}

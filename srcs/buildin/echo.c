@@ -20,15 +20,23 @@ void	echo(char *s, char *flag)
 				write(1, s, ft_strlen(s));
 		}
 	}
+}
 
 void	change_dir(char *path, char *current)
 {
-	opendir ///
+	void	*stream;
+
+	// stream = chdir(path);
+	printf("CD function\n");
 }
 
 void	cwd(void)
 {
-	getcwd ///
+	char	curr_dir[1024];
+
+	getcwd(curr_dir, 1024);
+	write(1, curr_dir, 1024);
+	write(1, "\n", 1);
 }
 
 void	time_to_exit(void)
