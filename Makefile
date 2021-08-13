@@ -85,7 +85,6 @@ MINISHELL_HEADERS = $(addprefix $(INC_DIR)/$(NAME)/, \
 
 UTILS_SRCS = $(addprefix $(UTILS_DIR)/, \
 							utils.c \
-							signals.c \
 )
 
 LIST_SRCS = $(addprefix $(LIST_DIR)/, \
@@ -96,6 +95,7 @@ MINISHELL_SRCS = $(addprefix $(SRCS_DIR)/$(NAME)/, \
 								minishell.c \
 								cmd_and_args.c \
 								minishell_utils.c \
+								signals.c \
 )
 
 SRCS_PARSER = $(PARSER_SRCS) \
@@ -121,10 +121,11 @@ TEST_OBJS = $(TEST_SRCS_DIR:.c=.o)
 	@$(CC) $(CFLAGS) $(RFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) -c $< -o $@
 
 $(NAME): $(LIBFT_LIB) $(MINISHELL_OBJS) $(HEADERS) $(MINISHELL_HEADERS)
-	@$(CC) $(CFLAGS) $(RFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) $(READLINE_FLAG) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
 
-$(PARSER): $(OBJS) $(LIST_OBJS) $(HEADERS)
-	@$(CC) $(CFLAGS) $(RFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) -o $@
+$(PARSER): $(LIBFT_LIB) $(OBJS) $(LIST_OBJS) $(HEADERS)
+	@$(CC) $(CFLAGS) $(RFLAGS) -I $(LIBFT_INC_DIR) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(PARSER_MAIN) $(OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
+	./$(PARSER)
 
 test: $(OBJS) $(TEST_OBJS)
 	@$(CC) $(CFLAGS) $(RFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) $(TEST_OBJS) -o $@

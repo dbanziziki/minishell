@@ -31,16 +31,18 @@ int main(int argc, char const *argv[])
 	t_AST		*root;
 	t_cmd		*cmd;
 	int			i;
-	t_program	*base;
+	t_program	*prog;
 	t_io_mod	*io_mod;
 
-	base = (t_program *)malloc(sizeof(t_program));
-	base->has_pipes = 0;
-	base->nb_pipes = 0;
-	root = init_AST(PROGRAM, base);
-	p = init_parser("cat < main.c");
+	prog = (t_program *)malloc(sizeof(t_program));
+	prog->has_pipes = 0;
+	prog->nb_pipes = 0;
+	root = init_AST(PROGRAM, prog);
+	p = init_parser("< oufile cat test.c");
 	i = -1;
 	root = parse(p, root);
+	if (root->type == PROGRAM)
+		printf("OK\n");
 	cmd = (t_cmd *)(root->next->body);
 	io_mod = cmd->io_mod;
 	if (io_mod)
@@ -51,11 +53,11 @@ int main(int argc, char const *argv[])
 	while (cmd->argv->items[++i])
 		printf("%s, ", (char *)(cmd->argv->items[i]));
 	printf("]\n");
-	i = -1;
+	/*i = -1;
 	while (++i < cmd->argv->size)
 		free(cmd->argv->items[i]);	
 	free(cmd->argv->items);
 	free(cmd->argv);
-	free_all(p, root);
+	free_all(p, root);*/
 	return 0;
 }

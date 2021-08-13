@@ -5,7 +5,7 @@
     - [ ] 🚚 chained redirections
     - [x] 🚚 redirect input when file dont exit
     - [ ] 🚚 redirect output "give correct file rights"
-    - [ ] 🚚 redirect input "grep include < infile" dont work with current implementation
+    - [x] 🚚 redirect input "grep include < infile" dont work with current implementation
 ----
 (#3) LEAKS:
     - [ ] 📃 function to free the AST
