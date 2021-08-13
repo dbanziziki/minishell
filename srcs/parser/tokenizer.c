@@ -40,7 +40,8 @@ t_token	*word_token(t_tokenizer *t, char *temp)
 	while (t->str[t->cursor] && t->str[t->cursor] != ' ' &&
 			t->str[t->cursor] != PIPE_TOKEN &&
 			t->str[t->cursor] != '<' &&
-			t->str[t->cursor] != '>')
+			t->str[t->cursor] != '>' &&
+			t->str[t->cursor] != '|')
 			t->cursor++;
 	token = new_token(WORD_TOKEN, ft_strndup(temp, t->cursor - i));
 	if (!token)

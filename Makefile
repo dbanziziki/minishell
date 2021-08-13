@@ -85,6 +85,7 @@ MINISHELL_HEADERS = $(addprefix $(INC_DIR)/$(NAME)/, \
 
 UTILS_SRCS = $(addprefix $(UTILS_DIR)/, \
 							utils.c \
+							print_ast.c \
 )
 
 LIST_SRCS = $(addprefix $(LIST_DIR)/, \

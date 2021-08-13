@@ -38,10 +38,11 @@ int main(int argc, char const *argv[])
 	prog->has_pipes = 0;
 	prog->nb_pipes = 0;
 	root = init_AST(PROGRAM, prog);
-	p = init_parser("< oufile cat test.c");
+	p = init_parser("> infile cat test.c | grep include > outfile");
 	i = -1;
 	root = parse(p, root);
-	if (root->type == PROGRAM)
+	print_ast(root);
+	/*if (root->type == PROGRAM)
 		printf("OK\n");
 	cmd = (t_cmd *)(root->next->body);
 	io_mod = cmd->io_mod;
@@ -53,7 +54,7 @@ int main(int argc, char const *argv[])
 	while (cmd->argv->items[++i])
 		printf("%s, ", (char *)(cmd->argv->items[i]));
 	printf("]\n");
-	/*i = -1;
+	i = -1;
 	while (++i < cmd->argv->size)
 		free(cmd->argv->items[i]);	
 	free(cmd->argv->items);

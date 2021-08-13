@@ -29,12 +29,6 @@ typedef struct s_cmd
 	t_io_mod	*io_mod;
 } 				t_cmd;
 
-typedef struct s_pipe
-{
-	/*can ether be t_cmd or ??? */
-	void	*body;
-}				t_pipe;
-
 typedef struct s_parser
 {
 	t_tokenizer	*t;
