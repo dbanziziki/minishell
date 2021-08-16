@@ -25,14 +25,7 @@ int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
 	while (++i < ms->nb_proc)
 		waitpid(ms->p_ids[i], NULL, 0);
 	/* free all the allocated memory */
-	free(ms->p_ids);
-	if (ms->pipes)
-	{
-		for (int i = 0; i < ms->nb_proc; i++)
-			free(ms->pipes[i]);
-	}
-	free(ms->pipes);
-	free_all(ms->p, ms->ast);
+	free_all(ms);
 	return (0);
 }
 
@@ -86,9 +79,6 @@ void	minishell()
 	t_AST		*ast;
 	t_cmd		*cmd;
 
-	ms = init_minishell_struct();
-	if (!ms)
-		return ;
 	hook();
 	while (1)
 	{
@@ -96,7 +86,8 @@ void	minishell()
 		if (line == NULL)
 			exit(0);
 		if (!ft_strcmp(line, ""))
-			continue ;		
+			continue ;
+		ms = init_minishell_struct();
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
 		cmd = (t_cmd *)ast->body;

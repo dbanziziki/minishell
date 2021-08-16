@@ -98,7 +98,6 @@ void parse_redirection(t_parser *p, t_AST *ast)
 		io_mod = parse_redirect_input(p);
 	else if (p->token->type == GGREATER_THAN_TOKEN)
 		io_mod = parse_redirect_output_append(p);
-
 	if (last->type == PROGRAM)
 		parse_cmd_and_args(p, &ast, io_mod);
 	else

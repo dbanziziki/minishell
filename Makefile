@@ -69,6 +69,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								parse_word.c \
 								AST_utils.c \
 								parse_redirection.c \
+								parse_quotes.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c
@@ -86,6 +87,7 @@ MINISHELL_HEADERS = $(addprefix $(INC_DIR)/$(NAME)/, \
 UTILS_SRCS = $(addprefix $(UTILS_DIR)/, \
 							utils.c \
 							print_ast.c \
+							free_all.c \
 )
 
 LIST_SRCS = $(addprefix $(LIST_DIR)/, \
@@ -122,10 +124,10 @@ TEST_OBJS = $(TEST_SRCS_DIR:.c=.o)
 	@$(CC) $(CFLAGS) $(RFLAGS) -I $(PARSER_INC) -I $(INC_DIR) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) -c $< -o $@
 
 $(NAME): $(LIBFT_LIB) $(MINISHELL_OBJS) $(HEADERS) $(MINISHELL_HEADERS)
-	@$(CC) $(CFLAGS) $(RFLAGS) $(READLINE_FLAG) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) $(READLINE_FLAG) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
 
 $(PARSER): $(LIBFT_LIB) $(OBJS) $(LIST_OBJS) $(HEADERS)
-	@$(CC) $(CFLAGS) $(RFLAGS) -I $(LIBFT_INC_DIR) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(PARSER_MAIN) $(OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
+	@$(CC) $(CFLAGS) $(RFLAGS) $(READLINE_FLAG) -I $(LIBFT_INC_DIR) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(PARSER_MAIN) $(OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) -o $@
 	./$(PARSER)
 
 test: $(OBJS) $(TEST_OBJS)

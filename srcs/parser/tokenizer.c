@@ -98,15 +98,15 @@ t_token	*quote_token(t_tokenizer *t, char *temp)
 	size_t	i;
 	int		type;
 
-	if (temp[0] == DOUBLE_QUOTE_TOKEN)
+	if (temp[0] == DOUBLE_QUOTE)
 		type = DOUBLE_QUOTE_TOKEN;
 	else
 		type = SIMPLE_QUOTE_TOKEN;
 	i = t->cursor;
 	t->cursor++;
-	while (t->str[t->cursor] && t->str[t->cursor] != type)
+	while (t->str[t->cursor] && t->str[t->cursor] != DOUBLE_QUOTE)
 		t->cursor++;
-	token = new_token(type, ft_strndup(temp, (t->cursor + 1) - i));
+	token = new_token(type, ft_strndup(++temp, (t->cursor - 1) - i));
 	t->cursor++;
 	if (!token)
 		return (NULL);

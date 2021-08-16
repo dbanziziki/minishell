@@ -8,7 +8,7 @@ t_array  *init_list(size_t item_size)
 	if (!list)
 		return (NULL);
 	list->item_size = item_size;
-	list->items = 0;
+	list->items = NULL;
 	list->size = 0;
 	return (list);
 }

@@ -2,12 +2,21 @@
     - [x] 📃 function to print the AS
 ----
 (#2) redirections:
-    - [ ] 🚚 < infile
+    - [x] 🚚 < infile
     - [ ] 🚚 chained redirections
     - [x] 🚚 redirect input when file dont exit
     - [ ] 🚚 redirect output "give correct file rights"
     - [x] 🚚 redirect input "grep include < infile" dont work with current implementation
 ----
 (#3) LEAKS:
-    - [ ] 📃 function to free the AST
+    - [x] 📃 function to free the AST
+    - [ ] fix unknown leaks with valgrind
+----
+(#4) TOKENS:
+    - [ ] 🎨 interpret env variable inside quotes
+    - [ ] 🎨 simple quote token
+----
+
+(#5) Errors during parsing:
+    - [ ] 🎨 create a flag to check for errors during parsing
 ----

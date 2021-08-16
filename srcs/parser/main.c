@@ -1,7 +1,9 @@
 #include "parser.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 #include <stdio.h>
 
-void	free_all(t_parser *p, t_AST *root)
+/*void	free_all(t_parser *p, t_AST *root)
 {
 	int		i;
 	t_cmd	*cmd;
@@ -23,7 +25,7 @@ void	free_all(t_parser *p, t_AST *root)
 	free(p);
 	free(root->body);
 	free(root);
-}
+}*/
 
 int main(int argc, char const *argv[])
 {
@@ -33,17 +35,17 @@ int main(int argc, char const *argv[])
 	int			i;
 	t_program	*prog;
 	t_io_mod	*io_mod;
+	char		*line;
 
 	prog = (t_program *)malloc(sizeof(t_program));
 	prog->has_pipes = 0;
 	prog->nb_pipes = 0;
 	root = init_AST(PROGRAM, prog);
-	p = init_parser("> infile");
+	line = readline("(TEST)> ");
+	p = init_parser(line);
 	//p = init_parser("cat test.c | grep include > outfile");
 	i = -1;
 	root = parse(p, root);
-	if (!prog->has_pipes)
-		printf("NOP\n");
 	print_ast(root);
 	/*if (root->type == PROGRAM)
 		printf("OK\n");
