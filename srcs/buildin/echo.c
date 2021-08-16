@@ -22,25 +22,28 @@ void	echo(char *s, char *flag)
 	}
 }
 
-void	change_dir(char *path, char *current)
+void	change_dir(char *path)
 {
-	void	*stream;
+	int	err;
 
-	// stream = chdir(path);
-	printf("CD function\n");
+	if (path)
+	{
+		err = chdir(path);
+		if (err)
+			printf("CD function in trouble\n");
+	}
 }
 
-void	cwd(void)
+void	pwd(void)
 {
 	char	curr_dir[1024];
 
 	getcwd(curr_dir, 1024);
-	write(1, curr_dir, 1024);
-	write(1, "\n", 1);
+	printf("%s\n", curr_dir);
 }
 
 void	time_to_exit(void)
 {
-	exit(0); ///
+	exit(0);
 }
 

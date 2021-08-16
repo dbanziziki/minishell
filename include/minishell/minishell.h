@@ -50,6 +50,9 @@ void        hook(void);
 int         close_main_pipes(int **pipes, int size);
 void        minishell(void);
 int			find_cmd(t_array cmd, t_array flags);
-void	echo(char *s, char *flag);
+void		echo(char *s, char *flag);
+void		pwd(void);
+void		change_dir(char *path);
+void		time_to_exit(void);
 
 #endif
