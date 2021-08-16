@@ -72,7 +72,7 @@ void	parse_line(t_minishell **ms, char *line)
 		return ;
 }
 
-void	minishell()
+void	minishell(char **env_v)
 {
 	t_minishell	*ms;
 	char		*line;
@@ -90,14 +90,21 @@ void	minishell()
 		ms = init_minishell_struct();
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
-		cmd = (t_cmd *)ast->body;
+		if (find_cmd(((t_cmd *)ast->body)->argv[0],
+			((t_cmd *)ast->body)->argv[1], env_v))
+		{
+			ast = ast->next;
+			free(line);
+			continue ;
+		}
+		/// place for buildin commands !
 		run_process(ms, ast);
 		free(line);
 	}
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char const *argv[], char **envp)
 {
-	minishell();
+	minishell(envp);
 	return 0;
 }
