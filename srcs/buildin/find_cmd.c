@@ -2,7 +2,16 @@
 #include "libft.h"
 #include <stdio.h>
 
-int	find_cmd(t_array cmd, t_array flags)
+void	get_env(char **env_v)
+{
+	int	i;
+
+	i = -1;
+	while (env_v[++i])
+		printf("%s\n", env_v[i]);
+}
+
+int	find_cmd(t_array cmd, t_array flags, char **env_v)
 {
 	// printf("--%s--\n", (char *)cmd.items[1]);
 	// printf("--%s--\n", (char *)cmd.items[2]);
@@ -14,5 +23,7 @@ int	find_cmd(t_array cmd, t_array flags)
 		change_dir((char *)cmd.items[1]);
 	else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "exit"))
 		time_to_exit();
+	else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env"))
+		get_env(env_v);
 	return (1);
 }

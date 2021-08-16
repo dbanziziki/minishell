@@ -23,6 +23,7 @@ typedef struct s_minishell
     pid_t       *p_ids;
     t_parser    *p;
     t_AST       *ast;
+	char		**env_v;
 }               t_minishell;
 
 typedef struct s_buildin
@@ -48,8 +49,8 @@ int         close_unused_pipes(int **pipes, int size, int i);
 void        hook(void);
 
 int         close_main_pipes(int **pipes, int size);
-void        minishell(void);
-int			find_cmd(t_array cmd, t_array flags);
+void        minishell(char **env_v);
+int			find_cmd(t_array cmd, t_array flags, char **env_v);
 void		echo(char *s, char *flag);
 void		pwd(void);
 void		change_dir(char *path);
