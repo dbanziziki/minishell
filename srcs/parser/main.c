@@ -38,10 +38,12 @@ int main(int argc, char const *argv[])
 	prog->has_pipes = 0;
 	prog->nb_pipes = 0;
 	root = init_AST(PROGRAM, prog);
-	p = init_parser("< infile");
+	p = init_parser("> infile");
 	//p = init_parser("cat test.c | grep include > outfile");
 	i = -1;
 	root = parse(p, root);
+	if (!prog->has_pipes)
+		printf("NOP\n");
 	print_ast(root);
 	/*if (root->type == PROGRAM)
 		printf("OK\n");

@@ -41,7 +41,6 @@ void	print_ast(t_AST *ast)
 	{
 		if (temp->body)
 		{
-			printf("in\n");
 			print_ast_body(temp);
 		}
 		temp = temp->next;

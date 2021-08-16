@@ -74,6 +74,8 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 	if (curr_ast->type == PIPE_CMD_AND_ARG)
 		read_from_pipe(ms, curr_ast, cmd);
 	/* if no cmd dont create process*/
+	if (!cmd->cmd)
+		exit(EXIT_SUCCESS);
 	execvp(cmd->cmd, (char **)(cmd->argv->items));
 	printf("minishell: command not found: %s\n", cmd->cmd);
 	return (1);

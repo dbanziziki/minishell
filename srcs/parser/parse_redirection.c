@@ -92,24 +92,6 @@ void parse_redirection(t_parser *p, t_AST *ast)
 		last = last->next;
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
-	/*else
-		cmd = NULL;
-	if (cmd == NULL)
-		printf("NO cmd available\n");
-	else
-	{
-		if (p->token->type == GREATER_THAN_TOKEN)
-		{
-			token = eat(p, GREATER_THAN_TOKEN);
-			free(token->value);
-			free(token);
-			token = eat(p, WORD_TOKEN);
-			cmd->io_mod->outfile = token->value;
-			free(token);
-			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT;
-		}
-		return ;
-	}*/
 	if (p->token->type == GREATER_THAN_TOKEN)
 		io_mod = parse_redirect_output(p);
 	else if (p->token->type == LESS_THAN_TOKEN)
@@ -122,9 +104,5 @@ void parse_redirection(t_parser *p, t_AST *ast)
 	else
 		cmd->io_mod = io_mod;
 	if (last->next && last->next->body)
-	{
 		cmd = (t_cmd *)last->next->body;
-		if (cmd->io_mod)
-			printf("have io_mod\n");
-	}
 }

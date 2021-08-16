@@ -71,8 +71,9 @@ void	parse_line(t_minishell **ms, char *line)
 	temp = *ms;
 	temp->ast = init_minishell_parse(ms, line);
 	prog = (t_program *)temp->ast->body;
+	(*ms)->has_pipes = prog->has_pipes;
 	temp->nb_proc = prog->nb_pipes + 1;
-	temp->pipes = init_pipes(temp->nb_proc + 1);	
+	temp->pipes = init_pipes(temp->nb_proc + 1);
 	temp->p_ids = (pid_t *)malloc(sizeof(pid_t) * temp->nb_proc);
 	if (!temp->pipes || !temp->p_ids)
 		return ;
@@ -83,6 +84,7 @@ void	minishell()
 	t_minishell	*ms;
 	char		*line;
 	t_AST		*ast;
+	t_cmd		*cmd;
 
 	ms = init_minishell_struct();
 	if (!ms)
@@ -97,6 +99,7 @@ void	minishell()
 			continue ;		
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
+		cmd = (t_cmd *)ast->body;
 		run_process(ms, ast);
 		free(line);
 	}

@@ -1,5 +1,5 @@
 (#1) DEBUG:
-    - [ ] 📃 function to print the AST
+    - [x] 📃 function to print the AS
 ----
 (#2) redirections:
     - [ ] 🚚 < infile

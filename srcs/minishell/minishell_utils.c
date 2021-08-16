@@ -98,31 +98,3 @@ int	**init_pipes(int nb_pipes)
 	}
 	return (pipes);
 }
-
-void free_all(t_parser *p, t_AST *root)
-{
-	int		i;
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)root->next->body;
-	if (cmd->io_mod)
-	{
-		if (cmd->io_mod->infile)
-			free(cmd->io_mod->infile);
-		if (cmd->io_mod->outfile)
-			free(cmd->io_mod->outfile);
-		free(cmd->io_mod);
-	}
-	while (++i < cmd->argv->size)
-		free(cmd->argv->items[i]);
-	free(cmd->argv->items);
-	free(cmd->argv);
-	free(cmd);
-	free(root->next);
-	free(p->token->value);
-	free(p->token);
-	free(p->t);
-	free(p);
-	free(root->body);
-	free(root);
-}
