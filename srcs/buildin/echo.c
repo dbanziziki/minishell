@@ -1,38 +1,71 @@
 #include "minishell.h"
 
-void	echo(char *s, char *flag)
+/*
+** Echo function reproduces behavior of "echo" bash command
+**	but with limited functionality "-n" flag only.
+*/
+
+void	echo(char **s)
 {
+	char	*flag;
+	int		i;
+
 	if (s)
 	{
-		if (!ft_strcmp(s, ""))
+		if (s[1] && !ft_strcmp("-n", s[1]))
 		{
-			if (!flag)
-				write(1, "\n", 1);
+			flag = s[1];
+			i = 1;
 		}
 		else
 		{
-			if (!flag)
-			{
-				write(1, s, ft_strlen(s));
-				write(1, "\n", 1);
-			}
-			else if (!ft_strcmp(flag, "-n"))
-				write(1, s, ft_strlen(s));
+			flag = NULL;
+			i = 0;
+		}
+		while (s[++i])
+		{
+			write(1, s[i], ft_strlen(s[i]));
+			if (s[i + 1])
+				write(1, " ", 1);
+		}
+		if (!flag)
+		{
+			write(1, "\n", 1);
 		}
 	}
 }
 
+/*
+** The change_dir function reproduces behavior of "cd" bash command
+** but only with a relative or absolute path.
+*/
+
 void	change_dir(char *path)
 {
-	int	err;
+	int		err;
+	char	curr_dir[1024];
 
 	if (path)
 	{
 		err = chdir(path);
 		if (err)
-			printf("CD function in trouble\n");
+			printf("CD function in trouble 1 \n");
+	}
+	else
+	{
+		while (ft_strcmp("/", curr_dir))
+		{
+			err = chdir("..");
+			if (err)
+				printf("CD function in trouble 2 \n");
+			getcwd(curr_dir, 1024);
+		}
 	}
 }
+
+/*
+** The pwd function reproduces behavior of "pwd" bash command.
+*/
 
 void	pwd(void)
 {

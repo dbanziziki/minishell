@@ -50,8 +50,9 @@ int         close_unused_pipes(int **pipes, int size, int i);
 void        hook(void);
 int         close_main_pipes(int **pipes, int size);
 void        minishell(char **env_v);
-int			find_cmd(t_array cmd, t_array flags, char **env_v);
-void		echo(char *s, char *flag);
+
+int			find_cmd(t_array cmd, char **env_v);
+void		echo(char **s);
 void		pwd(void);
 void		change_dir(char *path);
 void		time_to_exit(void);

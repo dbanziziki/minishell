@@ -90,8 +90,7 @@ void	minishell(char **env_v)
 		ms = init_minishell_struct();
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
-		if (find_cmd(((t_cmd *)ast->body)->argv[0],
-			((t_cmd *)ast->body)->argv[1], env_v))
+		if (ast->body && find_cmd(*((t_cmd *)ast->body)->argv, env_v))
 		{
 			ast = ast->next;
 			free(line);
