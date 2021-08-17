@@ -104,8 +104,16 @@ t_token	*quote_token(t_tokenizer *t, char *temp)
 		type = SIMPLE_QUOTE_TOKEN;
 	i = t->cursor;
 	t->cursor++;
-	while (t->str[t->cursor] && t->str[t->cursor] != DOUBLE_QUOTE)
-		t->cursor++;
+	if (type == DOUBLE_QUOTE_TOKEN)
+	{
+		while (t->str[t->cursor] && t->str[t->cursor] != DOUBLE_QUOTE)
+			t->cursor++;
+	}
+	else
+	{
+		while (t->str[t->cursor] && t->str[t->cursor] != SINGLE_QUOTE)
+			t->cursor++;
+	}
 	token = new_token(type, ft_strndup(++temp, (t->cursor - 1) - i));
 	t->cursor++;
 	if (!token)

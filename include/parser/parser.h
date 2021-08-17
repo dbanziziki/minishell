@@ -45,4 +45,5 @@ t_cmd   	*init_cmd(char *value);
 t_io_mod    *init_io_mod(char *infile, char *outfile, int type);
 void		parse_redirection(t_parser *p, t_AST *ast);
 void		parse_double_quotes(t_parser *p, t_AST *ast);
+void		parse_single_quotes(t_parser *p, t_AST *ast);
 #endif

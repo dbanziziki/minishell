@@ -77,6 +77,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								AST_utils.c \
 								parse_redirection.c \
 								parse_quotes.c \
+								parse_single_quotes.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c

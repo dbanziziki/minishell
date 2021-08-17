@@ -8,9 +8,9 @@ static int	redirect_output(t_cmd *cmd)
 	io_mod = cmd->io_mod;
 	/*TODO: handle append && give to good file rights */
 	if (io_mod->type == REDIRECT_OUTPUT)
-		io_mod->fds[1] = open(io_mod->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0777);
+		io_mod->fds[1] = open(io_mod->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	else
-		io_mod->fds[1] = open(io_mod->outfile, O_APPEND | O_CREAT | O_WRONLY, 0777);
+		io_mod->fds[1] = open(io_mod->outfile, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	if (cmd->io_mod->fds[1] < 0)
 		return (1);
 	dup2(io_mod->fds[1], STDOUT_FILENO);
