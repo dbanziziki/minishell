@@ -64,7 +64,7 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	return (init_AST(PIPE_CMD_AND_ARG, cmd));
 }
 
-/*void	parse_env_var(t_parser *p, t_AST *ast)
+void	parse_env_var(t_parser *p, t_AST *ast)
 {
 	t_token		*token;
 	t_cmd		*cmd;
@@ -72,7 +72,6 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 
 	token = eat(p, DOLLARSIGN_TOKEN);
 	env_var = getenv(++(token->value));
-	printf("%s\n", token->value);
 	while (ast->next)
 		ast = ast->next;
 	if (ast->type == PROGRAM)
@@ -82,8 +81,11 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
 	}
 	else
+	{
+		cmd = (t_cmd *)ast->body;
 		list_push(cmd->argv, env_var);
-}*/
+	}
+}
 
 t_AST	*parse(t_parser *p, t_AST *ast)
 {
@@ -99,8 +101,8 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 		parse_redirection(p, ast);
 	else if (p->token->type == DOUBLE_QUOTE_TOKEN)
 		parse_double_quotes(p, ast);
-	/*else if (p->token->type == DOLLARSIGN_TOKEN)
-		parse_env_var(p, ast);*/
+	else if (p->token->type == DOLLARSIGN_TOKEN)
+		parse_env_var(p, ast);
 	else
 	{
 		printf("unexpected token at `%s`\n", p->token->value);
