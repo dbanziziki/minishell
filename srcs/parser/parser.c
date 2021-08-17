@@ -85,7 +85,7 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 		cmd = (t_cmd *)ast->body;
 		list_push(cmd->argv, env_var);
 	}
-	free(token->value);
+	/* where did token->value go? */
 	free(token);
 }
 
@@ -103,6 +103,8 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 		parse_redirection(p, ast);
 	else if (p->token->type == DOUBLE_QUOTE_TOKEN)
 		parse_double_quotes(p, ast);
+	else if (p->token->type == SIMPLE_QUOTE_TOKEN)
+		parse_single_quotes(p, ast);
 	else if (p->token->type == DOLLARSIGN_TOKEN)
 		parse_env_var(p, ast);
 	else

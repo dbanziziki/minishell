@@ -13,10 +13,15 @@
     - [ ] fix unknown leaks with valgrind
 ----
 (#4) TOKENS:
-    - [ ] 🎨 interpret env variable inside quotes
-    - [ ] 🎨 simple quote token
+    - [x] 🎨 interpret env variable inside quotes
+    - [x] 🎨 simple quote token
 ----
 
 (#5) Errors during parsing:
     - [ ] 🎨 create a flag to check for errors during parsing
+
+----
+
+(#6) echo pipe:
+    - [ ] 🎨 make echo write in a pipe when needed
 ----

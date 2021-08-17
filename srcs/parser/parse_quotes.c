@@ -14,29 +14,52 @@ static char	*get_env_var(char *str)
 	return (env_var);
 }
 
-static char	*insert_var(char *str, char *env_var, int n)
+int	get_var_start(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == '$')
+			return (i + 1);
+	}
+	return (0);
+}
+
+int	get_token_len(char *line)
+{
+	int	token_len;
+	int	i;
+
+	i = -1;
+	token_len = 0;
+	while (line[++i] && line[i] != ' ')
+		token_len++;
+	return (token_len);
+}
+
+static char	*insert_var(char *join, char *var_val)
 {
 	char	*res;
-	size_t	tot_len;
-	size_t	var_start;
-	size_t	var_len;
+	int		tot_len;
+	int		var_start;
+	int		var_len;
+	int		token_len;
 
-	var_start = -1;
-	while (str[++var_start] && str[var_start] != '$');
-	var_start++;
-	var_len = ft_strlen(env_var);
-	tot_len = var_start + var_len + (ft_strlen(str) - (n + var_start));
-	res = (char *)malloc(sizeof(char) * (tot_len + 1));
+	var_start = get_var_start(join);
+	token_len = get_token_len(join + var_start);
+	var_len = ft_strlen(var_val);
+	tot_len = var_start + var_len + (ft_strlen(join) - (token_len + var_start));
+	res = (char *)malloc(sizeof(char) * tot_len);
 	if (!res)
 		return (NULL);
-	printf("%ld\n", var_start);
-	ft_memcpy(res, str, var_start - 1);
-	ft_memcpy(res + (var_start - 1), env_var, var_len);
+	ft_memcpy(res, join, var_start - 1);
+	ft_memcpy(res + (var_start - 1), var_val, var_len);
 	ft_memcpy(res + ((var_start - 1) + var_len),
-		str + ((var_start) + n),
-		ft_strlen(str + ((var_start) + n)));
-	res[tot_len] = 0;
-	printf("res is: %s\n", res);
+		join + ((var_start) + token_len),
+		ft_strlen(join + ((var_start) + token_len)));
+	res[tot_len - 1] = 0;
 	return (res);
 }
 
@@ -44,22 +67,18 @@ static char	*parse_str(char *str)
 {
 	char	*res;
 	char	*env_var;
-	int		n;
 
 	if (!ft_strchr(str, '$'))
 		return (str);
-	n = 0;
 	res = ft_strdup(str);
 	while (*str)
 	{
 		if (*str == '$')
 		{
-			while (str[++n] && str[n] != ' ');
 			env_var = get_env_var(str + 1);
-			res = insert_var(res, env_var, n);
+			res = insert_var(res, env_var);
 		}
 		str++;
-		n = 0;
 	}
 	return (res);
 }
@@ -78,18 +97,18 @@ void	parse_double_quotes(t_parser *p, t_AST *ast)
 		cmd = (t_cmd *)last->body;
 	token = eat(p, DOUBLE_QUOTE_TOKEN);
 	/* check if we have some env var to interpret in token->value */
-	parse_str(token->value);
 	if (last->type == PROGRAM)
 	{
-		cmd = init_cmd(token->value);
+		cmd = init_cmd(parse_str(token->value));
 		list_push(cmd->argv, token->value);
 		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
 	}
 	else
 	{
 		cmd = (t_cmd *)last->body;
-		list_push(cmd->argv, token->value);
+		list_push(cmd->argv, parse_str(token->value));
 	}
+	free(token->value);
 	free(token);
 	token = NULL;
 }
