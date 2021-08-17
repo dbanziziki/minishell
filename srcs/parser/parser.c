@@ -85,6 +85,8 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 		cmd = (t_cmd *)ast->body;
 		list_push(cmd->argv, env_var);
 	}
+	free(token->value);
+	free(token);
 }
 
 t_AST	*parse(t_parser *p, t_AST *ast)
