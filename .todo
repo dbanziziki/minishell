@@ -19,9 +19,7 @@
 
 (#5) Errors during parsing:
     - [ ] 🎨 create a flag to check for errors during parsing
-
 ----
-
 (#6) echo pipe:
     - [ ] 🎨 make echo write in a pipe when needed
 ----

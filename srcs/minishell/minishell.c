@@ -90,6 +90,7 @@ void	minishell(char **env_v)
 		ms = init_minishell_struct();
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
+		/* if there are pipes, spawn processes */
 		if (find_cmd(((t_cmd *)ast->body)->argv[0],
 			((t_cmd *)ast->body)->argv[1], env_v))
 		{
