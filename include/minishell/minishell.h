@@ -43,7 +43,7 @@ typedef struct s_buildin
 
 int         cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);
 t_AST	    *init_minishell_parse(t_minishell **ms, char *str);
-t_minishell *init_minishell_struct(void);
+t_minishell *init_minishell_struct(char **env_v);
 int         **init_pipes(int nb_pipes);
 void        free_all(t_minishell *ms);
 int         close_unused_pipes(int **pipes, int size, int i);
@@ -51,10 +51,15 @@ void        hook(void);
 int         close_main_pipes(int **pipes, int size);
 void        minishell(char **env_v);
 
-int			find_cmd(t_array cmd, char **env_v);
+int			find_cmd(t_array cmd, char **env_v, t_minishell *ms);
 void		echo(char **s);
 void		pwd(void);
 void		change_dir(char *path);
 void		time_to_exit(void);
+int 		main(int argc, char const *argv[], char **envp);
+void		init_env(char **env_v, t_minishell *ms);
+char 		*get_env_v(char *key, t_minishell *ms);
+
+
 
 #endif

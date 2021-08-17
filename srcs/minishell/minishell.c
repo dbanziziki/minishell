@@ -87,16 +87,15 @@ void	minishell(char **env_v)
 			exit(0);
 		if (!ft_strcmp(line, ""))
 			continue ;
-		ms = init_minishell_struct();
+		ms = init_minishell_struct(env_v);
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
-		if (ast->body && find_cmd(*((t_cmd *)ast->body)->argv, env_v))
+		if (ast->body && find_cmd(*((t_cmd *)ast->body)->argv, env_v, ms))
 		{
 			ast = ast->next;
 			free(line);
 			continue ;
 		}
-		/// place for buildin commands !
 		run_process(ms, ast);
 		free(line);
 	}
