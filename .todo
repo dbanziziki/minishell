@@ -5,7 +5,7 @@
     - [x] 🚚 < infile
     - [ ] 🚚 chained redirections
     - [x] 🚚 redirect input when file dont exit
-    - [ ] 🚚 redirect output "give correct file rights"
+    - [x] 🚚 redirect output "give correct file rights"
     - [x] 🚚 redirect input "grep include < infile" dont work with current implementation
 ----
 (#3) LEAKS:
