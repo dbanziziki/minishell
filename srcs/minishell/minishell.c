@@ -91,13 +91,13 @@ void	minishell(char **env_v)
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
 		/* if there are pipes, spawn processes */
-		if (find_cmd(((t_cmd *)ast->body)->argv[0],
+		/*if (find_cmd(((t_cmd *)ast->body)->argv[0],
 			((t_cmd *)ast->body)->argv[1], env_v))
 		{
 			ast = ast->next;
 			free(line);
 			continue ;
-		}
+		}*/
 		/// place for buildin commands !
 		run_process(ms, ast);
 		free(line);

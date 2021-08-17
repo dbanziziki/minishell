@@ -46,7 +46,7 @@ int main(int argc, char const *argv[])
 	//p = init_parser("cat test.c | grep include > outfile");
 	i = -1;
 	root = parse(p, root);
-	//print_ast(root);
+	print_ast(root);
 	/*if (root->type == PROGRAM)
 		printf("OK\n");
 	cmd = (t_cmd *)(root->next->body);

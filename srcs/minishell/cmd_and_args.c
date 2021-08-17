@@ -67,6 +67,11 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 		redirect_output(cmd);
 	else if (cmd->io_mod && cmd->io_mod->type == REDIRECT_INPUT)
 		redirect_input(cmd);
+	else if (cmd->io_mod && cmd->io_mod->type == REDIRECT_INPUT_OUTPUT)
+	{
+		redirect_input(cmd);
+		redirect_output(cmd);
+	}
 	/* if the next next cmd needs input from the last command */
 	if (next_cmd && cmd->proc_idx != ms->nb_proc - 1)
 		pipe_stdout(ms, curr_ast, cmd);
