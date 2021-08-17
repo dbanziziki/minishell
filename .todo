@@ -15,6 +15,7 @@
 (#4) TOKENS:
     - [x] 🎨 interpret env variable inside quotes
     - [x] 🎨 simple quote token
+    - [ ] 🎨 parsing double quotes
 ----
 
 (#5) Errors during parsing:

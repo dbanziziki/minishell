@@ -38,13 +38,14 @@ int	close_main_pipes(int **pipes, int size)
 	return (1);
 }
 
-t_minishell	*init_minishell_struct(void)
+t_minishell	*init_minishell_struct(char **env_v)
 {
 	t_minishell	*ms;
 
 	ms = (t_minishell *)malloc(sizeof(t_minishell));
 	if (!ms)
 		return (NULL);
+	init_env(env_v, ms);
 	ms->ast = 0;
 	ms->p = 0;
 	ms->pipes = 0;
