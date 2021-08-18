@@ -93,6 +93,48 @@ void	export_v(t_minishell *ms, char *new_arg)
 		list_push(ms->var, new_arg);
 }
 
+void    list_rm(t_array *list, void *to_rm, t_minishell *ms)
+{
+	char	**tmp;
+	int		i;
+	int		place;
+
+	i = -1;
+	if (!list->items)
+		return ;
+	tmp = malloc(((list->size + 1) * list->item_size));
+	place = in_list(to_rm, ms);
+	if (!tmp)
+		exit(1);
+	if (place == -1)
+		return ;
+	while (list->items[++i])
+	{
+		if (i < place)
+			tmp[i] = list->items[i];
+		else if (i == place)
+			free(list->items[i]);
+		else
+			tmp[i - 1] = list->items[i];
+	}
+	free(list->items);
+	list->items = (void **)tmp;
+	list->size--;
+	list->items[list->size] = 0;
+}
+
+void	unset(t_minishell *ms, char *var)
+{
+	if (!var || in_list(var, ms) == -1)
+	{
+		return ;
+	}
+	else
+	{
+		list_rm(ms->var, var, ms);
+	}
+}
+
 int	find_cmd(t_array cmd, char **env_v, t_minishell *ms)
 {
 	if (cmd.items)
@@ -111,6 +153,8 @@ int	find_cmd(t_array cmd, char **env_v, t_minishell *ms)
 			get_env_v((char *)cmd.items[1], ms);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "export"))
 			export_v(ms, (char *)cmd.items[1]);
+		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "unset"))
+			unset(ms, (char *)cmd.items[1]);
 		else
 			return (0);
 		return (1);
