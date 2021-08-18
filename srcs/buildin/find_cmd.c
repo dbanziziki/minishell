@@ -29,31 +29,31 @@ void	init_env(char **env_v, t_minishell *ms)
 	}
 }
 
-int	get_env_v(char *key, t_minishell *ms)
+char	*get_env_v(char *key, t_array *var)
 {
 	int		i;
 	char	*res;
 
 	i = -1;
-	while (++i < ms->var->size)
+	while (++i < var->size)
 	{
-		if (!ft_strncmp(key, ms->var->items[i], ft_strlen(key)))
+		if (!ft_strncmp(key, var->items[i], ft_strlen(key)))
 		{
-			res = ft_strchr(ms->var->items[i], '=');
+			res = ft_strchr(var->items[i], '=');
 			if (!res)
 			{
-				write(1, "\n", 1);
-				return (1);
+				// write(1, "\n", 1);
+				return (NULL);
 			}
 			else
 			{
-				printf("%s\n", &res[1]);
-				return (1);
+				// printf("%s\n", &res[1]);
+				return (&res[1]);
 			}
 		}	
 	}
-	write(1, "\n", 1);
-	return (0);
+	// write(1, "\n", 1);
+	return (NULL);
 }
 
 int	in_list(char *key, t_minishell *ms)
@@ -150,7 +150,7 @@ int	find_cmd(t_array cmd, char **env_v, t_minishell *ms)
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env"))
 			get_env((char **)ms->var->items);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env_v"))
-			get_env_v((char *)cmd.items[1], ms);
+			printf("%s\n", get_env_v((char *)cmd.items[1], ms->var));
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "export"))
 			export_v(ms, (char *)cmd.items[1]);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "unset"))

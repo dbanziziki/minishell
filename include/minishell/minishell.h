@@ -59,7 +59,7 @@ void		change_dir(char *path);
 void		time_to_exit(void);
 int 		main(int argc, char const *argv[], char **envp);
 void		init_env(char **env_v, t_minishell *ms);
-int 		get_env_v(char *key, t_minishell *ms);
+char 		*get_env_v(char *key, t_array *var);
 int			in_list(char *key, t_minishell *ms);
 void    	list_rm(t_array *list, void *to_rm, t_minishell *ms);
 
