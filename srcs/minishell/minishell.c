@@ -80,14 +80,16 @@ void	minishell(char **env_v)
 	t_cmd		*cmd;
 
 	hook();
+	ms = init_minishell_struct(env_v);
 	while (1)
 	{
 		line = ms_readline();
+		if (line && *line)
+    		add_history(line);
 		if (line == NULL)
 			exit(0);
 		if (!ft_strcmp(line, ""))
 			continue ;
-		ms = init_minishell_struct(env_v);
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
 		if (ast->body && find_cmd(*((t_cmd *)ast->body)->argv, env_v, ms))

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+
 typedef struct s_array
 {
     void    **items;
@@ -13,4 +14,5 @@ typedef struct s_array
 
 t_array  *init_list(size_t item_size);
 void    list_push(t_array *list, void *item);
+
 #endif
