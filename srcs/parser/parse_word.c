@@ -24,6 +24,8 @@ t_io_mod    *init_io_mod(char *infile, char *outfile, int type)
     io_mod->infile = infile;
     io_mod->outfile = outfile;
     io_mod->type = type;
+	io_mod->in = init_list(sizeof(char *));
+	io_mod->out = init_list(sizeof(char *));
     return (io_mod);
 }
 

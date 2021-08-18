@@ -4,7 +4,9 @@
 static int	redirect_output(t_cmd *cmd)
 {
 	t_io_mod	*io_mod;
+	int			i;
 
+	i = -1;
 	io_mod = cmd->io_mod;
 	if (io_mod->type == REDIRECT_OUTPUT)
 		io_mod->fds[1] = open(io_mod->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0644);

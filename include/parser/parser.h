@@ -19,7 +19,7 @@ typedef struct s_io_modifier
 	}			type;
 	char		*infile;
 	t_array		*in;
-	t_array		*outt;
+	t_array		*out;
 	char		*outfile;
 	int			fds[2]; /* fd[0] = infile fd[1] = outfile */
 }				t_io_mod;
