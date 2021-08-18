@@ -25,6 +25,7 @@ typedef struct s_minishell
     t_parser    *p;
     t_AST       *ast;
 	char		**env_v;
+	t_array		*var;
 }               t_minishell;
 
 typedef struct s_buildin
@@ -58,7 +59,7 @@ void		change_dir(char *path);
 void		time_to_exit(void);
 int 		main(int argc, char const *argv[], char **envp);
 void		init_env(char **env_v, t_minishell *ms);
-char 		*get_env_v(char *key, t_minishell *ms);
+int 		get_env_v(char *key, t_minishell *ms);
 
 
 

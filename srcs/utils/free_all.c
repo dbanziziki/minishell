@@ -73,5 +73,5 @@ void    free_all(t_minishell *ms)
 			free(ms->pipes[i]);
 		free(ms->pipes);
 	}
-	free(ms);
+	//free(ms);
 }
