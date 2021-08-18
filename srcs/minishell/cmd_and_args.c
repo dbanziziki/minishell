@@ -6,7 +6,6 @@ static int	redirect_output(t_cmd *cmd)
 	t_io_mod	*io_mod;
 
 	io_mod = cmd->io_mod;
-	/*TODO: handle append && give to good file rights */
 	if (io_mod->type == REDIRECT_OUTPUT)
 		io_mod->fds[1] = open(io_mod->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	else
