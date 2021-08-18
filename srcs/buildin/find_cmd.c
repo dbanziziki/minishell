@@ -13,17 +13,23 @@ void	get_env(char **env_v)
 
 void	init_env(char **env_v, t_minishell *ms)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = -1;
 	ms->var = init_list(sizeof(char *));
 	if (!ms->var)
 		exit(1);
 	while (env_v[++i])
-		list_push(ms->var, env_v[i]);
+	{
+		tmp = ft_strdup(env_v[i]);
+		if (!tmp)
+			exit(1);
+		list_push(ms->var, tmp);
+	}
 }
 
-int get_env_v(char *key, t_minishell *ms)
+int	get_env_v(char *key, t_minishell *ms)
 {
 	int		i;
 	char	*res;
@@ -37,62 +43,58 @@ int get_env_v(char *key, t_minishell *ms)
 			if (!res)
 			{
 				write(1, "\n", 1);
-				return (0);
+				return (1);
 			}
 			else
 			{
-				printf("%s\n", res);
+				printf("%s\n", &res[1]);
 				return (1);
 			}
-			// res = ft_strdup(&ms->var->items[i][ft_strlen(key) + 1]);
 		}	
 	}
 	write(1, "\n", 1);
 	return (0);
 }
 
-// void	*ft_realloc(void *ptr, size_t size)
-// {
-// 	void	*new_ptr;
+int	in_list(char *key, t_minishell *ms)
+{
+	int		i;
+	char	*res;
 
-// 	new_ptr = malloc(;
-// 	if (!new_ptr)
-// 		exit(1);
-	
-// }
-
-// int	get_list_size(char **tab)
-// {
-// 	int i;
-
-// 	i 
-// }
+	i = -1;
+	while (++i < ms->var->size)
+	{
+		if (!ft_strncmp(key, ms->var->items[i], ft_strlen(key)))
+			return (i);
+	}
+	return (-1);
+}
 
 void	export_v(t_minishell *ms, char *new_arg)
 {
-	char	*new;
-	int		len;
+	char	*tmp;
+	char	**tab;
+	int		i;
 
-	// if (!ft_strchr(new_arg, '='))
-	// {
-	// 	len = ft_strlen(new_arg) + 1;
-	// 	new = realloc(new_arg, len);
-	// 	if (!new)
-	// 		exit(1);
-	// 	// ft_strlcat(new, "+", len);
-	// 	new[len - 1] = '=';
-	// 	printf("%s\n", new);
-	// 	list_push(ms->var, new);
-	// }
-	// else 
+	tab = ft_split(new_arg, '=');
+	if (!tab || !tab[0])
+		exit(1);
+	i = in_list(tab[0], ms);
+	if (i != -1)
+	{
+		if (tab[1])
+		{
+			tmp = ms->var->items[i];
+			ms->var->items[i] = ft_strdup(new_arg);
+			free(tmp);
+		}
+	}
+	else
 		list_push(ms->var, new_arg);
-	// get_env((char**)ms->var->items);
 }
 
 int	find_cmd(t_array cmd, char **env_v, t_minishell *ms)
 {
-	// printf("--%s--\n", (char *)cmd.items[1]);
-	// printf("--%s--\n", (char *)cmd.items[2]);
 	if (cmd.items)
 	{
 		if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "echo"))
