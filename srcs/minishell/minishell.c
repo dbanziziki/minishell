@@ -84,6 +84,8 @@ void	minishell(char **env_v)
 	while (1)
 	{
 		line = ms_readline();
+		if (line && *line)
+    		add_history(line);
 		if (line == NULL)
 			exit(0);
 		if (!ft_strcmp(line, ""))
