@@ -20,11 +20,7 @@ void    free_ptr_table(void **ptr)
 void    free_cmd_and_arg(t_cmd *cmd)
 {
 	if (cmd->io_mod)
-	{
-		free_memory(cmd->io_mod->outfile);
-		free_memory(cmd->io_mod->infile);
 		free_memory(cmd->io_mod);
-	}
 	if (cmd->argv)
 	{
 		if (cmd->argv->items)

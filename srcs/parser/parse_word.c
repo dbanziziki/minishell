@@ -14,15 +14,13 @@ t_cmd   *init_cmd(char *value)
     return (cmd);
 }
 
-t_io_mod    *init_io_mod(char *infile, char *outfile, int type)
+t_io_mod    *init_io_mod(int type)
 {
     t_io_mod    *io_mod;
 
     io_mod = (t_io_mod *)malloc(sizeof(t_io_mod));
 	if (!io_mod)
 		return (NULL);
-    io_mod->infile = infile;
-    io_mod->outfile = outfile;
     io_mod->type = type;
 	io_mod->in = init_list(sizeof(char *));
 	io_mod->out = init_list(sizeof(char *));

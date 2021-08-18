@@ -5,15 +5,37 @@ static int	redirect_output(t_cmd *cmd)
 {
 	t_io_mod	*io_mod;
 	int			i;
+	int			out_size;
+	int			in_size;
 
 	i = -1;
 	io_mod = cmd->io_mod;
+	out_size = io_mod->out->size;
+	in_size = io_mod->in->size;
+	while (++i < io_mod->out->size - 1)
+	{
+		if (io_mod->type == REDIRECT_OUTPUT)
+			io_mod->fds[1] = open(io_mod->out->items[i], O_TRUNC | O_CREAT | O_WRONLY, 0644);
+		else
+			io_mod->fds[1] = open(io_mod->out->items[i], O_APPEND | O_CREAT | O_WRONLY, 0644);
+		close(io_mod->fds[1]);
+	}
 	if (io_mod->type == REDIRECT_OUTPUT)
-		io_mod->fds[1] = open(io_mod->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0644);
+		io_mod->fds[1] = open(io_mod->out->items[out_size - 1], O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	else
-		io_mod->fds[1] = open(io_mod->outfile, O_APPEND | O_CREAT | O_WRONLY, 0644);
+		io_mod->fds[1] = open(io_mod->out->items[out_size - 1], O_APPEND | O_CREAT | O_WRONLY, 0644);
 	if (cmd->io_mod->fds[1] < 0)
 		return (1);
+	if (io_mod->in->items)
+	{
+		if (!ft_strcmp(io_mod->in->items[in_size - 1], io_mod->out->items[out_size - 1]) &&
+			io_mod->type == REDIRECT_OUTPUT)
+		{
+			if (close(io_mod->fds[1]) == -1)
+				return (1);
+			return (0);
+		}
+	}
 	dup2(io_mod->fds[1], STDOUT_FILENO);
 	if (close(io_mod->fds[1]) == -1)
 		return (1);
@@ -22,10 +44,13 @@ static int	redirect_output(t_cmd *cmd)
 
 static int	redirect_input(t_cmd *cmd)
 {
-	cmd->io_mod->fds[0] = open(cmd->io_mod->infile, O_RDONLY);
+	int	size;
+
+	size = cmd->io_mod->in->size;
+	cmd->io_mod->fds[0] = open(cmd->io_mod->in->items[size - 1], O_RDONLY);
 	if (cmd->io_mod->fds[0] < 0)
 	{
-		printf("minishell: no file or directory: %s\n", cmd->io_mod->infile);
+		printf("minishell: no file or directory: %s\n", cmd->io_mod->in->items[size - 1]);
 		exit(EXIT_FAILURE);
 		return (1);
 	}

@@ -24,12 +24,15 @@ static void	print_ast_body(t_AST *ast)
 	printf("\n");
 	if (io_mod)	
 	{
-		i = -1;
-		while (io_mod->out->items[++i])
-			printf("%s \n", io_mod->out->items[i]);
 		printf("IO_MODIFIER\n");
-		printf("[INFILE]: %s \n", io_mod->infile);
-		printf("[OUTFILE]: %s \n", io_mod->outfile);
+		i = -1;
+		printf("OUTFILES\n");
+		while (io_mod->out->items && io_mod->out->items[++i])
+			printf("%s \n", io_mod->out->items[i]);
+		i = -1;
+		printf("INFILES\n");
+		while (io_mod->in->items && io_mod->in->items[++i])
+			printf("%s \n", io_mod->in->items[i]);
 	}
 }
 
