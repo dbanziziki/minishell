@@ -89,6 +89,16 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 	free(token);
 }
 
+void	parse_heredoc(t_parser *p, t_AST *ast)
+{
+	t_token	*token;
+
+	token = eat(p, HEREDOC_TOKEN);
+	printf("%s\n", token->value);
+	token = eat(p, WORD_TOKEN);
+	printf("%s\n", token->value);
+}
+
 t_AST	*parse(t_parser *p, t_AST *ast)
 {
 	if (!p->token || p->token->type == EOF_TOKEN)
@@ -107,6 +117,8 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 		parse_single_quotes(p, ast);
 	else if (p->token->type == DOLLARSIGN_TOKEN)
 		parse_env_var(p, ast);
+	else if (p->token->type == HEREDOC_TOKEN)
+		parse_heredoc(p, ast);
 	else
 	{
 		printf("unexpected token at `%s`\n", p->token->value);

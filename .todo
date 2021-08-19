@@ -3,7 +3,7 @@
 ----
 (#2) redirections:
     - [x] 🚚 < infile
-    - [ ] 🚚 chained redirections
+    - [x] 🚚 chained redirections
     - [x] 🚚 redirect input when file dont exit
     - [x] 🚚 redirect output "give correct file rights"
     - [x] 🚚 redirect input "grep include < infile" dont work with current implementation
@@ -15,7 +15,7 @@
 (#4) TOKENS:
     - [x] 🎨 interpret env variable inside quotes
     - [x] 🎨 simple quote token
-    - [ ] 🎨 parsing double quotes
+    - [x] 🎨 parsing double quotes
 ----
 
 (#5) Errors during parsing:

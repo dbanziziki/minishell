@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <termi
+#include <termios.h>
 
 
 int main(int argc, char const *argv[])

@@ -60,6 +60,7 @@ static char	*insert_var(char *join, char *var_val)
 		join + ((var_start) + token_len),
 		ft_strlen(join + ((var_start) + token_len)));
 	res[tot_len - 1] = 0;
+	free(join);
 	return (res);
 }
 
@@ -88,7 +89,10 @@ void	parse_double_quotes(t_parser *p, t_AST *ast)
 	t_token	*token;
 	t_cmd	*cmd;
 	t_AST	*last;
+	char	*parsed;
 
+	if (p->token->type != DOUBLE_QUOTE_TOKEN)
+		return ;
 	last = ast;
 	while (last->next)
 		last = last->next;
@@ -96,19 +100,27 @@ void	parse_double_quotes(t_parser *p, t_AST *ast)
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	token = eat(p, DOUBLE_QUOTE_TOKEN);
+	parsed = parse_str(token->value);
 	/* check if we have some env var to interpret in token->value */
 	if (last->type == PROGRAM)
 	{
-		cmd = init_cmd(parse_str(token->value));
-		list_push(cmd->argv, token->value);
+		cmd = init_cmd(parsed);
+		list_push(cmd->argv, parsed);
 		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
 	}
 	else
 	{
 		cmd = (t_cmd *)last->body;
-		list_push(cmd->argv, parse_str(token->value));
+		list_push(cmd->argv, parsed);
 	}
-	free(token->value);
 	free(token);
 	token = NULL;
+	while (p->token->type == WORD_TOKEN)
+	{
+		token = eat(p, WORD_TOKEN);
+		list_push(cmd->argv, token->value);
+		free(token);
+		token = NULL;
+	}
+	parse_double_quotes(p, ast);
 }

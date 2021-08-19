@@ -15,14 +15,14 @@ static void	print_ast_body(t_AST *ast)
 	else
 		printf("PIPE_CMD_AND_ARGS\n");
 	printf("[CMD]: %s\n", cmd->cmd);	
-	printf("[ARGS]: ");
+	printf("[ARGS]: \n");
 	if (cmd->argv->items != NULL)
 	{
 		while (cmd->argv->items[++i])
-			printf("%s ", cmd->argv->items[i]);
+			printf("%s - ", cmd->argv->items[i]);
 	}
 	printf("\n");
-	if (io_mod)	
+	/*if (io_mod)	
 	{
 		printf("IO_MODIFIER\n");
 		i = -1;
@@ -33,7 +33,7 @@ static void	print_ast_body(t_AST *ast)
 		printf("INFILES\n");
 		while (io_mod->in->items && io_mod->in->items[++i])
 			printf("%s \n", io_mod->in->items[i]);
-	}
+	}*/
 }
 
 void	print_ast(t_AST *ast)
