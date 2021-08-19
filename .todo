@@ -24,3 +24,7 @@
 (#6) echo pipe:
     - [ ] 🎨 make echo write in a pipe when needed
 ----
+
+(#7) review redirection:
+    - [ ] 🎉 recode the fun
+----

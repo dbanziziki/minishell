@@ -9,7 +9,7 @@ t_cmd   *init_cmd(char *value)
         return (NULL);
     cmd->cmd = value;
     cmd->argv = init_list(sizeof(char *));
-    cmd->io_mod = NULL;
+    cmd->io_mod = 0;
 	cmd->proc_idx = 0;
     return (cmd);
 }

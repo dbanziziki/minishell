@@ -1,26 +1,17 @@
 #include "parser.h"
 
-static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type, int curr_type)
+static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 {
 	t_io_mod	*io_mod;
 
 	if (cmd && cmd->io_mod)
 	{
-		if (curr_type == type)
-		{
-			if (curr_type == LESS_THAN_TOKEN)
-				list_push(cmd->io_mod->in, token->value);
-			else
-				list_push(cmd->io_mod->out, token->value);
-		}
+		if (type == LESS_THAN_TOKEN)
+			list_push(cmd->io_mod->in, token->value);
 		else
-		{
-			if (cmd->io_mod->type == REDIRECT_INPUT)
-				list_push(cmd->io_mod->out, token->value);
-			else
-				list_push(cmd->io_mod->in, token->value);
-		}
-		cmd->io_mod->type = REDIRECT_INPUT_OUTPUT;
+			list_push(cmd->io_mod->out, token->value);
+		if (cmd->io_mod->out->size > 0 && cmd->io_mod->in->size > 0)
+			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT;
 		return (cmd->io_mod);
 	}
 	else
@@ -48,15 +39,12 @@ static t_io_mod	*parse_redirect(t_parser *p, t_cmd *cmd, int type)
 {
 	t_token		*token;
 	t_io_mod	*io_mod;
-	int			curr_type;
 
-	/*TODO: chained redirection*/
 	token = eat(p, type);
-	curr_type = token->type;
 	free(token->value);
 	free(token);
 	token = eat(p, WORD_TOKEN);
-	io_mod = set_io_mod(cmd, token, type, curr_type);
+	io_mod = set_io_mod(cmd, token, type);
 	if (!io_mod)
 		return (NULL);
 	free(token);
@@ -117,6 +105,4 @@ void parse_redirection(t_parser *p, t_AST *ast)
 		parse_cmd_and_args(p, &ast, io_mod);
 	else
 		cmd->io_mod = io_mod;
-	if (last->next && last->next->body)
-		cmd = (t_cmd *)last->next->body;
 }
