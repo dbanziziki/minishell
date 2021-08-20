@@ -18,9 +18,7 @@ typedef struct s_io_modifier
 		REDIRECT_INPUT_OUTPUT,
 	}			type;
 	char		*infile;
-	t_array		*in;
 	t_array		*out;
-	char		*outfile;
 	int			fds[2]; /* fd[0] = infile fd[1] = outfile */
 }				t_io_mod;
 

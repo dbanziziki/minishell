@@ -32,7 +32,7 @@ RPATH = /Users/$(USER)/.brew/opt/readline/
 
 RFLAGS = -L $(RPATH)lib -I $(RPATH)include -Wno-unused-command-line-argument
 
-CFLAGS = -g -fsanitize=address
+CFLAGS = -g #-fsanitize=address
 
 PARSER_DIR = $(SRCS_DIR)/parser
 

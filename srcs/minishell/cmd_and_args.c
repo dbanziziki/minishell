@@ -6,12 +6,10 @@ static int	redirect_output(t_cmd *cmd)
 	t_io_mod	*io_mod;
 	int			i;
 	int			out_size;
-	int			in_size;
 
 	i = -1;
 	io_mod = cmd->io_mod;
 	out_size = io_mod->out->size;
-	in_size = io_mod->in->size;
 	while (++i < io_mod->out->size - 1)
 	{
 		if (io_mod->type == REDIRECT_OUTPUT)
@@ -26,16 +24,6 @@ static int	redirect_output(t_cmd *cmd)
 		io_mod->fds[1] = open(io_mod->out->items[out_size - 1], O_APPEND | O_CREAT | O_WRONLY, 0644);
 	if (cmd->io_mod->fds[1] < 0)
 		return (1);
-	if (io_mod->in->items)
-	{
-		if (!ft_strcmp(io_mod->in->items[in_size - 1], io_mod->out->items[out_size - 1]) &&
-			io_mod->type == REDIRECT_OUTPUT)
-		{
-			if (close(io_mod->fds[1]) == -1)
-				return (1);
-			return (0);
-		}
-	}
 	dup2(io_mod->fds[1], STDOUT_FILENO);
 	if (close(io_mod->fds[1]) == -1)
 		return (1);
@@ -44,13 +32,10 @@ static int	redirect_output(t_cmd *cmd)
 
 static int	redirect_input(t_cmd *cmd)
 {
-	int	size;
-
-	size = cmd->io_mod->in->size;
-	cmd->io_mod->fds[0] = open(cmd->io_mod->in->items[size - 1], O_RDONLY);
+	cmd->io_mod->fds[0] = open(cmd->io_mod->infile, O_RDONLY);
 	if (cmd->io_mod->fds[0] < 0)
 	{
-		printf("minishell: no file or directory: %s\n", cmd->io_mod->in->items[size - 1]);
+		printf("minishell: no file or directory: %s\n", cmd->io_mod->infile);
 		exit(EXIT_FAILURE);
 		return (1);
 	}
@@ -62,6 +47,7 @@ static int	redirect_input(t_cmd *cmd)
 
 static void	pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 {
+	// if (cmd->io_mod && !cmd->io_mod->infile)
 	dup2(ms->pipes[cmd->proc_idx + 1][1], STDOUT_FILENO);
 	/*close the used pipes*/
 	if (curr_ast->next->type != PIPE_CMD_AND_ARG)
@@ -73,7 +59,10 @@ static void	pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 
 static void	read_from_pipe(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 {
-	dup2(ms->pipes[cmd->proc_idx][0], STDIN_FILENO);
+	if (cmd->io_mod && cmd->io_mod->infile)
+		redirect_input(cmd);
+	else
+		dup2(ms->pipes[cmd->proc_idx][0], STDIN_FILENO);
 	/*close the used pipes*/
 	close(ms->pipes[cmd->proc_idx][0]);
 	close(ms->pipes[cmd->proc_idx + 1][1]);

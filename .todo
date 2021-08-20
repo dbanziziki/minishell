@@ -26,5 +26,6 @@
 ----
 
 (#7) review redirection:
-    - [ ] 🎉 recode the fun
+    - [x] 🎉 recode the fun
+    - [ ] 🎉 redirection in pipes broken (redirect input fixed)
 ----

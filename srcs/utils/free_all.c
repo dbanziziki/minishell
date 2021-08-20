@@ -13,14 +13,19 @@ void    free_ptr_table(void **ptr)
 
 	i = -1;
 	while (ptr[++i])
-		free(ptr[i]);
-	free(ptr);
+		free_memory(ptr[i]);
+	free_memory(ptr);
 }
 
 void    free_cmd_and_arg(t_cmd *cmd)
 {
 	if (cmd->io_mod)
+	{
+		free_memory(cmd->io_mod->infile);
+		if (cmd->io_mod->out->items)
+			free_ptr_table(cmd->io_mod->out->items);
 		free_memory(cmd->io_mod);
+	}
 	if (cmd->argv)
 	{
 		if (cmd->argv->items)
@@ -60,6 +65,7 @@ void    free_all(t_minishell *ms)
 	i = -1;
 	free(ms->p->token->value);
 	free(ms->p->token);
+	free(ms->p->t);
 	free(ms->p);
 	free_ast(&(ms->ast));
 	free(ms->p_ids);

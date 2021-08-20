@@ -22,7 +22,7 @@ t_io_mod    *init_io_mod(int type)
 	if (!io_mod)
 		return (NULL);
     io_mod->type = type;
-	io_mod->in = init_list(sizeof(char *));
+	io_mod->infile = NULL;
 	io_mod->out = init_list(sizeof(char *));
     return (io_mod);
 }

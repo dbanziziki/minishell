@@ -8,7 +8,7 @@ static t_io_mod	*create_io_mod(t_token *token, int type)
 	if (type == LESS_THAN_TOKEN)
 	{
 		io_mod = init_io_mod(REDIRECT_INPUT);
-		list_push(io_mod->in, token->value);
+		io_mod->infile = token->value;
 	}
 	else if (type == GREATER_THAN_TOKEN)
 	{
@@ -30,10 +30,14 @@ static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 	if (cmd && cmd->io_mod)
 	{
 		if (type == LESS_THAN_TOKEN)
-			list_push(cmd->io_mod->in, token->value);
+		{
+			if (cmd->io_mod->infile)
+				free(cmd->io_mod->infile);
+			cmd->io_mod->infile = token->value;
+		}
 		else
 			list_push(cmd->io_mod->out, token->value);
-		if (cmd->io_mod->out->size > 0 && cmd->io_mod->in->size > 0)
+		if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile)
 			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT;
 		return (cmd->io_mod);
 	}

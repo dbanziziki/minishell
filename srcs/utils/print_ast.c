@@ -3,6 +3,9 @@
 #define GREEN printf("\033[0;32m");
 # define RESET printf("\033[0m");
 #define PURPLE printf("\033[0;35m");
+#define YELLOW printf("\e[0;33m");
+#define BLUE printf("\e[0;34m");
+#define RED printf("\e[0;31m");
 
 static void	print_ast_body(t_AST *ast)
 {
@@ -16,34 +19,50 @@ static void	print_ast_body(t_AST *ast)
 	if (cmd->io_mod)
 		io_mod = cmd->io_mod;
 	if (ast->type == CMD_AND_ARG)
+	{
+		YELLOW
 		printf("[CMD_AND_ARGS]\n");
+		RESET
+	}
 	else
+	{
+		BLUE
 		printf("[PIPE_CMD_AND_ARGS]\n");
+		RESET
+	}
+	GREEN
 	printf("[CMD]: %s\n", cmd->cmd);	
-	printf("[ARGS]: \n");
+	RESET
+	printf("[ARGS]: ");
+	i = 0;
 	if (cmd->argv->items != NULL)
 	{
 		PURPLE
 		while (cmd->argv->items[++i])
-			printf("%s\n", cmd->argv->items[i]);
+			printf("%s ", cmd->argv->items[i]);
 		RESET
 	}
+	printf("\n");
 	if (io_mod)
 	{
 		GREEN
 		printf("[IO_MODIFIER]\n");
 		RESET
 		i = -1;
+		RED
 		printf("\t[OUTFILES]\n");
+		RESET
 		PURPLE
 		while (++i < io_mod->out->size)
 			printf("\t%s \n", io_mod->out->items[i]);
 		RESET
 		i = -1;
-		printf("\t[INFILES]\n");
+		RED
+		printf("\t[INFILE]\n");
+		RESET
 		PURPLE
-		while (++i < io_mod->in->size)
-			printf("\t%s \n", io_mod->in->items[i]);
+		if (io_mod->infile)
+			printf("\t%s \n", io_mod->infile);
 		RESET
 	}
 }

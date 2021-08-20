@@ -25,7 +25,7 @@ int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
 	while (++i < ms->nb_proc)
 		waitpid(ms->p_ids[i], NULL, 0);
 	/* free all the allocated memory */
-	//free_all(ms);
+	free_all(ms);
 	return (0);
 }
 
