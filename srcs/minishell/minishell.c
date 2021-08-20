@@ -95,7 +95,6 @@ void	minishell(char **env_v)
 		if (ast->body && find_cmd(*((t_cmd *)ast->body)->argv, env_v, ms) &&
 			!ms->has_pipes)
 		{
-			printf("just here\n");
 			ast = ast->next;
 			free(line);
 			continue ;

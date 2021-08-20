@@ -54,13 +54,7 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	cmd = init_cmd(token->value);
 	list_push(cmd->argv, token->value);
 	free(token);
-	while (p->token->type == WORD_TOKEN)
-	{
-		token = eat(p, WORD_TOKEN);
-		list_push(cmd->argv, token->value);
-		free(token);
-		token =	NULL;
-	}
+	eat_words(p, cmd);
 	return (init_AST(PIPE_CMD_AND_ARG, cmd));
 }
 
@@ -110,7 +104,7 @@ t_AST	*parse(t_parser *p, t_AST *ast)
 	else if (p->token->type == REDIRECT_OUTPUT ||
 		p->token->type == REDIRECT_INPUT ||
 		p->token->type == REDIRECT_OUTPUT_APPEND)
-		parse_redirection(p, ast);
+		parse_redirections(p, ast);
 	else if (p->token->type == DOUBLE_QUOTE_TOKEN)
 		parse_double_quotes(p, ast);
 	else if (p->token->type == SIMPLE_QUOTE_TOKEN)

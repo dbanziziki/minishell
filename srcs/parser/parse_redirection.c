@@ -1,5 +1,28 @@
 #include "parser.h"
 
+static t_io_mod	*create_io_mod(t_token *token, int type)
+{
+	t_io_mod	*io_mod;
+
+	io_mod = NULL;
+	if (type == LESS_THAN_TOKEN)
+	{
+		io_mod = init_io_mod(REDIRECT_INPUT);
+		list_push(io_mod->in, token->value);
+	}
+	else if (type == GREATER_THAN_TOKEN)
+	{
+		io_mod = init_io_mod(REDIRECT_OUTPUT);
+		list_push(io_mod->out, token->value);
+	}
+	else
+	{
+		io_mod = init_io_mod(REDIRECT_OUTPUT_APPEND);
+		list_push(io_mod->out, token->value);			
+	}
+	return (io_mod);
+}
+
 static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 {
 	t_io_mod	*io_mod;
@@ -15,23 +38,7 @@ static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 		return (cmd->io_mod);
 	}
 	else
-	{
-		if (type == LESS_THAN_TOKEN)
-		{
-			io_mod = init_io_mod(REDIRECT_INPUT);
-			list_push(io_mod->in, token->value);
-		}
-		else if (type == GREATER_THAN_TOKEN)
-		{
-			io_mod = init_io_mod(REDIRECT_OUTPUT);
-			list_push(io_mod->out, token->value);
-		}
-		else
-		{
-			io_mod = init_io_mod(REDIRECT_OUTPUT_APPEND);
-			list_push(io_mod->out, token->value);			
-		}
-	}
+		io_mod = create_io_mod(token, type);
 	return (io_mod);
 }
 
@@ -65,13 +72,7 @@ static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
 		cmd = init_cmd(token->value);
 		list_push(cmd->argv, token->value);
 		free(token);
-		while (p->token->type == WORD_TOKEN)
-		{
-			token = eat(p, WORD_TOKEN);
-			list_push(cmd->argv, token->value);
-			free(token);
-			token = NULL;
-		}
+		eat_words(p, cmd);
 		cmd->io_mod = io_mod;
 	}
 	else
@@ -82,7 +83,7 @@ static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
 	addback_AST(ast, init_AST(CMD_AND_ARG, cmd));
 }
 
-void parse_redirection(t_parser *p, t_AST *ast)
+void parse_redirections(t_parser *p, t_AST *ast)
 {
 	t_cmd		*cmd;
 	t_AST		*last;
@@ -104,5 +105,8 @@ void parse_redirection(t_parser *p, t_AST *ast)
 	if (last->type == PROGRAM)
 		parse_cmd_and_args(p, &ast, io_mod);
 	else
+	{
 		cmd->io_mod = io_mod;
+		eat_words(p, cmd);
+	}
 }

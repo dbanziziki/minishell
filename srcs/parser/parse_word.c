@@ -43,12 +43,6 @@ t_AST	*parse_word(t_parser *p)
 	list_push(cmd->argv, token->value);
 	free(token);
     /* geting the cmd arguments and pushing it in cmd->argv */
-	while (p->token->type == WORD_TOKEN)
-	{
-		token = eat(p, WORD_TOKEN);
-		list_push(cmd->argv, token->value);
-		free(token);
-		token = NULL;
-	}
+	eat_words(p, cmd);
 	return (init_AST(CMD_AND_ARG, cmd));
 }

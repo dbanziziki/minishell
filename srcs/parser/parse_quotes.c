@@ -115,12 +115,6 @@ void	parse_double_quotes(t_parser *p, t_AST *ast)
 	}
 	free(token);
 	token = NULL;
-	while (p->token->type == WORD_TOKEN)
-	{
-		token = eat(p, WORD_TOKEN);
-		list_push(cmd->argv, token->value);
-		free(token);
-		token = NULL;
-	}
+	eat_words(p, cmd);
 	parse_double_quotes(p, ast);
 }
