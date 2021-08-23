@@ -40,26 +40,23 @@ void	echo(char **s)
 ** but only with a relative or absolute path.
 */
 
-void	change_dir(char *path)
+void	change_dir(char *path, t_minishell *ms)
 {
 	int		err;
 	char	curr_dir[1024];
+	// char	*goal;
 
 	if (path)
 	{
 		err = chdir(path);
 		if (err)
-			printf("CD function in trouble 1 \n");
+			printf("cd: %s: No such file or directory \n", path);
 	}
 	else
 	{
-		while (ft_strcmp("/", curr_dir))
-		{
-			err = chdir("..");
-			if (err)
-				printf("CD function in trouble 2 \n");
-			getcwd(curr_dir, 1024);
-		}
+		err = chdir(get_env_v("HOME", ms->var));
+		if (err)
+			printf("CD function in trouble 2 \n");
 	}
 }
 
