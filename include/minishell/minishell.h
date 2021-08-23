@@ -61,7 +61,8 @@ int 		main(int argc, char const *argv[], char **envp);
 void		init_env(char **env_v, t_minishell *ms);
 char 		*get_env_v(char *key, t_array *var);
 int			in_list(char *key, t_minishell *ms);
-void    	list_rm(t_array *list, void *to_rm, t_minishell *ms);
+void		list_rm(t_array *list, void *to_rm, t_minishell *ms);
+void		export_v(t_minishell *ms, char *new_arg);
 
 
 

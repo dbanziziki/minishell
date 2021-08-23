@@ -44,20 +44,29 @@ void	change_dir(char *path, t_minishell *ms)
 {
 	int		err;
 	char	curr_dir[1024];
-	// char	*goal;
+	char	*goal;
 
 	if (path)
 	{
+		getcwd(curr_dir, 1024);
+		goal = ft_strjoin("OLDPWD=", curr_dir);
 		err = chdir(path);
-		if (err)
-			printf("cd: %s: No such file or directory \n", path);
+		if (err || !goal)
+			printf("CD function in trouble 2 \n");
+		export_v(ms, goal);
 	}
 	else
 	{
-		err = chdir(get_env_v("HOME", ms->var));
-		if (err)
+		getcwd(curr_dir, 1024);
+		goal = get_env_v("HOME", ms->var);
+		err = chdir(goal);
+		goal = ft_strjoin("OLDPWD=", curr_dir);
+		if (err || !goal)
 			printf("CD function in trouble 2 \n");
+		export_v(ms, goal);
+		printf("%s\n", goal);
 	}
+	free(goal);
 }
 
 /*
