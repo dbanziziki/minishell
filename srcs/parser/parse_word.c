@@ -33,9 +33,6 @@ t_AST	*parse_word(t_parser *p)
 	t_cmd	*cmd;
 	t_token	*token;
 
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
 	token = eat(p, WORD_TOKEN);
     cmd = init_cmd(token->value);
     if (!cmd)

@@ -96,7 +96,12 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 	/* if no cmd dont create process*/
 	if (!cmd->cmd)
 		exit(EXIT_SUCCESS);
-	execvp(cmd->cmd, (char **)(cmd->argv->items));
+	if (find_cmd(*(cmd->argv), ms))
+	{
+		return (1);
+	}
+	else
+		execvp(cmd->cmd, (char **)(cmd->argv->items));
 	printf("minishell: command not found: %s\n", cmd->cmd);
 	return (1);
 }

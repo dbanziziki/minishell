@@ -13,3 +13,15 @@ void    eat_words(t_parser *p, t_cmd *cmd)
         token = NULL;
     }
 }
+
+t_heredoc   *init_heredoc(char *delimiter)
+{
+    t_heredoc   *hd;
+
+    hd = (t_heredoc *)malloc(sizeof(t_heredoc));
+    if (!hd) 
+        return (NULL);
+    hd->delimiter = delimiter;
+    hd->cmd = NULL;
+    return (hd);
+}

@@ -92,7 +92,6 @@ void parse_redirections(t_parser *p, t_AST *ast)
 	t_cmd		*cmd;
 	t_AST		*last;
 	t_io_mod	*io_mod;
-	t_token		*token;
 
 	last = ast;
 	cmd = NULL;

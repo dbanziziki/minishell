@@ -24,7 +24,7 @@ typedef struct s_minishell
     pid_t       *p_ids;
     t_parser    *p;
     t_AST       *ast;
-	char		**env_v;
+	// char		**env_v;
 	t_array		*var;
 }               t_minishell;
 
@@ -51,12 +51,11 @@ int         close_unused_pipes(int **pipes, int size, int i);
 void        hook(void);
 int         close_main_pipes(int **pipes, int size);
 void        minishell(char **env_v);
-
-int			find_cmd(t_array cmd, char **env_v, t_minishell *ms);
+int			find_cmd(t_array cmd, t_minishell *ms);
 void		echo(char **s);
 void		pwd(void);
 void		change_dir(char *path);
-void		time_to_exit(void);
+void		time_to_exit(t_minishell *ms);
 int 		main(int argc, char const *argv[], char **envp);
 void		init_env(char **env_v, t_minishell *ms);
 char 		*get_env_v(char *key, t_array *var);

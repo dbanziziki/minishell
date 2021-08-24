@@ -79,46 +79,48 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 		cmd = (t_cmd *)ast->body;
 		list_push(cmd->argv, env_var);
 	}
-	/* where did token->value go? */
 	free(token);
 }
 
 void	parse_heredoc(t_parser *p, t_AST *ast)
 {
-	t_token	*token;
-
+	t_token		*token;
+	t_heredoc	*hd;
 	token = eat(p, HEREDOC_TOKEN);
-	printf("%s\n", token->value);
+	free(token);
+	free(token->value);
 	token = eat(p, WORD_TOKEN);
-	printf("%s\n", token->value);
+	hd = init_heredoc(token->value);
 }
 
-t_AST	*parse(t_parser *p, t_AST *ast)
+int	parse(t_parser *p, t_AST **ast)
 {
+	int flag;
+
+	flag = 1;
 	if (!p->token || p->token->type == EOF_TOKEN)
-		return (ast);
+		return (flag);
 	if (p->token->type == WORD_TOKEN)
-		addback_AST(&ast, parse_word(p));
+		addback_AST(ast, parse_word(p));
 	else if(p->token->type == PIPE_TOKEN)
-		addback_AST(&ast, parse_pipe(p, ast));
+		addback_AST(ast, parse_pipe(p, *ast));
 	else if (p->token->type == REDIRECT_OUTPUT ||
 		p->token->type == REDIRECT_INPUT ||
 		p->token->type == REDIRECT_OUTPUT_APPEND)
-		parse_redirections(p, ast);
+		parse_redirections(p, *ast);
 	else if (p->token->type == DOUBLE_QUOTE_TOKEN)
-		parse_double_quotes(p, ast);
+		parse_double_quotes(p, *ast);
 	else if (p->token->type == SIMPLE_QUOTE_TOKEN)
-		parse_single_quotes(p, ast);
+		parse_single_quotes(p, *ast);
 	else if (p->token->type == DOLLARSIGN_TOKEN)
-		parse_env_var(p, ast);
+		parse_env_var(p, *ast);
 	else if (p->token->type == HEREDOC_TOKEN)
-		parse_heredoc(p, ast);
+		parse_heredoc(p, *ast);
 	else
 	{
 		printf("unexpected token at `%s`\n", p->token->value);
 		exit(1);
 	}
 	parse(p, ast);
-	return (ast);
+	return (flag);
 }
-

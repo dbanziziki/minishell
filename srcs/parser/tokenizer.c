@@ -37,8 +37,7 @@ t_token	*word_token(t_tokenizer *t, char *temp)
 	t_token	*token;
 
 	i = t->cursor;
-	while (t->str[t->cursor] && t->str[t->cursor] != ' ' &&
-			t->str[t->cursor] != PIPE_TOKEN &&
+	while (t->str[t->cursor] && !ft_isspace(t->str[t->cursor]) &&
 			t->str[t->cursor] != '<' &&
 			t->str[t->cursor] != '>' &&
 			t->str[t->cursor] != '|')
@@ -125,7 +124,7 @@ char	*skip_whitespace(char *str, t_tokenizer *t)
 {
 	if (!str)
 		return (str);
-	while (t->str[t->cursor] == ' ')
+	while (ft_isspace(t->str[t->cursor]))
 			t->cursor++;
 		str = &(t->str[t->cursor]);
 	return (str);
@@ -140,7 +139,8 @@ t_token	*get_next_token(t_tokenizer *t)
 	token = NULL;
 	if (temp)
 	{
-		if (ft_isalpha(temp[0]) || temp[0] == '-' || temp[0] == '.')
+		if (ft_isalpha(temp[0]) || temp[0] == '-' || temp[0] == '.' ||
+			ft_isdigit(temp[0]))
 			return (word_token(t, temp));
 		else if (temp[0] == PIPE)
 			return (simple_token(t, temp));

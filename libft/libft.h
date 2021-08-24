@@ -80,4 +80,5 @@ int					get_next_line(int fd, char **line);
 char				*ft_strndup(const char *s, size_t n);
 int					ft_strcmp(char *s1, char *s2);
 char				**free_strtab(char **tab, int n);
+int					ft_isspace(char c);
 #endif

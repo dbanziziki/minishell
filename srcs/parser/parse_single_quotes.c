@@ -6,6 +6,8 @@ void	parse_single_quotes(t_parser *p, t_AST *ast)
 	t_cmd	*cmd;
 	t_AST	*last;
 
+	if (p->token->type != SIMPLE_QUOTE_TOKEN)
+		return ;
 	last = ast;
 	while (last->next)
 		last = last->next;
@@ -26,4 +28,6 @@ void	parse_single_quotes(t_parser *p, t_AST *ast)
 	}
 	free(token);
 	token = NULL;
+	eat_words(p, cmd);
+	parse_single_quotes(p, ast);
 }

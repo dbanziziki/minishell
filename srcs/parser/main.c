@@ -45,25 +45,7 @@ int main(int argc, char const *argv[])
 	p = init_parser(line);
 	//p = init_parser("cat test.c | grep include > outfile");
 	i = -1;
-	root = parse(p, root);
+	parse(p, &root);
 	print_ast(root);
-	/*if (root->type == PROGRAM)
-		printf("OK\n");
-	cmd = (t_cmd *)(root->next->body);
-	io_mod = cmd->io_mod;
-	if (io_mod)
-		printf("%s\n", io_mod->infile);
-	printf("[cmd]: %s [args] ->", cmd->cmd);
-	printf("[");
-	if (io_mod)
-	while (cmd->argv->items[++i])
-		printf("%s, ", (char *)(cmd->argv->items[i]));
-	printf("]\n");
-	i = -1;
-	while (++i < cmd->argv->size)
-		free(cmd->argv->items[i]);
-	free(cmd->argv->items);
-	free(cmd->argv);
-	free_all(p, root);*/
 	return 0;
 }

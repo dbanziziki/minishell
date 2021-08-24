@@ -22,7 +22,7 @@
     - [ ] 🎨 create a flag to check for errors during parsing
 ----
 (#6) echo pipe:
-    - [ ] 🎨 make echo write in a pipe when needed
+    - [x] 🎨 make echo write in a pipe when needed
 ----
 
 (#7) review redirection:

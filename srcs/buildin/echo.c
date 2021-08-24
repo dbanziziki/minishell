@@ -75,8 +75,17 @@ void	pwd(void)
 	printf("%s\n", curr_dir);
 }
 
-void	time_to_exit(void)
+void	time_to_exit(t_minishell *ms)
 {
-	exit(0);
+	int	i;
+
+	free_all(ms);
+	i = -1;
+	while (ms->var->items[++i])
+		free(ms->var->items[i]);
+	free(ms->var->items);
+	free(ms->var);
+	free(ms);
+	exit(EXIT_SUCCESS);
 }
 

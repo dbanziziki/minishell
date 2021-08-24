@@ -64,7 +64,7 @@ t_AST	*init_minishell_parse(t_minishell **ms, char *str)
 	if (!prog || !p)
 		return (NULL);
 	ast = init_AST(PROGRAM, prog);
-	ast = parse(p, ast);
+	parse(p, &ast);
 	if (!ast)
 		return (NULL);
 	(*ms)->ast = ast;

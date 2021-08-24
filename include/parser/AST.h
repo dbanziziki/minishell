@@ -8,6 +8,7 @@ typedef struct s_AST
 		PROGRAM,
 		CMD_AND_ARG,
 		PIPE_CMD_AND_ARG,
+		HEREDOC_AND_ARG,
 	}				type;
 	void			*body;
 	struct s_AST	*next;
