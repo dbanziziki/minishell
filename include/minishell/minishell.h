@@ -42,7 +42,7 @@ typedef struct s_buildin
 	}			e_build;
 }				t_buildin;
 
-int         cmd_and_args(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);
+int         cmd_and_args(t_minishell *ms, t_AST *curr_ast);
 t_AST	    *init_minishell_parse(t_minishell **ms, char *str);
 t_minishell *init_minishell_struct(char **env_v);
 int         **init_pipes(int nb_pipes);

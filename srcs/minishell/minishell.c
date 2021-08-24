@@ -35,6 +35,7 @@ int	run_process(t_minishell *ms, t_AST *ast)
 {
 	int		i;
 	t_cmd	*cmd;
+	
 	i = -1;
 	while (++i < ms->nb_proc)
 	{
@@ -47,7 +48,7 @@ int	run_process(t_minishell *ms, t_AST *ast)
 			close_unused_pipes(ms->pipes, ms->nb_proc, i);
 			cmd = (t_cmd *)ast->body;
 			cmd->proc_idx = i;
-			cmd_and_args(ms, ast, cmd);
+			cmd_and_args(ms, ast);
 			exit(EXIT_FAILURE);
 			return (0); /* to avoid that the child process runs the for loop */
 		}
@@ -92,12 +93,12 @@ void	minishell(char **env_v)
 			continue ;
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
-		if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
+		/*if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
 		{
 			ast = ast->next;
 			free(line);
 			continue ;
-		}
+		}*/
 		run_process(ms, ast);
 		free(line);
 	}

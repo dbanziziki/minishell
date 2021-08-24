@@ -140,7 +140,7 @@ t_token	*get_next_token(t_tokenizer *t)
 	if (temp)
 	{
 		if (ft_isalpha(temp[0]) || temp[0] == '-' || temp[0] == '.' ||
-			ft_isdigit(temp[0]))
+			ft_isdigit(temp[0]) || temp[0] == '/')
 			return (word_token(t, temp));
 		else if (temp[0] == PIPE)
 			return (simple_token(t, temp));

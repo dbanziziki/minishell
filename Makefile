@@ -32,7 +32,7 @@ RPATH = /Users/$(USER)/.brew/opt/readline/
 
 RFLAGS = -L $(RPATH)lib -I $(RPATH)include -Wno-unused-command-line-argument
 
-CFLAGS = -g #-fsanitize=address
+CFLAGS = -g -fsanitize=address
 
 PARSER_DIR = $(SRCS_DIR)/parser
 
@@ -79,6 +79,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								parse_quotes.c \
 								parse_single_quotes.c \
 								parser_utils.c \
+								parse_env_var.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c
