@@ -80,6 +80,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								parse_single_quotes.c \
 								parser_utils.c \
 								parse_env_var.c \
+								parse_heredoc.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c

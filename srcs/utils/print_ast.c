@@ -12,12 +12,24 @@ static void	print_ast_body(t_AST *ast)
 	t_cmd		*cmd;
 	t_io_mod	*io_mod;
 	int			i;
+	t_heredoc	*hd;
 
 	i = -1;
 	cmd = (t_cmd *)ast->body;
 	io_mod = NULL;
+	hd = NULL;
 	if (cmd->io_mod)
 		io_mod = cmd->io_mod;
+	if (cmd->hd)
+		hd = cmd->hd;
+	if (hd)	
+	{
+		while (hd)
+		{
+			printf("delimiter: %s\n", hd->delimiter);
+			hd = hd->next;
+		}
+	}
 	if (ast->type == CMD_AND_ARG)
 	{
 		YELLOW
@@ -67,40 +79,6 @@ static void	print_ast_body(t_AST *ast)
 	}
 }
 
-void	print_heredoc(t_AST *ast)
-{
-	t_heredoc	*hd;
-	t_io_mod	*io_mod;
-	int			i;
-
-	i = -1;
-	hd = (t_heredoc *)ast->body;
-	io_mod = NULL;
-	if (hd->cmd)
-		io_mod = hd->cmd->io_mod;
-	printf("[DELIMITER]: %s\n", hd->delimiter);
-	if (hd->cmd)
-	{
-		printf("cmd: %s\n", hd->cmd->cmd);
-		if (hd->cmd->argv->items)
-		{
-			printf("[ARGS]\n");
-			while(hd->cmd->argv->items[++i])
-				printf("%s\n", hd->cmd->argv->items[i]);
-		}
-		if (io_mod)
-		{
-			if (io_mod->out && io_mod->out->items)
-			{
-				i = -1;
-				printf("[OUTFILES]\n");
-				while (io_mod->out->items[++i])
-					printf("%s\n", io_mod->out->items[i]);
-			}
-		}
-	}
-}
-
 void	print_ast(t_AST *ast)
 {
 	t_AST		*temp;
@@ -110,9 +88,7 @@ void	print_ast(t_AST *ast)
 	temp = ast->next;
 	while (temp)
 	{
-		if (temp->type == HEREDOC_AND_ARG)
-			print_heredoc(temp);
-		else if (temp->body)
+		if (temp->body)
 			print_ast_body(temp);
 		temp = temp->next;
 	}

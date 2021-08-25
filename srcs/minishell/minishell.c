@@ -46,11 +46,8 @@ int	run_process(t_minishell *ms, t_AST *ast)
 		{
 			/* closing all the unused pipes */
 			close_unused_pipes(ms->pipes, ms->nb_proc, i);
-			if (ast->type == CMD_AND_ARG)
-			{
-				cmd = (t_cmd *)ast->body;
-				cmd->proc_idx = i;
-			}
+			cmd = (t_cmd *)ast->body;
+			cmd->proc_idx = i;
 			cmd_and_args(ms, ast);
 			exit(EXIT_FAILURE);
 			return (0); /* to avoid that the child process runs the for loop */
@@ -97,14 +94,12 @@ void	minishell(char **env_v)
 			continue ;
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
-		if (ast->type == HEREDOC_AND_ARG)
-			ms->nb_pipe--;
-		/*if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
+		if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
 		{
 			ast = ast->next;
 			free(line);
 			continue ;
-		}*/
+		}
 		run_process(ms, ast);
 		free(line);
 	}

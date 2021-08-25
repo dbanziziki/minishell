@@ -69,7 +69,6 @@ static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
 
 	token = NULL;
 	cmd = NULL;
-
 	if (p->token->type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
@@ -99,19 +98,16 @@ void parse_redirections(t_parser *p, t_AST *ast)
 		last = last->next;
 	if (last->type == CMD_AND_ARG)
 		cmd = (t_cmd *)last->body;
-	else if (last->type == HEREDOC_AND_ARG)
-		cmd = ((t_heredoc *)last->body)->cmd;
 	if (p->token->type == GREATER_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, GREATER_THAN_TOKEN);
 	else if (p->token->type == LESS_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, LESS_THAN_TOKEN);
 	else if (p->token->type == GGREATER_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, GGREATER_THAN_TOKEN);
-	if (last->type == PROGRAM)
+	if (cmd == NULL)
 		parse_cmd_and_args(p, &ast, io_mod);
 	else
 	{
 		cmd->io_mod = io_mod;
-		eat_words(p, cmd);
 	}
 }

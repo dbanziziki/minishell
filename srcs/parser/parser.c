@@ -82,29 +82,6 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 	free(token);
 }
 
-void	parse_heredoc(t_parser *p, t_AST *ast)
-{
-	t_token		*token;
-	t_heredoc	*hd;
-
-	token = eat(p, HEREDOC_TOKEN);
-	free(token->value);
-	free(token);
-	token = eat(p, WORD_TOKEN);
-	hd = init_heredoc(token->value);
-	free(token);
-	if (p->token->type == WORD_TOKEN)
-	{
-		token = eat(p, WORD_TOKEN);
-		hd->cmd = init_cmd(token->value);
-		list_push(hd->cmd->argv, token->value);
-		free(token);
-		token = NULL;
-		eat_words(p, hd->cmd);
-	}
-	addback_AST(&ast, init_AST(HEREDOC_AND_ARG, hd));
-}
-
 int	parse(t_parser *p, t_AST **ast)
 {
 	int flag;
@@ -113,7 +90,7 @@ int	parse(t_parser *p, t_AST **ast)
 	if (!p->token || p->token->type == EOF_TOKEN)
 		return (flag);
 	if (p->token->type == WORD_TOKEN)
-		addback_AST(ast, parse_word(p));
+		parse_word(p, *ast);
 	else if(p->token->type == PIPE_TOKEN)
 		addback_AST(ast, parse_pipe(p, *ast));
 	else if (p->token->type == LESS_THAN_TOKEN ||

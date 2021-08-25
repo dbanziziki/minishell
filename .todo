@@ -7,6 +7,7 @@
     - [x] 🚚 redirect input when file dont exit
     - [x] 🚚 redirect output "give correct file rights"
     - [x] 🚚 redirect input "grep include < infile" dont work with current implementation
+    - [x] 🎉 < infile < infile cat dont work
 ----
 (#3) LEAKS:
     - [x] 📃 function to free the AST

@@ -73,11 +73,11 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 	t_cmd	*next_cmd;
 	t_cmd	*cmd;
 
-	if (curr_ast->type == HEREDOC_AND_ARG)
+	/*if (curr_ast->type == HEREDOC_AND_ARG)
 	{
 		heredoc(ms, curr_ast);
 		return (1);
-	}
+	}*/
 	next_cmd = NULL;
 	cmd = (t_cmd *)curr_ast->body;
 	if (curr_ast->next)
