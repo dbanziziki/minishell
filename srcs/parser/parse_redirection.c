@@ -97,8 +97,10 @@ void parse_redirections(t_parser *p, t_AST *ast)
 	cmd = NULL;
 	while (last->next)
 		last = last->next;
-	if (last->type != PROGRAM)
+	if (last->type == CMD_AND_ARG)
 		cmd = (t_cmd *)last->body;
+	else if (last->type == HEREDOC_AND_ARG)
+		cmd = ((t_heredoc *)last->body)->cmd;
 	if (p->token->type == GREATER_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, GREATER_THAN_TOKEN);
 	else if (p->token->type == LESS_THAN_TOKEN)

@@ -70,11 +70,15 @@ static void	print_ast_body(t_AST *ast)
 void	print_heredoc(t_AST *ast)
 {
 	t_heredoc	*hd;
+	t_io_mod	*io_mod;
 	int			i;
 
 	i = -1;
 	hd = (t_heredoc *)ast->body;
-	printf("delimiter: %s\n", hd->delimiter);
+	io_mod = NULL;
+	if (hd->cmd)
+		io_mod = hd->cmd->io_mod;
+	printf("[DELIMITER]: %s\n", hd->delimiter);
 	if (hd->cmd)
 	{
 		printf("cmd: %s\n", hd->cmd->cmd);
@@ -83,6 +87,16 @@ void	print_heredoc(t_AST *ast)
 			printf("[ARGS]\n");
 			while(hd->cmd->argv->items[++i])
 				printf("%s\n", hd->cmd->argv->items[i]);
+		}
+		if (io_mod)
+		{
+			if (io_mod->out && io_mod->out->items)
+			{
+				i = -1;
+				printf("[OUTFILES]\n");
+				while (io_mod->out->items[++i])
+					printf("%s\n", io_mod->out->items[i]);
+			}
 		}
 	}
 }

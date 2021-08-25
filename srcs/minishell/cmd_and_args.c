@@ -68,39 +68,6 @@ static void	read_from_pipe(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 	close(ms->pipes[cmd->proc_idx + 1][1]);
 }
 
-void	heredoc(t_minishell *ms, t_AST *curr_ast)
-{
-	char		*line;
-	t_heredoc	*hd;
-	int			fds[2];
-	char		*parsed;
-
-	hd = (t_heredoc *)curr_ast->body;
-	if (pipe(fds) == -1)
-		return ;
-	printf("delimiter: %s\n", hd->delimiter);
-	line = readline("> ");
-	while (line)
-	{
-		if (!ft_strcmp(hd->delimiter, line))
-		{
-			free(line);
-			break ;
-		}
-		parsed = parse_str(line);
-		write(fds[1], parsed, ft_strlen(parsed));
-		write(fds[1], "\n", 1);
-		if (parsed)
-			free(parsed);
-		line = readline("> ");
-	}
-	if (hd->cmd)
-	{
-		dup2(fds[1], STDIN_FILENO);
-		execvp(hd->cmd->cmd, (char **)hd->cmd->argv->items);
-	}
-}
-
 int cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 {
 	t_cmd	*next_cmd;
@@ -108,9 +75,6 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 
 	if (curr_ast->type == HEREDOC_AND_ARG)
 	{
-		t_heredoc *hd = (t_heredoc *)curr_ast->body;
-		printf("delimiter %s\n", hd->delimiter);
-		readline("> ");
 		heredoc(ms, curr_ast);
 		return (1);
 	}

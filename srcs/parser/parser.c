@@ -97,6 +97,7 @@ void	parse_heredoc(t_parser *p, t_AST *ast)
 	{
 		token = eat(p, WORD_TOKEN);
 		hd->cmd = init_cmd(token->value);
+		list_push(hd->cmd->argv, token->value);
 		free(token);
 		token = NULL;
 		eat_words(p, hd->cmd);

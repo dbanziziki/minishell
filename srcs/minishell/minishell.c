@@ -27,7 +27,7 @@ int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
 	while (++i < ms->nb_proc)
 		waitpid(ms->p_ids[i], NULL, 0);
 	/* free all the allocated memory */
-	free_all(ms);
+	//free_all(ms);
 	return (0);
 }
 
@@ -46,8 +46,11 @@ int	run_process(t_minishell *ms, t_AST *ast)
 		{
 			/* closing all the unused pipes */
 			close_unused_pipes(ms->pipes, ms->nb_proc, i);
-			cmd = (t_cmd *)ast->body;
-			cmd->proc_idx = i;
+			if (ast->type == CMD_AND_ARG)
+			{
+				cmd = (t_cmd *)ast->body;
+				cmd->proc_idx = i;
+			}
 			cmd_and_args(ms, ast);
 			exit(EXIT_FAILURE);
 			return (0); /* to avoid that the child process runs the for loop */
@@ -69,7 +72,8 @@ void	parse_line(t_minishell **ms, char *line)
 	prog = (t_program *)temp->ast->body;
 	(*ms)->has_pipes = prog->has_pipes;
 	temp->nb_proc = prog->nb_pipes + 1;
-	temp->pipes = init_pipes(temp->nb_proc + 1);
+	temp->nb_pipe = temp->nb_proc + 1;
+	temp->pipes = init_pipes(temp->nb_pipe);
 	temp->p_ids = (pid_t *)malloc(sizeof(pid_t) * temp->nb_proc);
 	if (!temp->pipes || !temp->p_ids)
 		return ;
@@ -93,6 +97,8 @@ void	minishell(char **env_v)
 			continue ;
 		parse_line(&ms, line);
 		ast = ms->ast->next; /* the first cmd to run */
+		if (ast->type == HEREDOC_AND_ARG)
+			ms->nb_pipe--;
 		/*if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
 		{
 			ast = ast->next;
