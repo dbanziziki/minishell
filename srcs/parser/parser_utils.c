@@ -8,6 +8,8 @@ void    eat_words(t_parser *p, t_cmd *cmd)
     while (p->token->type == WORD_TOKEN)
     {
         token = eat(p, WORD_TOKEN);
+        if (!token)
+            return ;
         list_push(cmd->argv, token->value);
         free(token);
         token = NULL;

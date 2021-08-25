@@ -12,6 +12,7 @@ typedef struct s_AST
 	}				type;
 	void			*body;
 	struct s_AST	*next;
+	struct s_AST	*prev;
 }					t_AST;
 
 typedef struct	s_program

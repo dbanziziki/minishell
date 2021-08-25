@@ -2,7 +2,7 @@
 
 void    action(int signum)
 {
-    if (signum == SIGQUIT) // "CNTR + \"
+    /*if (signum == SIGQUIT) // "CNTR + \"
     {
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -14,7 +14,7 @@ void    action(int signum)
 		rl_on_new_line();
 		rl_redisplay();/// It should redirect to the main loop and should display new line.
         // exit (0);
-    }
+    }*/
 }
 
 void hook(void)

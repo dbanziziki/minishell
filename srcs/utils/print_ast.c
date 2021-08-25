@@ -51,7 +51,7 @@ static void	print_ast_body(t_AST *ast)
 	{
 		PURPLE
 		while (cmd->argv->items[++i])
-			printf("%s ", cmd->argv->items[i]);
+			printf("%s ", (char *)cmd->argv->items[i]);
 		RESET
 	}
 	printf("\n");
@@ -66,7 +66,7 @@ static void	print_ast_body(t_AST *ast)
 		RESET
 		PURPLE
 		while (++i < io_mod->out->size)
-			printf("\t%s \n", io_mod->out->items[i]);
+			printf("\t%s \n", (char *)io_mod->out->items[i]);
 		RESET
 		i = -1;
 		RED

@@ -54,7 +54,11 @@ static t_io_mod	*parse_redirect(t_parser *p, t_cmd *cmd, int type)
 	token = eat(p, type);
 	free(token->value);
 	free(token);
+	if (p->flag)
+		return (NULL);
 	token = eat(p, WORD_TOKEN);
+	if (!token)
+		return (NULL);
 	io_mod = set_io_mod(cmd, token, type);
 	if (!io_mod)
 		return (NULL);
@@ -72,6 +76,8 @@ static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
 	if (p->token->type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
+		if (!token)
+			return ;
 		cmd = init_cmd(token->value);
 		list_push(cmd->argv, token->value);
 		free(token);
@@ -104,6 +110,8 @@ void parse_redirections(t_parser *p, t_AST *ast)
 		io_mod = parse_redirect(p, cmd, LESS_THAN_TOKEN);
 	else if (p->token->type == GGREATER_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, GGREATER_THAN_TOKEN);
+	if (!io_mod)
+		return ;
 	if (cmd == NULL)
 		parse_cmd_and_args(p, &ast, io_mod);
 	else

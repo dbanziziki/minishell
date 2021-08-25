@@ -41,7 +41,11 @@ int main(int argc, char const *argv[])
 	prog->has_pipes = 0;
 	prog->nb_pipes = 0;
 	root = init_AST(PROGRAM, prog);
+	#ifdef __APPLE__
 	line = readline("(TEST)> ");
+	#else
+	get_next_line(STDIN_FILENO, &line);
+	#endif
 	p = init_parser(line);
 	//p = init_parser("cat test.c | grep include > outfile");
 	i = -1;

@@ -39,6 +39,8 @@ int	parse_word(t_parser *p, t_AST *ast)
 	while (last->next)
 		last = last->next;
 	token = eat(p, WORD_TOKEN);
+	if (!token)
+		return (1);
 	if (last->type != PROGRAM)
 	{
 		cmd = (t_cmd *)last->body;

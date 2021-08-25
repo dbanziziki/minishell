@@ -28,6 +28,7 @@ void	addback_AST(t_AST **ast, t_AST *new)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new;
+	new->prev = temp;
 }
 
 

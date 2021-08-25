@@ -16,6 +16,8 @@ void	parse_double_quotes(t_parser *p, t_AST *ast)
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	token = eat(p, DOUBLE_QUOTE_TOKEN);
+	if (!token)
+		return ;
 	parsed = parse_str(token->value);
 	/* check if we have some env var to interpret in token->value */
 	if (last->type == PROGRAM)

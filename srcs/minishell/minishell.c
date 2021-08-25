@@ -10,10 +10,15 @@ char	*ms_readline()
 	char	*dir;
 
 	getcwd(curr_dir, 1024);
-	dir = ft_strjoin_sep(curr_dir, "> ", '-');
+	dir = ft_strjoin_sep(curr_dir, "\033[0;35m> ", '-');
+	printf("\033[0m");
+	#ifdef __APPLE__
 	line = readline(dir);
 	if (line && *line)
 		add_history(line);
+	#else
+	get_next_line(STDIN_FILENO, &line);
+	#endif
 	free(dir);
 	return (line);
 }
@@ -21,13 +26,18 @@ char	*ms_readline()
 int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
 {
 	int	i;
+	int	status;
 
 	i = -1;
 	close_main_pipes(ms->pipes, ms->nb_proc);
 	while (++i < ms->nb_proc)
-		waitpid(ms->p_ids[i], NULL, 0);
+	{
+		waitpid(ms->p_ids[i], &status, 0);
+		ms->exit_status = WEXITSTATUS(status);
+	}
+	printf("Exit status: %d\n", ms->exit_status);
 	/* free all the allocated memory */
-	//free_all(ms);
+	free_all(ms);
 	return (0);
 }
 
@@ -83,7 +93,7 @@ void	minishell(char **env_v)
 	t_AST		*ast;
 	t_cmd		*cmd;
 
-	hook();
+	//hook();
 	ms = init_minishell_struct(env_v);
 	while (1)
 	{
@@ -93,6 +103,12 @@ void	minishell(char **env_v)
 		if (!ft_strcmp(line, ""))
 			continue ;
 		parse_line(&ms, line);
+		if (ms->p->flag == 1)
+		{
+			ms->exit_status = 1;
+			free_all(ms);
+			continue ;
+		}
 		ast = ms->ast->next; /* the first cmd to run */
 		if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
 		{

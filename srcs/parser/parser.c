@@ -13,6 +13,7 @@ t_parser	*init_parser(char *str)
 	if (!t)
 		return (NULL);
 	p->t = t;
+	p->flag = 0;
 	p->token = get_next_token(t);
 	return (p);
 }
@@ -25,13 +26,13 @@ t_token	*eat(t_parser *p, int type)
 	if (!token)
 	{
 		printf("minishell: unexpected end of input\n");
-		exit(EXIT_FAILURE);
+		p->flag = 1;
 		return (NULL);
 	}
 	if (token->type != type)
 	{
 		printf("minishell: parse error near `%s`\n", token->value);
-		exit(EXIT_FAILURE);
+		p->flag = 1;
 		return (NULL);
 	}
 	p->token = get_next_token(p->t);
@@ -43,14 +44,30 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	t_token		*token;
 	t_cmd		*cmd;
 	t_program	*prog;
+	t_AST		*last;
 
+	last = ast;
+	while (last->next)
+		last = last->next;
 	token = eat(p, PIPE_TOKEN);
+	if (!token)
+		return (NULL);
+	if (last->type == PROGRAM)
+	{
+		printf("minishell: parse error near `%s`\n", token->value);
+		free(token->value);
+		free(token);
+		p->flag = 1;
+		return (NULL);
+	}
 	prog = (t_program *)ast->body;
 	prog->has_pipes = 1;
 	prog->nb_pipes++;
 	free(token->value);
 	free(token);
 	token =	eat(p, WORD_TOKEN);
+	if (!token)
+		return (NULL);
 	cmd = init_cmd(token->value);
 	list_push(cmd->argv, token->value);
 	free(token);
@@ -65,6 +82,8 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 	char		*env_var;
 
 	token = eat(p, DOLLARSIGN_TOKEN);
+	if (!token)
+		return ;
 	env_var = getenv(++(token->value));
 	while (ast->next)
 		ast = ast->next;
@@ -85,14 +104,21 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 int	parse(t_parser *p, t_AST **ast)
 {
 	int flag;
+	t_AST	*temp;
 
 	flag = 1;
-	if (!p->token || p->token->type == EOF_TOKEN)
+	temp = NULL;
+	if (!p->token || p->token->type == EOF_TOKEN || p->flag)
 		return (flag);
 	if (p->token->type == WORD_TOKEN)
 		parse_word(p, *ast);
 	else if(p->token->type == PIPE_TOKEN)
-		addback_AST(ast, parse_pipe(p, *ast));
+	{
+		temp = parse_pipe(p, *ast);
+		if (!temp)
+			return (1);
+		addback_AST(ast, temp);
+	}
 	else if (p->token->type == LESS_THAN_TOKEN ||
 		p->token->type == GGREATER_THAN_TOKEN ||
 		p->token->type == GREATER_THAN_TOKEN)
@@ -108,7 +134,8 @@ int	parse(t_parser *p, t_AST **ast)
 	else
 	{
 		printf("unexpected token at `%s`\n", p->token->value);
-		exit(1);
+		p->flag = 1;
+		return (flag);
 	}
 	parse(p, ast);
 	return (flag);

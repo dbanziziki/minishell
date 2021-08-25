@@ -82,9 +82,13 @@ void	parse_heredoc(t_parser *p, t_AST *ast)
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	token = eat(p, HEREDOC_TOKEN);
+	if (!token)
+		return ;
 	free(token->value);
 	free(token);
 	token = eat(p, WORD_TOKEN);
+	if (!token)
+		return ;
 	if (cmd && cmd->hd)
 		addback_hd(&(cmd->hd), init_heredoc(token->value));
 	else
@@ -92,15 +96,4 @@ void	parse_heredoc(t_parser *p, t_AST *ast)
 	free(token);
 	if (cmd == NULL)
 		set_cmd_and_arg(p, &last, hd);
-	/*else
-	{
-		if (!cmd->cmd)
-		{
-			token = eat(p, WORD_TOKEN);
-			cmd->cmd = token->value;
-			list_push(cmd->argv, token->value);
-			free(token);
-		}
-		eat_words(p, cmd);
-	}*/
 }

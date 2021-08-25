@@ -15,6 +15,8 @@ void	parse_single_quotes(t_parser *p, t_AST *ast)
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	token = eat(p, SIMPLE_QUOTE_TOKEN);
+	if (!token)
+		return ;
 	if (last->type == PROGRAM)
 	{
 		cmd = init_cmd(token->value);
