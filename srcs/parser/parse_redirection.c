@@ -107,7 +107,5 @@ void parse_redirections(t_parser *p, t_AST *ast)
 	if (cmd == NULL)
 		parse_cmd_and_args(p, &ast, io_mod);
 	else
-	{
 		cmd->io_mod = io_mod;
-	}
 }
