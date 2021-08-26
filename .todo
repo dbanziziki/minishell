@@ -8,11 +8,13 @@
     - [x] 🚚 redirect output "give correct file rights"
     - [x] 🚚 redirect input "grep include < infile" dont work with current implementation
     - [x] 🎉 < infile < infile cat dont work
+    - [ ] 🎉 infite write cmd < infile > infile should not work only cmd < infile > infile should work
 ----
 (#3) LEAKS:
     - [x] 📃 function to free the AST
     - [x] fix unknown leaks with valgrind
     - [ ] 🎉 free memory when is a builtin fun
+    - [x] 🎉 fix free when using env var as cmd
 ----
 (#4) TOKENS:
     - [x] 🎨 interpret env variable inside quotes
@@ -30,4 +32,9 @@
 (#7) review redirection:
     - [x] 🎉 recode the fun
     - [x] 🎉 redirection in pipes broken (redirect input fixed)
+----
+
+(#8) builtin:
+    - [ ] 🎉 redirections with builtin funcitons
+
 ----

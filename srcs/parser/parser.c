@@ -85,7 +85,7 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 	token = eat(p, DOLLARSIGN_TOKEN);
 	if (!token)
 		return ;
-	env_var = get_env_v(++(token->value), p->var);
+	env_var = ft_strdup(get_env_v(++(token->value), p->var));
 	while (ast->next)
 		ast = ast->next;
 	if (ast->type == PROGRAM)
