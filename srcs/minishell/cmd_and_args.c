@@ -73,13 +73,10 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 	t_cmd	*next_cmd;
 	t_cmd	*cmd;
 
-	/*if (curr_ast->type == HEREDOC_AND_ARG)
-	{
-		heredoc(ms, curr_ast);
-		return (1);
-	}*/
 	next_cmd = NULL;
 	cmd = (t_cmd *)curr_ast->body;
+	if (cmd->hd)
+		heredoc(ms, curr_ast);
 	if (curr_ast->next)
 		next_cmd = (t_cmd *)curr_ast->next->body;
 	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT ||
@@ -102,9 +99,7 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 	if (!cmd->cmd)
 		exit(EXIT_SUCCESS);
 	if (find_cmd(*(cmd->argv), ms))
-	{
 		return (1);
-	}
 	else
 		execvp(cmd->cmd, (char **)(cmd->argv->items));
 	printf("minishell: command not found: %s\n", cmd->cmd);

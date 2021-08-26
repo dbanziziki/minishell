@@ -11,7 +11,8 @@
 ----
 (#3) LEAKS:
     - [x] 📃 function to free the AST
-    - [ ] fix unknown leaks with valgrind
+    - [x] fix unknown leaks with valgrind
+    - [ ] 🎉 free memory when is a builtin fun
 ----
 (#4) TOKENS:
     - [x] 🎨 interpret env variable inside quotes

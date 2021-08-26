@@ -23,6 +23,7 @@ typedef struct s_io_modifier
 
 typedef struct s_heredoc
 {
+	int					fds[2];
 	char				*delimiter;
 	struct s_heredoc	*next;
 }						t_heredoc;
