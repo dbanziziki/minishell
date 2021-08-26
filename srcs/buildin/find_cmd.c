@@ -135,7 +135,7 @@ int	find_cmd(t_array cmd, t_minishell *ms)
 		if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "echo"))
 			echo((char **)cmd.items);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "cd"))
-			change_dir((char *)cmd.items[1]);
+			change_dir((char *)cmd.items[1], ms);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "pwd"))
 			pwd();
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "exit"))
