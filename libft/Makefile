@@ -15,6 +15,7 @@ SRCS =	ft_bzero.c \
 		ft_memmove.c \
 		ft_memchr.c \
 		ft_memcmp.c \
+		ft_realloc.c \
 		ft_strlen.c \
 		ft_isalpha.c \
 		ft_isdigit.c \

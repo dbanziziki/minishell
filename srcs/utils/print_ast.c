@@ -12,7 +12,7 @@ static void	print_ast_body(t_AST *ast)
 	t_cmd		*cmd;
 	t_io_mod	*io_mod;
 	int			i;
-	t_heredoc	*hd;
+	t_list		*hd;
 
 	i = -1;
 	cmd = (t_cmd *)ast->body;
@@ -26,7 +26,7 @@ static void	print_ast_body(t_AST *ast)
 	{
 		while (hd)
 		{
-			printf("delimiter: %s\n", hd->delimiter);
+			printf("delimiter: %s\n", (char *)hd->content);
 			hd = hd->next;
 		}
 	}

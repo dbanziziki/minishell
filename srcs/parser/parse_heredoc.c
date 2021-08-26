@@ -1,48 +1,6 @@
 #include "parser.h"
 
-void	addback_hd(t_heredoc **hd, t_heredoc *new)
-{
-	t_heredoc	*temp;
-
-	if (!hd)
-		return ;
-	if (!(*hd))
-	{
-		*hd = new;
-		return ;
-	}
-	temp = *hd;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new;
-}
-
-t_heredoc	*init_heredoc(char *delimiter)
-{
-	t_heredoc	*hd;
-
-	hd = (t_heredoc *)malloc(sizeof(t_heredoc));
-	if (!hd)
-		return (NULL);
-	hd->delimiter = delimiter;
-	hd->next = NULL;
-	return (hd);
-}
-
-void	set_heredoc(t_parser *p, t_AST *ast, t_heredoc	**hd)
-{
-	t_token		*token;
-
-	hd = NULL;
-	token = eat(p, HEREDOC_TOKEN);
-	free(token->value);
-	free(token);
-	token = eat(p, WORD_TOKEN);
-	addback_hd(hd, init_heredoc(token->value));
-	free(token);
-}
-
-void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_heredoc *hd)
+void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
 {
 	t_cmd	*cmd;
 	t_token	*token;
@@ -68,7 +26,7 @@ void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_heredoc *hd)
 void	parse_heredoc(t_parser *p, t_AST *ast)
 {
 	t_token		*token;
-	t_heredoc	*hd;
+	t_list		*hd;
 	t_AST		*last;
 	t_cmd		*cmd;
 
@@ -90,9 +48,9 @@ void	parse_heredoc(t_parser *p, t_AST *ast)
 	if (!token)
 		return ;
 	if (cmd && cmd->hd)
-		addback_hd(&(cmd->hd), init_heredoc(token->value));
+		ft_lstadd_back(&(cmd->hd), ft_lstnew(token->value));
 	else
-		addback_hd(&hd, init_heredoc(token->value));
+		ft_lstadd_back(&hd, ft_lstnew(token->value));
 	free(token);
 	if (cmd == NULL)
 		set_cmd_and_arg(p, &last, hd);

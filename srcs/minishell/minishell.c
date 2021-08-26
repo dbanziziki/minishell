@@ -1,25 +1,23 @@
 #include "minishell.h"
 #include "libft.h"
 #include <stdio.h>
-// #include <readline/readline.h>
 
 char	*ms_readline()
 {
 	char	*line;
 	char	curr_dir[1024];
 	char	*dir;
+	char	*temp;
 
 	getcwd(curr_dir, 1024);
 	dir = ft_strjoin("\033[0;32m", curr_dir);
+	temp = dir;
 	dir = ft_strjoin_sep(dir, ">\033[0m ", '-');
-	#ifdef __APPLE__
 	line = readline(dir);
-	if (line && *line)
+	if (line)
 		add_history(line);
-	#else
-	get_next_line(STDIN_FILENO, &line);
-	#endif
 	free(dir);
+	free(temp);
 	return (line);
 }
 
@@ -115,8 +113,8 @@ void	minishell(char **env_v)
 			free(line);
 			continue ;
 		}
-		run_process(ms, ast);
 		free(line);
+		run_process(ms, ast);
 	}
 }
 

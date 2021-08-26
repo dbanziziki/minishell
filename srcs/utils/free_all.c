@@ -24,6 +24,7 @@ void    free_cmd_and_arg(t_cmd *cmd)
 		free_memory(cmd->io_mod->infile);
 		if (cmd->io_mod->out->items)
 			free_ptr_table(cmd->io_mod->out->items);
+		free_memory(cmd->io_mod->out);
 		free_memory(cmd->io_mod);
 	}
 	if (cmd->argv)
@@ -32,6 +33,7 @@ void    free_cmd_and_arg(t_cmd *cmd)
 			free_ptr_table(cmd->argv->items);
 		free(cmd->argv);
 	}
+	ft_lstclear(&(cmd->hd), free);
 	free_memory(cmd);
 }
 

@@ -81,4 +81,5 @@ char				*ft_strndup(const char *s, size_t n);
 int					ft_strcmp(char *s1, char *s2);
 char				**free_strtab(char **tab, int n);
 int					ft_isspace(char c);
+void				*ft_realloc(void *ptr, size_t size, size_t old_size);
 #endif

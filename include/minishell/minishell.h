@@ -8,11 +8,8 @@
 #include "AST.h"
 #include "parser.h"
 #include "libft.h"
-#ifdef __APPLE__
 #include <readline/readline.h>
 #include <readline/history.h>
-#endif
-
 #define RESET "\033[0m"
 #define RED "\033[1;31m"
 

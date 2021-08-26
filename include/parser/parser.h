@@ -21,20 +21,13 @@ typedef struct s_io_modifier
 	int			fds[2]; /* fd[0] = infile fd[1] = outfile */
 }				t_io_mod;
 
-typedef struct s_heredoc
-{
-	int					fds[2];
-	char				*delimiter;
-	struct s_heredoc	*next;
-}						t_heredoc;
-
 typedef struct s_cmd
 {
 	int			proc_idx;
 	char 		*cmd;
 	t_array		*argv;
 	t_io_mod	*io_mod;
-	t_heredoc	*hd;
+	t_list		*hd;
 } 				t_cmd;
 
 typedef struct s_parser
