@@ -119,13 +119,9 @@ void    list_rm(t_array *list, void *to_rm, t_minishell *ms)
 void	unset(t_minishell *ms, char *var)
 {
 	if (!var || in_list(var, ms) == -1)
-	{
 		return ;
-	}
 	else
-	{
 		list_rm(ms->var, var, ms);
-	}
 }
 
 int	find_cmd(t_array cmd, t_minishell *ms)

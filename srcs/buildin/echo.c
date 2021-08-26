@@ -29,9 +29,7 @@ void	echo(char **s)
 				write(1, " ", 1);
 		}
 		if (!flag)
-		{
 			write(1, "\n", 1);
-		}
 	}
 }
 
