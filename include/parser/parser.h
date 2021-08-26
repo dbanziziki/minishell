@@ -42,6 +42,7 @@ typedef struct s_parser
 	int			flag;
 	t_tokenizer	*t;
 	t_token 	*token;
+	t_array		*var;
 }				t_parser;
 
 t_parser	*init_parser(char *str);
@@ -55,6 +56,6 @@ void		parse_redirections(t_parser *p, t_AST *ast);
 void		parse_double_quotes(t_parser *p, t_AST *ast);
 void		parse_single_quotes(t_parser *p, t_AST *ast);
 void		eat_words(t_parser *p, t_cmd *cmd);
-char		*parse_str(char *str);
+char		*parse_str(char *str, t_array *var);
 void		parse_heredoc(t_parser *p, t_AST *ast);
 #endif

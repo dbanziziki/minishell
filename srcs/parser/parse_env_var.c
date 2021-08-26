@@ -1,6 +1,6 @@
 #include "parser.h"
 
-static char	*get_env_var(char *str)
+static char	*get_env_var(char *str, t_array *var)
 {
 	char	*env_var;
 	int		var_len;
@@ -9,7 +9,7 @@ static char	*get_env_var(char *str)
 	var_len = -1;
 	while (str[++var_len] && str[var_len] != ' ');
 	temp = ft_strndup(str, var_len);
-	env_var = getenv(temp);
+	env_var = get_env_v(temp, var);
 	free(temp);
 	return (env_var);
 }
@@ -64,7 +64,7 @@ static char	*insert_var(char *join, char *var_val)
 	return (res);
 }
 
-char	*parse_str(char *str)
+char	*parse_str(char *str, t_array *var)
 {
 	char	*res;
 	char	*env_var;
@@ -76,7 +76,7 @@ char	*parse_str(char *str)
 	{
 		if (*str == '$')
 		{
-			env_var = get_env_var(str + 1);
+			env_var = get_env_var(str + 1, var);
 			res = insert_var(res, env_var);
 		}
 		str++;

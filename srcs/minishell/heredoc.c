@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	write_line(t_heredoc *hd)
+static int	write_line(t_heredoc *hd, t_array *var)
 {
 	int		fds[2];
 	char	*line;
@@ -16,7 +16,7 @@ static int	write_line(t_heredoc *hd)
 			free(line);
 			break;
 		}
-		parsed = parse_str(line);
+		parsed = parse_str(line, var);
 		if (!parsed)
 			return (-1);
 		write(fds[1], parsed, ft_strlen(parsed));
@@ -39,7 +39,7 @@ int	heredoc(t_minishell *ms, t_AST *curr_ast)
 	hd = cmd->hd;
 	while (hd)
 	{
-		in = write_line(hd);
+		in = write_line(hd, ms->var);
 		if (hd->next)
 			close(in);
 		hd = hd->next;

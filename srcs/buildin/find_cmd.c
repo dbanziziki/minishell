@@ -41,18 +41,11 @@ char	*get_env_v(char *key, t_array *var)
 		{
 			res = ft_strchr(var->items[i], '=');
 			if (!res)
-			{
-				// write(1, "\n", 1);
 				return (NULL);
-			}
 			else
-			{
-				// printf("%s\n", &res[1]);
 				return (&res[1]);
-			}
 		}	
 	}
-	// write(1, "\n", 1);
 	return (NULL);
 }
 
