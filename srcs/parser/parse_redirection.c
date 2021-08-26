@@ -102,7 +102,7 @@ void parse_redirections(t_parser *p, t_AST *ast)
 	cmd = NULL;
 	while (last->next)
 		last = last->next;
-	if (last->type == CMD_AND_ARG)
+	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	if (p->token->type == GREATER_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, GREATER_THAN_TOKEN);

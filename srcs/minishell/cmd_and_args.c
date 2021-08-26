@@ -47,8 +47,8 @@ static int	redirect_input(t_cmd *cmd)
 
 static void	pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 {
-	// if (cmd->io_mod && !cmd->io_mod->infile)
-	dup2(ms->pipes[cmd->proc_idx + 1][1], STDOUT_FILENO);
+	if (!(cmd->io_mod && cmd->io_mod->out->items))
+		dup2(ms->pipes[cmd->proc_idx + 1][1], STDOUT_FILENO);
 	/*close the used pipes*/
 	if (curr_ast->next->type != PIPE_CMD_AND_ARG)
 	{

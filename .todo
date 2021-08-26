@@ -21,7 +21,7 @@
 ----
 
 (#5) Errors during parsing:
-    - [ ] 🎨 create a flag to check for errors during parsing
+    - [x] 🎨 create a flag to check for errors during parsing
 ----
 (#6) echo pipe:
     - [x] 🎨 make echo write in a pipe when needed
@@ -29,5 +29,5 @@
 
 (#7) review redirection:
     - [x] 🎉 recode the fun
-    - [ ] 🎉 redirection in pipes broken (redirect input fixed)
+    - [x] 🎉 redirection in pipes broken (redirect input fixed)
 ----

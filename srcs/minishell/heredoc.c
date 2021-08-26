@@ -25,6 +25,7 @@ static int	write_line(t_heredoc *hd)
 			free(parsed);
 		line = readline("> ");
 	}
+	close(fds[1]);
 	return (fds[0]);
 }
 
@@ -39,6 +40,8 @@ int	heredoc(t_minishell *ms, t_AST *curr_ast)
 	while (hd)
 	{
 		in = write_line(hd);
+		if (hd->next)
+			close(in);
 		hd = hd->next;
 	}
 	if (cmd->cmd)
