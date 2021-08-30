@@ -2,6 +2,8 @@
 #include "libft.h"
 #include <stdio.h>
 
+int	g_status;
+
 char	*ms_readline()
 {
 	char	*line;
@@ -31,9 +33,8 @@ int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
 	while (++i < ms->nb_proc)
 	{
 		waitpid(ms->p_ids[i], &status, 0);
-		ms->exit_status = WEXITSTATUS(status);
+		g_status = WEXITSTATUS(status);
 	}
-	// printf("Exit status: %d\n", ms->exit_status);
 	/* free all the allocated memory */
 	free_all(ms);
 	return (0);
@@ -57,7 +58,7 @@ int	run_process(t_minishell *ms, t_AST *ast)
 			cmd = (t_cmd *)ast->body;
 			cmd->proc_idx = i;
 			cmd_and_args(ms, ast);
-			exit(EXIT_FAILURE);
+			exit(127);
 			return (0); /* to avoid that the child process runs the for loop */
 		}
 		ast = ast->next; /* advence to the next cmd */
@@ -91,7 +92,7 @@ void	minishell(char **env_v)
 	t_AST		*ast;
 	t_cmd		*cmd;
 
-	//hook();
+	hook();
 	ms = init_minishell_struct(env_v);
 	while (1)
 	{
@@ -103,7 +104,7 @@ void	minishell(char **env_v)
 		parse_line(&ms, line);
 		if (ms->p->flag == 1)
 		{
-			ms->exit_status = 1;
+			g_status = 258;
 			free_all(ms);
 			continue ;
 		}

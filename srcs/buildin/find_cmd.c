@@ -2,6 +2,8 @@
 #include "libft.h"
 #include <stdio.h>
 
+int	g_status;
+
 void	get_env(char **env_v)
 {
 	int	i;
@@ -35,6 +37,8 @@ char	*get_env_v(char *key, t_array *var)
 	char	*res;
 
 	i = -1;
+	if (!ft_strcmp("?", key))
+		return (ft_itoa(g_status));
 	while (++i < var->size)
 	{
 		if (!ft_strncmp(key, var->items[i], ft_strlen(key)))
@@ -135,7 +139,7 @@ int	find_cmd(t_array cmd, t_minishell *ms)
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "pwd"))
 			pwd();
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "exit"))
-			time_to_exit(ms);
+			exit_minishell(ms);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env"))
 			get_env((char **)ms->var->items);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env_v"))

@@ -100,6 +100,7 @@ UTILS_SRCS = $(addprefix $(UTILS_DIR)/, \
 							utils.c \
 							print_ast.c \
 							free_all.c \
+							exit_minishell.c \
 )
 
 LIST_SRCS = $(addprefix $(LIST_DIR)/, \

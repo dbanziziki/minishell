@@ -81,15 +81,6 @@ void	pwd(void)
 
 void	time_to_exit(t_minishell *ms)
 {
-	int	i;
-
-	free_all(ms);
-	i = -1;
-	while (ms->var->items[++i])
-		free(ms->var->items[i]);
-	free(ms->var->items);
-	free(ms->var);
-	free(ms);
-	exit(EXIT_SUCCESS);
+	exit_minishell(ms);
 }
 

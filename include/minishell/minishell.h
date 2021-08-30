@@ -13,6 +13,8 @@
 #define RESET "\033[0m"
 #define RED "\033[1;31m"
 
+extern int	g_status;
+
 typedef struct s_minishell
 {
     int         nb_proc;
@@ -62,4 +64,5 @@ void    	list_rm(t_array *list, void *to_rm, t_minishell *ms);
 int			heredoc(t_minishell *ms, t_AST *curr_ast);
 void		list_rm(t_array *list, void *to_rm, t_minishell *ms);
 void		export_v(t_minishell *ms, char *new_arg);
+void		exit_minishell(t_minishell *ms);
 #endif
