@@ -1,24 +1,6 @@
 #include <stdio.h>
 #include "parser.h"
 
-t_parser	*init_parser(char *str)
-{
-	t_tokenizer	*t;
-	t_parser	*p;
-
-	t = init_tokenizer(str);
-	if (!t)
-		return (NULL);
-	p = (t_parser *)malloc(sizeof(t_parser));
-	if (!t)
-		return (NULL);
-	p->t = t;
-	p->flag = 0;
-	p->token = get_next_token(t);
-	p->var = 0;
-	return (p);
-}
-
 t_token	*eat(t_parser *p, int type)
 {
 	t_token	*token;
@@ -40,48 +22,26 @@ t_token	*eat(t_parser *p, int type)
 	return (token);
 }
 
-void	parse_env_var(t_parser *p, t_AST *ast)
+static int	parsing_error(t_parser *p)
 {
-	t_token		*token;
-	t_cmd		*cmd;
-	char		*env_var;
-
-	token = eat(p, DOLLARSIGN_TOKEN);
-	if (!token)
-		return ;
-	env_var = ft_strdup(get_env_v(++(token->value), p->var));
-	while (ast->next)
-		ast = ast->next;
-	if (ast->type == PROGRAM)
-	{
-		cmd = init_cmd(env_var);
-		list_push(cmd->argv, env_var);
-		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
-	}
-	else
-	{
-		cmd = (t_cmd *)ast->body;
-		list_push(cmd->argv, env_var);
-	}
-	free(token);
+	ft_putstr_fd("minishell: unexpected token at ", STDERR_FILENO);
+	ft_putstr_fd(p->token->value, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	p->flag = 1;
+	return (-1);
 }
 
-int	parse(t_parser *p, t_AST **ast)
+static int	switch_token(t_parser *p, t_AST **ast)
 {
-	int flag;
 	t_AST	*temp;
 
-	flag = 1;
-	temp = NULL;
-	if (!p->token || p->token->type == EOF_TOKEN || p->flag)
-		return (flag);
 	if (p->token->type == WORD_TOKEN)
 		parse_word(p, *ast);
 	else if(p->token->type == PIPE_TOKEN)
 	{
 		temp = parse_pipe(p, *ast);
 		if (!temp)
-			return (1);
+			return (-1);
 		addback_AST(ast, temp);
 	}
 	else if (p->token->type == LESS_THAN_TOKEN ||
@@ -97,11 +57,16 @@ int	parse(t_parser *p, t_AST **ast)
 	else if (p->token->type == HEREDOC_TOKEN)
 		parse_heredoc(p, *ast);
 	else
-	{
-		printf("unexpected token at `%s`\n", p->token->value);
-		p->flag = 1;
-		return (flag);
-	}
+		return (parsing_error(p));
+	return (1);
+}
+
+int	parse(t_parser *p, t_AST **ast)
+{
+	if (!p->token || p->token->type == EOF_TOKEN || p->flag)
+		return (-1);
+	if (switch_token(p, ast) == -1)
+		return (-1);
 	parse(p, ast);
-	return (flag);
+	return (0);
 }

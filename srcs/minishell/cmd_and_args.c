@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include <stdio.h>
 
 static int	redirect_output(t_cmd *cmd)
 {

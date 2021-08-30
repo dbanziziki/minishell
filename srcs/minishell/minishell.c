@@ -16,8 +16,8 @@ char	*ms_readline()
 	temp = dir;
 	dir = ft_strjoin_sep(dir, ">\033[0m ", '-');
 	line = readline(dir);
-	if (line)
-		add_history(line);
+	/*if (line)
+		add_history(line);*/
 	free(dir);
 	free(temp);
 	return (line);
@@ -58,6 +58,7 @@ int	run_process(t_minishell *ms, t_AST *ast)
 			cmd = (t_cmd *)ast->body;
 			cmd->proc_idx = i;
 			cmd_and_args(ms, ast);
+			free_all(ms);
 			exit(127);
 			return (0); /* to avoid that the child process runs the for loop */
 		}

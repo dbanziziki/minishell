@@ -50,5 +50,6 @@ void		parse_double_quotes(t_parser *p, t_AST *ast);
 void		parse_single_quotes(t_parser *p, t_AST *ast);
 void		eat_words(t_parser *p, t_cmd *cmd);
 char		*parse_str(char *str, t_array *var);
+void		parse_env_var(t_parser *p, t_AST *ast);
 void		parse_heredoc(t_parser *p, t_AST *ast);
 #endif

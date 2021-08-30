@@ -64,6 +64,32 @@ static char	*insert_var(char *join, char *var_val)
 	return (res);
 }
 
+void	parse_env_var(t_parser *p, t_AST *ast)
+{
+	t_token		*token;
+	t_cmd		*cmd;
+	char		*env_var;
+
+	token = eat(p, DOLLARSIGN_TOKEN);
+	if (!token)
+		return ;
+	env_var = ft_strdup(get_env_v(++(token->value), p->var));
+	while (ast->next)
+		ast = ast->next;
+	if (ast->type == PROGRAM)
+	{
+		cmd = init_cmd(env_var);
+		list_push(cmd->argv, env_var);
+		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
+	}
+	else
+	{
+		cmd = (t_cmd *)ast->body;
+		list_push(cmd->argv, env_var);
+	}
+	free(token);
+}
+
 char	*parse_str(char *str, t_array *var)
 {
 	char	*res;
