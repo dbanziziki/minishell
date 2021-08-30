@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-void    exit_minishell(t_minishell *ms)
+void	exit_minishell(t_minishell *ms)
 {
-    int i;
+	int i;
 
-    free_all(ms);
-    i = -1;
+	free_all(ms);
+	i = -1;
 	while (ms->var->items[++i])
 		free(ms->var->items[i]);
 	free(ms->var->items);
