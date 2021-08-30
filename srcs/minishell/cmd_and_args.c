@@ -93,7 +93,7 @@ int cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 	if (next_cmd && cmd->proc_idx != ms->nb_proc - 1)
 		pipe_stdout(ms, curr_ast, cmd);
 	/*if true we need to read from a pipe*/
-	if (curr_ast->type == PIPE_CMD_AND_ARG)
+	if (curr_ast->type == PIPE_CMD_AND_ARG && !cmd->hd)
 		read_from_pipe(ms, curr_ast, cmd);
 	/* if no cmd dont create process*/
 	if (!cmd->cmd)

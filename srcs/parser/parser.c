@@ -40,42 +40,6 @@ t_token	*eat(t_parser *p, int type)
 	return (token);
 }
 
-t_AST	*parse_pipe(t_parser *p, t_AST *ast)
-{
-	t_token		*token;
-	t_cmd		*cmd;
-	t_program	*prog;
-	t_AST		*last;
-
-	last = ast;
-	while (last->next)
-		last = last->next;
-	token = eat(p, PIPE_TOKEN);
-	if (!token)
-		return (NULL);
-	if (last->type == PROGRAM)
-	{
-		printf("minishell: parse error near `%s`\n", token->value);
-		free(token->value);
-		free(token);
-		p->flag = 1;
-		return (NULL);
-	}
-	prog = (t_program *)ast->body;
-	prog->has_pipes = 1;
-	prog->nb_pipes++;
-	free(token->value);
-	free(token);
-	token =	eat(p, WORD_TOKEN);
-	if (!token)
-		return (NULL);
-	cmd = init_cmd(token->value);
-	list_push(cmd->argv, token->value);
-	free(token);
-	eat_words(p, cmd);
-	return (init_AST(PIPE_CMD_AND_ARG, cmd));
-}
-
 void	parse_env_var(t_parser *p, t_AST *ast)
 {
 	t_token		*token;

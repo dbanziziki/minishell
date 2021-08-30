@@ -77,6 +77,9 @@ static void	print_ast_body(t_AST *ast)
 			printf("\t%s \n", io_mod->infile);
 		RESET
 	}
+	RED
+	printf("-----------------------\n");
+	RESET
 }
 
 void	print_ast(t_AST *ast)

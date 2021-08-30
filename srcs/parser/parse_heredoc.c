@@ -1,6 +1,6 @@
 #include "parser.h"
 
-void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
+static void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
 {
 	t_cmd	*cmd;
 	t_token	*token;
@@ -21,6 +21,26 @@ void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
 		cmd->hd = hd;
 	}
 	addback_AST(ast, init_AST(CMD_AND_ARG, cmd));
+}
+
+static void	set_heredoc(t_parser *p, t_AST *last, t_cmd *cmd)
+{
+	t_token	*token;
+	t_list	*hd;
+
+	hd = NULL;
+	token = eat(p, WORD_TOKEN);
+	if (!token)
+		return ;
+	if (cmd && cmd->hd)
+		ft_lstadd_back(&(cmd->hd), ft_lstnew(token->value));
+	else
+		ft_lstadd_back(&hd, ft_lstnew(token->value));
+	free(token);
+	if (cmd == NULL)
+		set_cmd_and_arg(p, &last, hd);
+	else
+		ft_lstadd_back(&(cmd->hd), hd);
 }
 
 void	parse_heredoc(t_parser *p, t_AST *ast)
@@ -44,14 +64,5 @@ void	parse_heredoc(t_parser *p, t_AST *ast)
 		return ;
 	free(token->value);
 	free(token);
-	token = eat(p, WORD_TOKEN);
-	if (!token)
-		return ;
-	if (cmd && cmd->hd)
-		ft_lstadd_back(&(cmd->hd), ft_lstnew(token->value));
-	else
-		ft_lstadd_back(&hd, ft_lstnew(token->value));
-	free(token);
-	if (cmd == NULL)
-		set_cmd_and_arg(p, &last, hd);
+	set_heredoc(p, last, cmd);
 }
