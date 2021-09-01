@@ -121,6 +121,8 @@ MINISHELL_SRCS = $(addprefix $(SRCS_DIR)/$(NAME)/, \
 								minishell_utils.c \
 								signals.c \
 								heredoc.c \
+								redirections.c \
+								pipes.c \
 )
 
 SRCS_PARSER = $(PARSER_SRCS) \

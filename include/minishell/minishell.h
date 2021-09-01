@@ -42,14 +42,14 @@ typedef struct s_buildin
 	}			e_build;
 }				t_buildin;
 
-int         cmd_and_args(t_minishell *ms, t_AST *curr_ast);
-t_AST	    *init_minishell_parse(t_minishell **ms, char *str);
+int			cmd_and_args(t_minishell *ms, t_AST *curr_ast);
+t_AST		*init_minishell_parse(t_minishell **ms, char *str);
 t_minishell *init_minishell_struct(char **env_v);
 int         **init_pipes(int nb_pipes);
-void        free_all(t_minishell *ms);
-int         close_unused_pipes(int **pipes, int size, int i);
-void        hook(void);
-int         close_main_pipes(int **pipes, int size);
+void		free_all(t_minishell *ms);
+int			close_unused_pipes(int **pipes, int size, int i);
+void		hook(void);
+int			close_main_pipes(int **pipes, int size);
 void        minishell(char **env_v);
 int			find_cmd(t_array cmd, t_minishell *ms);
 void		echo(char **s);
@@ -65,4 +65,8 @@ int			heredoc(t_minishell *ms, t_AST *curr_ast);
 void		list_rm(t_array *list, void *to_rm, t_minishell *ms);
 void		export_v(t_minishell *ms, char *new_arg);
 void		exit_minishell(t_minishell *ms);
+int			redirect_output(t_cmd *cmd);
+int			redirect_input(t_cmd *cmd);
+void		pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);
+void		read_from_pipe(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);
 #endif

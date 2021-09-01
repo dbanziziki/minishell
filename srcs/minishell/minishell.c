@@ -16,8 +16,8 @@ char	*ms_readline()
 	temp = dir;
 	dir = ft_strjoin_sep(dir, ">\033[0m ", '-');
 	line = readline(dir);
-	/*if (line)
-		add_history(line);*/
+	if (line)
+		add_history(line);
 	free(dir);
 	free(temp);
 	return (line);
@@ -43,6 +43,7 @@ int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
 int	run_process(t_minishell *ms, t_AST *ast)
 {
 	int		i;
+	int		status;
 	t_cmd	*cmd;
 	
 	i = -1;
@@ -53,14 +54,11 @@ int	run_process(t_minishell *ms, t_AST *ast)
 			return (1);
 		if (ms->p_ids[i] == 0) /* child process */
 		{
-			/* closing all the unused pipes */
 			close_unused_pipes(ms->pipes, ms->nb_proc, i);
 			cmd = (t_cmd *)ast->body;
 			cmd->proc_idx = i;
-			cmd_and_args(ms, ast);
-			free_all(ms);
-			exit(127);
-			return (0); /* to avoid that the child process runs the for loop */
+			status = cmd_and_args(ms, ast);
+			exit(status);
 		}
 		ast = ast->next; /* advence to the next cmd */
 	}
@@ -112,6 +110,7 @@ void	minishell(char **env_v)
 		ast = ms->ast->next; /* the first cmd to run */
 		if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
 		{
+			free_all(ms);
 			free(line);
 			continue ;
 		}

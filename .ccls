@@ -1,4 +1,7 @@
 clang
 -I./include
 -I./include/parser
+-I./include/list
+-I./include/minishell
+-I./libft
 
