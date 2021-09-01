@@ -28,6 +28,7 @@ typedef struct s_cmd
 	t_array		*argv;
 	t_io_mod	*io_mod;
 	t_list		*hd;
+	int			fds[2];
 } 				t_cmd;
 
 typedef struct s_parser
