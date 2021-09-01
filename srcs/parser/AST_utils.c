@@ -11,3 +11,13 @@ t_program	*init_prog()
 	prog->nb_pipes = 0;
 	return (prog);
 }
+
+t_AST	*get_last(t_AST **ast)
+{
+	t_AST	*temp;
+
+	temp = *ast;
+	while (temp->next)
+		temp = temp->next;
+	return (temp);
+}

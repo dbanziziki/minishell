@@ -10,8 +10,6 @@
 #include "libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-#define RESET "\033[0m"
-#define RED "\033[1;31m"
 
 extern int	g_status;
 
@@ -64,7 +62,7 @@ void    	list_rm(t_array *list, void *to_rm, t_minishell *ms);
 int			heredoc(t_minishell *ms, t_AST *curr_ast);
 void		list_rm(t_array *list, void *to_rm, t_minishell *ms);
 void		export_v(t_minishell *ms, char *new_arg);
-void		exit_minishell(t_minishell *ms);
+void		exit_minishell(t_minishell *ms, int status);
 int			redirect_output(t_cmd *cmd);
 int			redirect_input(t_cmd *cmd);
 void		pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);

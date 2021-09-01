@@ -98,10 +98,8 @@ void parse_redirections(t_parser *p, t_AST *ast)
 	t_AST		*last;
 	t_io_mod	*io_mod;
 
-	last = ast;
+	last = get_last(&ast);
 	cmd = NULL;
-	while (last->next)
-		last = last->next;
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	if (p->token->type == GREATER_THAN_TOKEN)

@@ -52,11 +52,9 @@ void	parse_heredoc(t_parser *p, t_AST *ast)
 
 	if (p->token->type != HEREDOC_TOKEN)
 		return ;
-	last = ast;
+	last = get_last(&ast);
 	hd = NULL;
 	cmd = NULL;
-	while (last->next)
-		last = last->next;
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	token = eat(p, HEREDOC_TOKEN);

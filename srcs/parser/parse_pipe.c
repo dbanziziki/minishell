@@ -32,9 +32,7 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	t_program	*prog;
 	t_AST		*last;
 
-	last = ast;
-	while (last->next)
-		last = last->next;
+	last = get_last(&ast);
 	token = eat(p, PIPE_TOKEN);
 	if (!token)
 		return (NULL);

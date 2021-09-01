@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	exit_minishell(t_minishell *ms)
+void	exit_minishell(t_minishell *ms, int status)
 {
 	int i;
 
@@ -11,5 +11,5 @@ void	exit_minishell(t_minishell *ms)
 	free(ms->var->items);
 	free(ms->var);
 	free(ms);
-	exit(EXIT_SUCCESS);
+	exit(status);
 }

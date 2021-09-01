@@ -25,4 +25,5 @@ t_AST		*init_AST(int type, void *body);
 void		addback_AST(t_AST **ast, t_AST *new);
 t_program	*init_prog();
 void		print_ast(t_AST *ast);
+t_AST		*get_last(t_AST **ast);
 #endif

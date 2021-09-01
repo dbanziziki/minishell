@@ -28,9 +28,7 @@ int	parse_word(t_parser *p, t_AST *ast)
 	t_token	*token;
 	t_AST	*last;
 
-	last = ast;
-	while (last->next)
-		last = last->next;
+	last = get_last(&ast);
 	cmd = set_cmd(p, last);
     if (!cmd)
         return (-1);

@@ -34,9 +34,7 @@ void	parse_single_quotes(t_parser *p, t_AST *ast)
 
 	if (p->token->type != SIMPLE_QUOTE_TOKEN)
 		return ;
-	last = ast;
-	while (last->next)
-		last = last->next;
+	last = get_last(&ast);
 	cmd = set_cmd(p, last);	
 	eat_words(p, cmd);
 	parse_single_quotes(p, ast);

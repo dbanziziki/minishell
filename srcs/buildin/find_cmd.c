@@ -139,7 +139,7 @@ int	find_cmd(t_array cmd, t_minishell *ms)
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "pwd"))
 			pwd();
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "exit"))
-			exit_minishell(ms);
+			exit_minishell(ms, EXIT_SUCCESS);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env"))
 			get_env((char **)ms->var->items);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env_v"))

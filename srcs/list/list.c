@@ -24,7 +24,7 @@ void    list_push(t_array *list, void *item)
 	if (!list->items)
 		list->items = malloc(list->item_size * (list->size + 1));
 	else
-		list->items = ft_realloc(list->items, new_size, old_size); //TODO: code my own realloc
+		list->items = ft_realloc(list->items, new_size, old_size);
 	list->items[list->size - 1] = item;
 	list->items[list->size] = 0;
 }

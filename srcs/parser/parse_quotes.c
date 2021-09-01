@@ -36,9 +36,7 @@ void	parse_double_quotes(t_parser *p, t_AST *ast)
 
 	if (p->token->type != DOUBLE_QUOTE_TOKEN)
 		return ;
-	last = ast;
-	while (last->next)
-		last = last->next;
+	last = get_last(&ast);
 	cmd = NULL;
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
