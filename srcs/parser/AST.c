@@ -30,5 +30,3 @@ void	addback_AST(t_AST **ast, t_AST *new)
 	temp->next = new;
 	new->prev = temp;
 }
-
-

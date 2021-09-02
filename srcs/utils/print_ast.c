@@ -11,7 +11,7 @@ static void	print_ast_body(t_AST *ast)
 {
 	t_cmd		*cmd;
 	t_io_mod	*io_mod;
-	int			i;
+	size_t		i;
 	t_list		*hd;
 
 	i = -1;

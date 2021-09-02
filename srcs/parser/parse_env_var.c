@@ -7,7 +7,8 @@ static char	*get_env_var(char *str, t_array *var)
 	char	*temp;
 
 	var_len = -1;
-	while (str[++var_len] && str[var_len] != ' ');
+	while (str[++var_len] && str[var_len] != ' ')
+		;
 	temp = ft_strndup(str, var_len);
 	env_var = get_env_v(temp, var);
 	free(temp);

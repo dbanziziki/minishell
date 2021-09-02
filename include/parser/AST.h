@@ -15,7 +15,7 @@ typedef struct s_AST
 	struct s_AST	*prev;
 }					t_AST;
 
-typedef struct	s_program
+typedef struct s_program
 {
 	int			nb_pipes;
 	int			has_pipes;
@@ -23,7 +23,7 @@ typedef struct	s_program
 
 t_AST		*init_AST(int type, void *body);
 void		addback_AST(t_AST **ast, t_AST *new);
-t_program	*init_prog();
+t_program	*init_prog(void);
 void		print_ast(t_AST *ast);
 t_AST		*get_last(t_AST **ast);
 #endif

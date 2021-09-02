@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-void    free_memory(void *ptr)
+void	free_memory(void *ptr)
 {
 	if (ptr != NULL)
 		free(ptr);
 	ptr = NULL;
 }
 
-void    free_ptr_table(void **ptr)
+void	free_ptr_table(void **ptr)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (ptr[++i])
@@ -17,7 +17,7 @@ void    free_ptr_table(void **ptr)
 	free_memory(ptr);
 }
 
-void    free_cmd_and_arg(t_cmd *cmd)
+void	free_cmd_and_arg(t_cmd *cmd)
 {
 	if (cmd->io_mod)
 	{
@@ -37,11 +37,11 @@ void    free_cmd_and_arg(t_cmd *cmd)
 	free_memory(cmd);
 }
 
-void    free_ast(t_AST **ast)
+void	free_ast(t_AST **ast)
 {
-	t_cmd       *cmd;
-	t_AST       *temp;
-	int         i;
+	t_cmd	*cmd;
+	t_AST	*temp;
+	int		i;
 
 	i = -1;
 	free((*ast)->body);
@@ -60,9 +60,9 @@ void    free_ast(t_AST **ast)
 	*ast = NULL;
 }
 
-void    free_all(t_minishell *ms)
+void	free_all(t_minishell *ms)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	free(ms->p->token->value);

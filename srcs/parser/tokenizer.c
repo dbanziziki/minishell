@@ -1,9 +1,9 @@
 #include "tokenizer.h"
 #include "libft.h"
 
-t_tokenizer *init_tokenizer(char *str)
+t_tokenizer	*init_tokenizer(char *str)
 {
-	t_tokenizer *new;
+	t_tokenizer	*new;
 
 	new = (t_tokenizer *)malloc(sizeof(t_tokenizer));
 	if (!new)
@@ -21,7 +21,7 @@ int	has_more_tokens(t_tokenizer *t)
 
 t_token	*new_token(int type, char *value)
 {
-	t_token *new;
+	t_token	*new;
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
@@ -37,11 +37,11 @@ t_token	*word_token(t_tokenizer *t, char *temp)
 	t_token	*token;
 
 	i = t->cursor;
-	while (t->str[t->cursor] && !ft_isspace(t->str[t->cursor]) &&
-			t->str[t->cursor] != '<' &&
-			t->str[t->cursor] != '>' &&
-			t->str[t->cursor] != '|')
-			t->cursor++;
+	while (t->str[t->cursor] && !ft_isspace(t->str[t->cursor])
+		&& t->str[t->cursor] != '<'
+		&& t->str[t->cursor] != '>'
+		&& t->str[t->cursor] != '|')
+		t->cursor++;
 	token = new_token(WORD_TOKEN, ft_strndup(temp, t->cursor - i));
 	if (!token)
 		return (NULL);
@@ -125,8 +125,8 @@ char	*skip_whitespace(char *str, t_tokenizer *t)
 	if (!str)
 		return (str);
 	while (ft_isspace(t->str[t->cursor]))
-			t->cursor++;
-		str = &(t->str[t->cursor]);
+		t->cursor++;
+	str = &(t->str[t->cursor]);
 	return (str);
 }
 
@@ -134,13 +134,13 @@ t_token	*get_next_token(t_tokenizer *t)
 {
 	char		*temp;
 	t_token		*token;
-	
+
 	temp = skip_whitespace(&(t->str[t->cursor]), t);
 	token = NULL;
 	if (temp)
 	{
-		if (ft_isalpha(temp[0]) || temp[0] == '-' || temp[0] == '.' ||
-			ft_isdigit(temp[0]) || temp[0] == '/')
+		if (ft_isalpha(temp[0]) || temp[0] == '-' || temp[0] == '.'
+			|| ft_isdigit(temp[0]) || temp[0] == '/')
 			return (word_token(t, temp));
 		else if (temp[0] == PIPE)
 			return (simple_token(t, temp));
@@ -161,4 +161,3 @@ t_token	*get_next_token(t_tokenizer *t)
 	}
 	return (token);
 }
-

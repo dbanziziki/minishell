@@ -2,7 +2,7 @@
 
 void	exit_minishell(t_minishell *ms, int status)
 {
-	int i;
+	int	i;
 
 	free_all(ms);
 	i = -1;

@@ -14,7 +14,7 @@ static int	write_line(t_list *hd, t_array *var)
 		if (!ft_strcmp(hd->content, line))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		parsed = parse_str(line, var);
 		if (!parsed)
@@ -40,8 +40,13 @@ int	heredoc(t_minishell *ms, t_AST *curr_ast)
 	while (hd)
 	{
 		in = write_line(hd, ms->var);
+		if (in < 0)
+			return (-1);
 		if (hd->next)
-			close(in);
+		{
+			if (close(in) < 0)
+				return (-1);
+		}
 		hd = hd->next;
 	}
 	if (cmd->cmd)

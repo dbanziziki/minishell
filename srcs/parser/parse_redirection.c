@@ -18,7 +18,7 @@ static t_io_mod	*create_io_mod(t_token *token, int type)
 	else
 	{
 		io_mod = init_io_mod(REDIRECT_OUTPUT_APPEND);
-		list_push(io_mod->out, token->value);			
+		list_push(io_mod->out, token->value);
 	}
 	return (io_mod);
 }
@@ -37,11 +37,11 @@ static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 		}
 		else
 			list_push(cmd->io_mod->out, token->value);
-		if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile &&
-			type == GREATER_THAN_TOKEN)
+		if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile
+			&& type == GREATER_THAN_TOKEN)
 			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT;
-		else if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile &&
-			type == GGREATER_THAN_TOKEN)
+		else if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile
+			&& type == GGREATER_THAN_TOKEN)
 			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT_APPEND;
 		return (cmd->io_mod);
 	}
@@ -96,7 +96,7 @@ static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
 	addback_AST(ast, init_AST(CMD_AND_ARG, cmd));
 }
 
-void parse_redirections(t_parser *p, t_AST *ast)
+void	parse_redirections(t_parser *p, t_AST *ast)
 {
 	t_cmd		*cmd;
 	t_AST		*last;
@@ -104,6 +104,7 @@ void parse_redirections(t_parser *p, t_AST *ast)
 
 	last = get_last(&ast);
 	cmd = NULL;
+	io_mod = NULL;
 	if (last->type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	if (p->token->type == GREATER_THAN_TOKEN)

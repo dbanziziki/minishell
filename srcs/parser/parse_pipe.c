@@ -8,14 +8,14 @@ static void	update_prog(t_program **prog)
 	(*prog)->nb_pipes++;
 }
 
-static t_cmd	*set_pipe_cmd(t_parser *p, t_AST *ast)
+static t_cmd	*set_pipe_cmd(t_parser *p)
 {
 	t_cmd	*cmd;
 	t_token	*token;
 
 	if (p->token->type != WORD_TOKEN)
 		return (init_cmd(NULL));
-	token =	eat(p, WORD_TOKEN);
+	token = eat(p, WORD_TOKEN);
 	if (!token)
 		return (NULL);
 	cmd = init_cmd(token->value);
@@ -48,6 +48,6 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	update_prog(&prog);
 	free(token->value);
 	free(token);
-	cmd = set_pipe_cmd(p, ast);
+	cmd = set_pipe_cmd(p);
 	return (init_AST(PIPE_CMD_AND_ARG, cmd));
 }

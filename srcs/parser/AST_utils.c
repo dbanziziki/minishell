@@ -1,6 +1,6 @@
 #include "parser.h"
 
-t_program	*init_prog()
+t_program	*init_prog(void)
 {
 	t_program	*prog;
 

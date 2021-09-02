@@ -84,7 +84,7 @@ int	**init_pipes(int nb_pipes)
 	pipes = (int **)malloc(sizeof(int *) * nb_pipes);
 	if (!pipes)
 		return (NULL);
-	while (++i < nb_pipes)	
+	while (++i < nb_pipes)
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipes[i] || pipe(pipes[i]) == -1)

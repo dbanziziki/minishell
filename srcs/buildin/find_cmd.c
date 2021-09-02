@@ -33,7 +33,7 @@ void	init_env(char **env_v, t_minishell *ms)
 
 char	*get_env_v(char *key, t_array *var)
 {
-	int		i;
+	size_t	i;
 	char	*res;
 
 	i = -1;
@@ -55,8 +55,7 @@ char	*get_env_v(char *key, t_array *var)
 
 int	in_list(char *key, t_minishell *ms)
 {
-	int		i;
-	char	*res;
+	size_t	i;
 
 	i = -1;
 	while (++i < ms->var->size)

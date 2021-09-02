@@ -4,7 +4,7 @@
 
 int	g_status;
 
-char	*ms_readline()
+char	*ms_readline(void)
 {
 	char	*line;
 	char	curr_dir[1024];
@@ -23,7 +23,7 @@ char	*ms_readline()
 	return (line);
 }
 
-int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
+int	post_child_process(t_minishell *ms)
 {
 	int	i;
 	int	status;
@@ -44,8 +44,9 @@ int	run_process(t_minishell *ms, t_AST *ast)
 	int		i;
 	int		status;
 	t_cmd	*cmd;
-	
+
 	i = -1;
+	cmd = NULL;
 	while (++i < ms->nb_proc)
 	{
 		ms->p_ids[i] = fork();
@@ -59,9 +60,9 @@ int	run_process(t_minishell *ms, t_AST *ast)
 			status = cmd_and_args(ms, ast);
 			exit(status);
 		}
-		ast = ast->next; /* advence to the next cmd */
+		ast = ast->next;
 	}
-	post_child_process(ms, cmd, ast);
+	post_child_process(ms);
 	return (0);
 }
 
@@ -69,7 +70,6 @@ void	parse_line(t_minishell **ms, char *line)
 {
 	t_minishell *temp;
 	t_program	*prog;
-	t_AST		*ast;
 
 	temp = *ms;
 	temp->ast = init_minishell_parse(ms, line);
@@ -88,7 +88,6 @@ void	minishell(char **env_v)
 	t_minishell	*ms;
 	char		*line;
 	t_AST		*ast;
-	t_cmd		*cmd;
 
 	hook();
 	ms = init_minishell_struct(env_v);
@@ -106,8 +105,9 @@ void	minishell(char **env_v)
 			free_all(ms);
 			continue ;
 		}
-		ast = ms->ast->next; /* the first cmd to run */
-		if (!ms->has_pipes && ast->body && find_cmd(*((t_cmd *)ast->body)->argv, ms))
+		ast = ms->ast->next;
+		if (!ms->has_pipes && ast->body
+			&& find_cmd(*((t_cmd *)ast->body)->argv, ms))
 		{
 			free_all(ms);
 			free(line);
@@ -118,8 +118,10 @@ void	minishell(char **env_v)
 	}
 }
 
-int main(int argc, char const *argv[], char **envp)
+int	main(int argc, char const *argv[], char **envp)
 {
+	(void)argv;
+	(void)argc;
 	minishell(envp);
-	return 0;
+	return (0);
 }

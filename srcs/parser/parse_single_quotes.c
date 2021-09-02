@@ -28,14 +28,13 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 
 void	parse_single_quotes(t_parser *p, t_AST *ast)
 {
-	t_token *token;
 	t_cmd	*cmd;
 	t_AST	*last;
 
 	if (p->token->type != SIMPLE_QUOTE_TOKEN)
 		return ;
 	last = get_last(&ast);
-	cmd = set_cmd(p, last);	
+	cmd = set_cmd(p, last);
 	eat_words(p, cmd);
 	parse_single_quotes(p, ast);
 }
