@@ -37,8 +37,12 @@ static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 		}
 		else
 			list_push(cmd->io_mod->out, token->value);
-		if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile)
+		if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile &&
+			type == GREATER_THAN_TOKEN)
 			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT;
+		else if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile &&
+			type == GGREATER_THAN_TOKEN)
+			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT_APPEND;
 		return (cmd->io_mod);
 	}
 	else

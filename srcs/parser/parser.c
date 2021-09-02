@@ -8,13 +8,13 @@ t_token	*eat(t_parser *p, int type)
 	token = p->token;
 	if (!token)
 	{
-		printf("minishell: unexpected end of input\n");
+		print_error("minishell: unexpected end of input", NULL);
 		p->flag = 1;
 		return (NULL);
 	}
 	if (token->type != type)
 	{
-		printf("minishell: parse error near `%s`\n", token->value);
+		print_error("minishell: parse error near ", token->value);
 		p->flag = 1;
 		return (NULL);
 	}
@@ -24,9 +24,7 @@ t_token	*eat(t_parser *p, int type)
 
 static int	parsing_error(t_parser *p)
 {
-	ft_putstr_fd("minishell: unexpected token at ", STDERR_FILENO);
-	ft_putstr_fd(p->token->value, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	print_error("minishell: unexpected token at ", p->token->value);
 	p->flag = 1;
 	return (-1);
 }

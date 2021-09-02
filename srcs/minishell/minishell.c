@@ -35,7 +35,6 @@ int	post_child_process(t_minishell *ms, t_cmd *cmd, t_AST *ast)
 		waitpid(ms->p_ids[i], &status, 0);
 		g_status = WEXITSTATUS(status);
 	}
-	/* free all the allocated memory */
 	free_all(ms);
 	return (0);
 }

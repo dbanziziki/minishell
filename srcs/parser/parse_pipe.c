@@ -38,7 +38,7 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 		return (NULL);
 	if (last->type == PROGRAM)
 	{
-		printf("minishell: parse error near `%s`\n", token->value);
+		print_error("minishell: parse error near ", token->value);
 		free(token->value);
 		free(token);
 		p->flag = 1;
