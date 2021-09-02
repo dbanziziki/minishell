@@ -48,7 +48,7 @@ char	*get_env_v(char *key, t_array *var)
 				return (NULL);
 			else
 				return (&res[1]);
-		}	
+		}
 	}
 	return (NULL);
 }
