@@ -64,7 +64,7 @@ int	cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 	if (find_cmd(*(cmd->argv), ms))
 		return (0);
 	else
-		execvp(cmd->cmd, (char **)(cmd->argv->items));
+		exec_cmd(cmd, ms->var);
 	print_error("minishell: command not found: ", cmd->cmd);
 	return (127);
 }

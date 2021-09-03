@@ -40,7 +40,7 @@ endif
 ifeq ($(OSNAME), Darwin)
 	RFLAGS = -L $(RPATH)lib -I $(RPATH)include -lreadline -Wno-unused-command-line-argument
 endif
-CFLAGS = -g #-Wall -Wextra -Werror
+CFLAGS = -g -fsanitize=address #-Wall -Wextra -Werror
 
 PARSER_DIR = $(SRCS_DIR)/parser
 
@@ -124,6 +124,7 @@ MINISHELL_SRCS = $(addprefix $(SRCS_DIR)/$(NAME)/, \
 								heredoc.c \
 								redirections.c \
 								pipes.c \
+								exec_cmd.c \
 )
 
 SRCS_PARSER = $(PARSER_SRCS) \

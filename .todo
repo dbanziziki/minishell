@@ -12,7 +12,7 @@
 ----
 (#3) LEAKS:
     - [x] 📃 function to free the AST
-    - [x] fix unknown leaks with valgrind
+    - [ ] fix unknown leaks with valgrind
     - [ ] 🎉 free memory when is a builtin fun
     - [x] 🎉 fix free when using env var as cmd
 ----
@@ -36,6 +36,6 @@
 
 (#8) builtin:
     - [ ] 🎉 redirections with builtin funcitons
+    - [x] 🎉 use the right exec fun
 ----
 
-- [ ] 🎉 use the right exec fun

@@ -52,7 +52,7 @@ int	run_process(t_minishell *ms, t_AST *ast)
 		ms->p_ids[i] = fork();
 		if (ms->p_ids[i] == -1)
 			return (1);
-		if (ms->p_ids[i] == 0) /* child process */
+		if (ms->p_ids[i] == 0)
 		{
 			close_unused_pipes(ms->pipes, ms->nb_proc, i);
 			cmd = (t_cmd *)ast->body;
@@ -95,7 +95,7 @@ void	minishell(char **env_v)
 	{
 		line = ms_readline();
 		if (line == NULL)
-			exit(0);
+			exit(EXIT_SUCCESS);
 		if (!ft_strcmp(line, ""))
 			continue ;
 		parse_line(&ms, line);
@@ -106,15 +106,18 @@ void	minishell(char **env_v)
 			continue ;
 		}
 		ast = ms->ast->next;
-		if (!ms->has_pipes && ast->body
-			&& find_cmd(*((t_cmd *)ast->body)->argv, ms))
+		if (ast)
 		{
-			free_all(ms);
-			free(line);
-			continue ;
+			if (!ms->has_pipes && ast->body
+				&& find_cmd(*((t_cmd *)ast->body)->argv, ms))
+			{
+				free_all(ms);
+				free(line);
+				continue ;
+			}
+			run_process(ms, ast);
 		}
 		free(line);
-		run_process(ms, ast);
 	}
 }
 

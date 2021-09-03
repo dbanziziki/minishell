@@ -66,4 +66,5 @@ int			redirect_output(t_cmd *cmd);
 int			redirect_input(t_cmd *cmd);
 int			pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd);
 int			read_from_pipe(t_minishell *ms, t_cmd *cmd);
+int			exec_cmd(t_cmd *cmd, t_array *var);
 #endif
