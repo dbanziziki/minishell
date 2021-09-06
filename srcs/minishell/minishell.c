@@ -95,7 +95,7 @@ void	minishell(char **env_v)
 	{
 		line = ms_readline();
 		if (line == NULL)
-			exit(EXIT_SUCCESS);
+			line = "exit";
 		if (!ft_strcmp(line, ""))
 			continue ;
 		parse_line(&ms, line);
@@ -109,7 +109,7 @@ void	minishell(char **env_v)
 		if (ast)
 		{
 			if (!ms->has_pipes && ast->body
-				&& find_cmd(*((t_cmd *)ast->body)->argv, ms))
+				&& find_cmd(*((t_cmd *)ast->body)->argv, ms, ast))
 			{
 				free_all(ms);
 				free(line);

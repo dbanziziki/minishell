@@ -48,7 +48,7 @@ int	redirect_output(t_cmd *cmd)
 		io_mod->fds[1] = ro_open_fd(io_mod->out->items[out_size - 1], O_APPEND);
 	if (cmd->io_mod->fds[1] < 0)
 		return (-1);
-	dup2(io_mod->fds[1], STDOUT_FILENO);
+	cmd->save_out = dup2(io_mod->fds[1], STDOUT_FILENO);
 	if (close(io_mod->fds[1]) == -1)
 		return (-1);
 	return (0);

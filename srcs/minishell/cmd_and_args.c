@@ -61,7 +61,7 @@ int	cmd_and_args(t_minishell *ms, t_AST *curr_ast)
 		return (-1);
 	if (!cmd->cmd)
 		exit(EXIT_SUCCESS);
-	if (find_cmd(*(cmd->argv), ms))
+	if (find_cmd(*(cmd->argv), ms, curr_ast))
 		return (0);
 	else
 		exec_cmd(cmd, ms->var);
