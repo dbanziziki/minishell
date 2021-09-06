@@ -83,4 +83,3 @@ void	time_to_exit(t_minishell *ms)
 {
 	exit_minishell(ms, EXIT_SUCCESS);
 }
-

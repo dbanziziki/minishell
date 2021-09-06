@@ -86,7 +86,7 @@ void	export_v(t_minishell *ms, char *new_arg)
 		}
 	}
 	else
-		list_push(ms->var, new_arg);
+		list_push(ms->var, ft_strdup(new_arg));
 }
 
 void    list_rm(t_array *list, void *to_rm, t_minishell *ms)

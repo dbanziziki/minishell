@@ -36,12 +36,7 @@ static int	switch_token(t_parser *p, t_AST **ast)
 	if (p->token->type == WORD_TOKEN)
 		parse_word(p, *ast);
 	else if (p->token->type == PIPE_TOKEN)
-	{
-		temp = parse_pipe(p, *ast);
-		if (!temp)
-			return (-1);
-		addback_AST(ast, temp);
-	}
+		addback_AST(ast, parse_pipe(p, *ast));
 	else if (p->token->type == LESS_THAN_TOKEN
 		|| p->token->type == GGREATER_THAN_TOKEN
 		|| p->token->type == GREATER_THAN_TOKEN)

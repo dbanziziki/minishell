@@ -80,7 +80,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								parser.c \
 								tokenizer.c \
 								AST.c \
-								tokenizer_helper.c \
+								tokenizer_utils.c \
 								parse_word.c \
 								AST_utils.c \
 								parse_redirection.c \
@@ -90,6 +90,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								parse_env_var.c \
 								parse_heredoc.c \
 								parse_pipe.c \
+								parse_env_var_utils.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c
@@ -125,6 +126,7 @@ MINISHELL_SRCS = $(addprefix $(SRCS_DIR)/$(NAME)/, \
 								redirections.c \
 								pipes.c \
 								exec_cmd.c \
+								init_minishell.c \
 )
 
 SRCS_PARSER = $(PARSER_SRCS) \

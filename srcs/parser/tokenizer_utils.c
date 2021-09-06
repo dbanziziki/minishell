@@ -1,0 +1,84 @@
+#include "tokenizer.h"
+
+t_token	*new_token(int type, char *value)
+{
+	t_token	*new;
+
+	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->type = type;
+	new->value = value;
+	return (new);
+}
+
+t_token	*quote_token(t_tokenizer *t, char *temp)
+{
+	t_token	*token;
+	size_t	i;
+	int		type;
+
+	if (temp[0] == DOUBLE_QUOTE)
+		type = DOUBLE_QUOTE_TOKEN;
+	else
+		type = SIMPLE_QUOTE_TOKEN;
+	i = t->cursor;
+	t->cursor++;
+	if (type == DOUBLE_QUOTE_TOKEN)
+	{
+		while (t->str[t->cursor] && t->str[t->cursor] != DOUBLE_QUOTE)
+			t->cursor++;
+	}
+	else
+	{
+		while (t->str[t->cursor] && t->str[t->cursor] != SINGLE_QUOTE)
+			t->cursor++;
+	}
+	token = new_token(type, ft_strndup(++temp, (t->cursor - 1) - i));
+	t->cursor++;
+	if (!token)
+		return (NULL);
+	return (token);
+}
+
+char	*skip_whitespace(char *str, t_tokenizer *t)
+{
+	if (!str)
+		return (str);
+	while (ft_isspace(t->str[t->cursor]))
+		t->cursor++;
+	str = &(t->str[t->cursor]);
+	return (str);
+}
+
+t_token	*dollarsign_token(t_tokenizer *t, char *temp)
+{
+	t_token	*token;
+	size_t	i;
+
+	i = t->cursor;
+	while (t->str[t->cursor] && t->str[t->cursor] != ' ')
+		t->cursor++;
+	token = new_token(DOLLARSIGN_TOKEN, ft_strndup(temp, t->cursor - i));
+	if (!token)
+		return (NULL);
+	return (token);
+}
+
+t_token	*simple_token(t_tokenizer *t, char *temp)
+{
+	t_token	*token;
+	int		type;
+
+	if (temp[0] == LEFT_REDIRECT)
+		type = LESS_THAN_TOKEN;
+	else if (temp[0] == RIGHT_REDIRECT)
+		type = GREATER_THAN_TOKEN;
+	else
+		type = PIPE_TOKEN;
+	token = new_token(type, ft_strndup(temp, 1));
+	if (!token)
+		return (NULL);
+	t->cursor++;
+	return (token);
+}

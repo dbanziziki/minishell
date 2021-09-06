@@ -4,26 +4,7 @@
 
 int	g_status;
 
-char	*ms_readline(void)
-{
-	char	*line;
-	char	curr_dir[1024];
-	char	*dir;
-	char	*temp;
-
-	getcwd(curr_dir, 1024);
-	dir = ft_strjoin("\033[0;32m", curr_dir);
-	temp = dir;
-	dir = ft_strjoin_sep(dir, ">\033[0m ", '-');
-	line = readline(dir);
-	if (line)
-		add_history(line);
-	free(dir);
-	free(temp);
-	return (line);
-}
-
-int	post_child_process(t_minishell *ms)
+static int	post_child_process(t_minishell *ms)
 {
 	int	i;
 	int	status;
@@ -39,7 +20,7 @@ int	post_child_process(t_minishell *ms)
 	return (0);
 }
 
-int	run_process(t_minishell *ms, t_AST *ast)
+static int	run_process(t_minishell *ms, t_AST *ast)
 {
 	int		i;
 	int		status;
@@ -66,21 +47,30 @@ int	run_process(t_minishell *ms, t_AST *ast)
 	return (0);
 }
 
-void	parse_line(t_minishell **ms, char *line)
+static int	execute(t_minishell *ms, char *line)
 {
-	t_minishell *temp;
-	t_program	*prog;
+	t_AST	*ast;
 
-	temp = *ms;
-	temp->ast = init_minishell_parse(ms, line);
-	prog = (t_program *)temp->ast->body;
-	(*ms)->has_pipes = prog->has_pipes;
-	temp->nb_proc = prog->nb_pipes + 1;
-	temp->nb_pipe = temp->nb_proc + 1;
-	temp->pipes = init_pipes(temp->nb_pipe);
-	temp->p_ids = (pid_t *)malloc(sizeof(pid_t) * temp->nb_proc);
-	if (!temp->pipes || !temp->p_ids)
-		return ;
+	parse_line(&ms, line);
+	if (ms->p->flag == 1)
+	{
+		g_status = 258;
+		free_all(ms);
+		return (1);
+	}
+	ast = ms->ast->next;
+	if (ast)
+	{
+		if (!ms->has_pipes && ast->body
+			&& find_cmd(*((t_cmd *)ast->body)->argv, ms))
+		{
+			free_all(ms);
+			free(line);
+			return (1);
+		}
+		run_process(ms, ast);
+	}
+	return (0);
 }
 
 void	minishell(char **env_v)
@@ -98,33 +88,29 @@ void	minishell(char **env_v)
 			exit(EXIT_SUCCESS);
 		if (!ft_strcmp(line, ""))
 			continue ;
-		parse_line(&ms, line);
-		if (ms->p->flag == 1)
-		{
-			g_status = 258;
-			free_all(ms);
+		if (execute(ms, line))
 			continue ;
-		}
-		ast = ms->ast->next;
-		if (ast)
-		{
-			if (!ms->has_pipes && ast->body
-				&& find_cmd(*((t_cmd *)ast->body)->argv, ms))
-			{
-				free_all(ms);
-				free(line);
-				continue ;
-			}
-			run_process(ms, ast);
-		}
 		free(line);
 	}
 }
 
-int	main(int argc, char const *argv[], char **envp)
+void	minishell_arg(char **envp, char *line)
+{
+	t_minishell	*ms;
+	t_AST		*ast;
+
+	hook();
+	ms = init_minishell_struct(envp);
+	execute(ms, line);
+}
+
+int	main(int argc, char *argv[], char **envp)
 {
 	(void)argv;
 	(void)argc;
-	minishell(envp);
+	if (!ft_strcmp(argv[1], "-c"))
+		minishell_arg(envp, argv[2]);
+	else
+		minishell(envp);
 	return (0);
 }

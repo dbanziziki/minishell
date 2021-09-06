@@ -2,7 +2,7 @@
 
 t_AST	*init_AST(int type, void *body)
 {
-	t_AST *AST;
+	t_AST	*AST;
 
 	AST = malloc(sizeof(t_AST));
 	if (!AST)
