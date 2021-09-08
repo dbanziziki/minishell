@@ -40,6 +40,7 @@ t_io_mod	*init_io_mod(int type)
 		return (NULL);
 	io_mod->type = type;
 	io_mod->infile = NULL;
+	io_mod->hd_flag = 0;
 	io_mod->out = init_list(sizeof(char *));
 	return (io_mod);
 }

@@ -8,6 +8,7 @@ static t_io_mod	*create_io_mod(t_token *token, int type)
 	if (type == LESS_THAN_TOKEN)
 	{
 		io_mod = init_io_mod(REDIRECT_INPUT);
+		io_mod->hd_flag = 0;
 		io_mod->infile = token->value;
 	}
 	else if (type == GREATER_THAN_TOKEN)
@@ -31,6 +32,7 @@ static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 	{
 		if (type == LESS_THAN_TOKEN)
 		{
+			cmd->io_mod->hd_flag = 0;
 			if (cmd->io_mod->infile)
 				free(cmd->io_mod->infile);
 			cmd->io_mod->infile = token->value;

@@ -80,6 +80,8 @@ int	redirect_input(t_cmd *cmd)
 	t_io_mod	*io;
 
 	io = cmd->io_mod;
+	if (io->hd_flag)
+		return (0);
 	if (check_infile(cmd))
 		return (0);
 	cmd->io_mod->fds[0] = open(cmd->io_mod->infile, O_RDONLY);

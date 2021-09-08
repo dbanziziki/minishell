@@ -20,6 +20,7 @@ typedef struct s_io_modifier
 	char		*infile;
 	t_array		*out;
 	int			fds[2];
+	int			hd_flag;
 }				t_io_mod;
 
 typedef struct s_cmd

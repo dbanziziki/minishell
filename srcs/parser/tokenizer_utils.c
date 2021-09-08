@@ -35,7 +35,8 @@ t_token	*quote_token(t_tokenizer *t, char *temp)
 			t->cursor++;
 	}
 	token = new_token(type, ft_strndup(++temp, (t->cursor - 1) - i));
-	t->cursor++;
+	if (t->cursor < t->len)
+		t->cursor++;
 	if (!token)
 		return (NULL);
 	return (token);
@@ -45,7 +46,7 @@ char	*skip_whitespace(char *str, t_tokenizer *t)
 {
 	if (!str)
 		return (str);
-	while (ft_isspace(t->str[t->cursor]))
+	while (t->str[t->cursor] && ft_isspace(t->str[t->cursor]))
 		t->cursor++;
 	str = &(t->str[t->cursor]);
 	return (str);

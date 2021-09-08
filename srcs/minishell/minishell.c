@@ -108,7 +108,7 @@ int	main(int argc, char *argv[], char **envp)
 {
 	(void)argv;
 	(void)argc;
-	if (!ft_strcmp(argv[1], "-c"))
+	if (argc >= 2 && !ft_strcmp(argv[1], "-c"))
 		minishell_arg(envp, argv[2]);
 	else
 		minishell(envp);

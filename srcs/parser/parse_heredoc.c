@@ -20,6 +20,8 @@ static void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
 		cmd = init_cmd(NULL);
 		cmd->hd = hd;
 	}
+	if (cmd->io_mod)
+		cmd->io_mod->hd_flag = 1;
 	addback_AST(ast, init_AST(CMD_AND_ARG, cmd));
 }
 
@@ -40,7 +42,11 @@ static void	set_heredoc(t_parser *p, t_AST *last, t_cmd *cmd)
 	if (cmd == NULL)
 		set_cmd_and_arg(p, &last, hd);
 	else
+	{
+		if (cmd->io_mod)
+			cmd->io_mod->hd_flag = 1;
 		ft_lstadd_back(&(cmd->hd), hd);
+	}
 }
 
 void	parse_heredoc(t_parser *p, t_AST *ast)
