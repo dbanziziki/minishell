@@ -1,16 +1,12 @@
 #include "parser.h"
 
-static t_cmd	*set_cmd(t_parser *p, t_AST *last)
+static t_cmd	*create_cmd(t_parser *p, t_AST *last, t_token *token)
 {
-	t_token	*token;
-	t_cmd	*cmd;
 	char	*parsed;
+	t_cmd	*cmd;
 
 	cmd = NULL;
-	token = eat(p, DOUBLE_QUOTE_TOKEN);
-	if (!token)
-		return (NULL);
-	parsed = parse_str(token->value, p->var);
+	parsed = parse_str(ft_strdup(token->value), p->var);
 	if (last->type == PROGRAM)
 	{
 		cmd = init_cmd(parsed);
@@ -22,9 +18,22 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 		cmd = (t_cmd *)last->body;
 		list_push(cmd->argv, parsed);
 	}
+	return (cmd);
+}
+
+static t_cmd	*set_cmd(t_parser *p, t_AST *last)
+{
+	t_token	*token;
+	t_cmd	*cmd;
+	char	*parsed;
+
+	cmd = NULL;
+	token = eat(p, DOUBLE_QUOTE_TOKEN);
+	if (!token)
+		return (NULL);
+	cmd = create_cmd(p, last, token);	
 	free(token->value);
 	free(token);
-	token = NULL;
 	return (cmd);
 }
 

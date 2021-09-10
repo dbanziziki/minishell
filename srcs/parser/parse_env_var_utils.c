@@ -85,5 +85,6 @@ char	*parse_str(char *str, t_array *var)
 		}
 		temp++;
 	}
+	free(str);
 	return (res);
 }

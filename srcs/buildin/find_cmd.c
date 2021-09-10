@@ -125,12 +125,12 @@ void	unset(t_minishell *ms, char *var)
 		list_rm(ms->var, var, ms);
 }
 
-int	find_cmd(t_array cmd, t_minishell *ms)
+int	find_cmd(t_array cmd, t_minishell *ms, t_AST *ast)
 {
 	if (cmd.items)
 	{
 		if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "echo"))
-			echo((char **)cmd.items);
+			echo((char **)cmd.items, ast);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "cd"))
 			change_dir((char *)cmd.items[1], ms);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "pwd"))

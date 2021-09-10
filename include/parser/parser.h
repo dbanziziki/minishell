@@ -30,6 +30,8 @@ typedef struct s_cmd
 	t_array		*argv;
 	t_io_mod	*io_mod;
 	t_list		*hd;
+	int			save_out;
+	int			save_in;
 }				t_cmd;
 
 typedef struct s_parser
