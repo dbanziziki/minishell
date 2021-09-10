@@ -4,13 +4,21 @@
 
 int	g_status;
 
-void	get_env(char **env_v)
+void	get_env(char **env_v, int flag)
 {
 	int	i;
 
 	i = -1;
-	while (env_v[++i])
-		printf("%s\n", env_v[i]);
+	if (!flag)
+	{
+		while (env_v[++i])
+			printf("%s\n", env_v[i]);
+	}
+	else
+	{
+		while (env_v[++i])
+			printf("declare -x %s\n", env_v[i]);
+	}
 }
 
 void	init_env(char **env_v, t_minishell *ms)
@@ -64,6 +72,54 @@ int	in_list(char *key, t_minishell *ms)
 	return (-1);
 }
 
+char **cp_tab(char **tab)
+{
+	char **new_tab;
+	int len;
+
+	len = -1;
+	while(tab[++len])
+		;
+	new_tab = malloc(sizeof(char *) * (len + 1));
+
+}
+
+void	sorted_exp(t_minishell *ms)
+{
+	char **tab;
+	int	j;
+	int i;
+	int len;
+	char *temp;
+	char *to_free;
+
+	tab = cp_tab((char **)ms->var->items);
+	i = -1;
+	j = -1;
+	while (tab[++i])
+	{
+		// printf("--------------\n");
+		len = ft_strlen(tab[i]);
+    	while(tab[++j])
+        {
+			if (ft_strcmp(tab[i], tab[j]) < 0)
+			{
+				//temp = malloc(sizeof(char) * (ft_strlen(tab[i]) + 1));
+            	temp = ft_strdup(tab[i]);
+				to_free = tab[i];
+				tab[i] = ft_strdup(tab[j]);
+				free(to_free);
+				to_free = tab[j];
+				tab[j] = ft_strdup(temp);
+				free(to_free);
+				free(temp);
+        	}
+		}
+		j = -1;
+	}
+	get_env(tab, 1);
+}
+
 void	export_v(t_minishell *ms, char *new_arg)
 {
 	char	*tmp;
@@ -72,7 +128,11 @@ void	export_v(t_minishell *ms, char *new_arg)
 
 	tab = ft_split(new_arg, '=');
 	if (!tab || !tab[0])
-		exit(1);
+	{
+		sorted_exp(ms);
+		return ;
+		//exit(1);
+	}
 	i = in_list(tab[0], ms);
 	if (i != -1)
 	{
@@ -138,7 +198,7 @@ int	find_cmd(t_array cmd, t_minishell *ms)
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "exit"))
 			exit_minishell(ms, EXIT_SUCCESS);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env"))
-			get_env((char **)ms->var->items);
+			get_env((char **)ms->var->items, 0);
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env_v"))
 			printf("%s\n", get_env_v((char *)cmd.items[1], ms->var));
 		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "export"))
