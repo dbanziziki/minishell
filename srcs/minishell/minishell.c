@@ -66,8 +66,7 @@ static int	execute(t_minishell *ms, char *line)
 		{
 			free_all(ms);
 			free(line);
-			g_status = 0;
-			return (g_status);
+			return (1);
 		}
 		status = run_process(ms, ast);
 	}

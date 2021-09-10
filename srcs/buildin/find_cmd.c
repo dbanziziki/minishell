@@ -104,14 +104,14 @@ char **cp_tab(char **tab)
 	return (new_tab);
 }
 
-int	swap_lines(char *s1, char *s2)
+int	swap_lines(char **s1, char **s2)
 {
 	char	*temp;
 	char	*to_free;
 
-	temp = s1;
-	s1 = s2;
-	s2 = s1;
+	temp = *s1;
+	*s1 = *s2;
+	*s2 = temp;
 	return (0);
 }
 
@@ -134,7 +134,7 @@ void	sorted_exp(t_minishell *ms)
 		{
 			if (ft_strcmp(tab[i], tab[j]) < 0)
 			{
-				if (swap_lines(tab[i], tab[j]))
+				if (swap_lines(&tab[i], &tab[j]))
 					exit_minishell(ms, EXIT_FAILURE);
 			}
 		}
