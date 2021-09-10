@@ -34,7 +34,7 @@ void	init_env(char **env_v, t_minishell *ms)
 	{
 		tmp = ft_strdup(env_v[i]);
 		if (!tmp)
-			exit(1);
+			exit_minishell(ms, EXIT_FAILURE);
 		list_push(ms->var, tmp);
 	}
 }
@@ -72,52 +72,76 @@ int	in_list(char *key, t_minishell *ms)
 	return (-1);
 }
 
+void	free_tab(char **tab)
+{
+	int len;
+
+	len = -1;
+	while(tab[++len])
+		free(tab[len]);
+	free(tab);
+}
+
 char **cp_tab(char **tab)
 {
 	char **new_tab;
 	int len;
 
 	len = -1;
-	while(tab[++len])
+	while (tab[++len])
 		;
 	new_tab = malloc(sizeof(char *) * (len + 1));
+	if (!new_tab)
+		return (NULL);
+	new_tab[len] = NULL;
+	len = -1;
+	while (tab[++len])
+	{
+		new_tab[len] = ft_strdup(tab[len]);
+		if (!new_tab[len])
+			return (NULL);
+	}
+	return (new_tab);
+}
 
+int	swap_lines(char *s1, char *s2)
+{
+	char	*temp;
+	char	*to_free;
+
+	temp = s1;
+	s1 = s2;
+	s2 = s1;
+	return (0);
 }
 
 void	sorted_exp(t_minishell *ms)
 {
-	char **tab;
-	int	j;
-	int i;
-	int len;
-	char *temp;
-	char *to_free;
+	char	**tab;
+	int		j;
+	int		i;
+	char	*temp;
+	char	*to_free;
 
 	tab = cp_tab((char **)ms->var->items);
+	if (!tab)
+		exit_minishell(ms, EXIT_FAILURE);
 	i = -1;
 	j = -1;
 	while (tab[++i])
 	{
-		// printf("--------------\n");
-		len = ft_strlen(tab[i]);
-    	while(tab[++j])
-        {
+		while (tab[++j])
+		{
 			if (ft_strcmp(tab[i], tab[j]) < 0)
 			{
-				//temp = malloc(sizeof(char) * (ft_strlen(tab[i]) + 1));
-            	temp = ft_strdup(tab[i]);
-				to_free = tab[i];
-				tab[i] = ft_strdup(tab[j]);
-				free(to_free);
-				to_free = tab[j];
-				tab[j] = ft_strdup(temp);
-				free(to_free);
-				free(temp);
-        	}
+				if (swap_lines(tab[i], tab[j]))
+					exit_minishell(ms, EXIT_FAILURE);
+			}
 		}
 		j = -1;
 	}
 	get_env(tab, 1);
+	free_tab(tab);
 }
 
 void	export_v(t_minishell *ms, char *new_arg)
@@ -126,13 +150,14 @@ void	export_v(t_minishell *ms, char *new_arg)
 	char	**tab;
 	int		i;
 
-	tab = ft_split(new_arg, '=');
-	if (!tab || !tab[0])
+	if (!new_arg)
 	{
 		sorted_exp(ms);
 		return ;
-		//exit(1);
 	}
+	tab = ft_split(new_arg, '=');
+	if (!tab)
+		exit_minishell(ms, EXIT_FAILURE);
 	i = in_list(tab[0], ms);
 	if (i != -1)
 	{
@@ -140,11 +165,18 @@ void	export_v(t_minishell *ms, char *new_arg)
 		{
 			tmp = ms->var->items[i];
 			ms->var->items[i] = ft_strdup(new_arg);
+			if (!ms->var->items[i])
+				exit_minishell(ms, EXIT_FAILURE);
 			free(tmp);
 		}
 	}
 	else
-		list_push(ms->var, ft_strdup(new_arg));
+	{
+		tmp = ft_strdup(new_arg);
+		if (!tmp)
+			exit_minishell(ms, EXIT_FAILURE);
+		list_push(ms->var, tmp);
+	}
 }
 
 void    list_rm(t_array *list, void *to_rm, t_minishell *ms)
