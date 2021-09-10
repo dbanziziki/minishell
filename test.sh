@@ -4,7 +4,9 @@ NAME=minishell
 
 run_test () {
     make
-   ./$minishell -c $1 
+    echo "$@"
+   ./$NAME -c "$@"
 }
 
-run_test "ls -la"
+cmd="ls -la"
+run_test $cmd

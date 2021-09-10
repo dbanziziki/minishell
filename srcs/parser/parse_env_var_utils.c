@@ -69,18 +69,21 @@ char	*parse_str(char *str, t_array *var)
 {
 	char	*res;
 	char	*env_var;
+	char	*temp;
 
-	if (!ft_strchr(str, '$'))
+	temp = str;
+	if (!ft_strchr(temp, '$'))
 		return (str);
 	res = ft_strdup(str);
-	while (*str)
+	temp = str;
+	while (*temp)
 	{
-		if (*str == '$')
+		if (*temp == '$')
 		{
-			env_var = get_env_var(str + 1, var);
+			env_var = get_env_var(temp + 1, var);
 			res = insert_var(res, env_var);
 		}
-		str++;
+		temp++;
 	}
 	return (res);
 }

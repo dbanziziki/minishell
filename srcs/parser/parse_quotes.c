@@ -22,6 +22,7 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 		cmd = (t_cmd *)last->body;
 		list_push(cmd->argv, parsed);
 	}
+	free(token->value);
 	free(token);
 	token = NULL;
 	return (cmd);

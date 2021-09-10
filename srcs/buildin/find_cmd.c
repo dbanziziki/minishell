@@ -37,8 +37,6 @@ char	*get_env_v(char *key, t_array *var)
 	char	*res;
 
 	i = -1;
-	if (!ft_strcmp("?", key))
-		return (ft_itoa(g_status));
 	while (++i < var->size)
 	{
 		if (!ft_strncmp(key, var->items[i], ft_strlen(key)))

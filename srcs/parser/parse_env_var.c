@@ -1,5 +1,7 @@
 #include "parser.h"
 
+int	g_status;
+
 void	parse_env_var(t_parser *p, t_AST *ast)
 {
 	t_token		*token;
@@ -9,7 +11,10 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 	token = eat(p, DOLLARSIGN_TOKEN);
 	if (!token)
 		return ;
-	env_var = ft_strdup(get_env_v((token->value) + 1, p->var));
+	if (!ft_strcmp(token->value, "$?"))
+		env_var = ft_itoa(g_status);
+	else
+		env_var = ft_strdup(get_env_v((token->value) + 1, p->var));
 	while (ast->next)
 		ast = ast->next;
 	if (ast->type == PROGRAM)
