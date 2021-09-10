@@ -1,17 +1,19 @@
 import subprocess
 
-make_process = subprocess.Popen(["make"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
+class Create_test():
+    def __init__(self, cmd):
+        self.cmd = cmd
+    
+    def exec_cmd(self):
+        proc = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc.communicate()
+        stdout, stderr = proc.communicate()
+        return (stdout, stderr)
 
-exec_procss = subprocess.Popen(["./minishell", "-c", "kk -la | grep include"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
-
-stdout, stderr = make_process.communicate();
-sout, serr =  exec_procss.communicate();
-return_code = exec_procss.poll();
-print("return code", return_code);
-print(stdout.decode('utf-8'))
-print(sout.decode('utf-8'))
-print(serr.decode('utf-8'))
+before = Create_test(["make"])
+before.exec_cmd()
+test = Create_test(["./minishell", "-c", "ls -la"])
+stdout, stderr = test.exec_cmd()
+after = Create_test(["make", "fclean"])
+after.exec_cmd()
+print(stdout.decode('utf-8'), end="")

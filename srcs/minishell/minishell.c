@@ -23,7 +23,6 @@ static int	post_child_process(t_minishell *ms)
 static int	run_process(t_minishell *ms, t_AST *ast)
 {
 	int		i;
-	int		status;
 	t_cmd	*cmd;
 
 	i = -1;
@@ -38,18 +37,19 @@ static int	run_process(t_minishell *ms, t_AST *ast)
 			close_unused_pipes(ms->pipes, ms->nb_proc, i);
 			cmd = (t_cmd *)ast->body;
 			cmd->proc_idx = i;
-			status = cmd_and_args(ms, ast);
-			exit(status);
+			g_status = cmd_and_args(ms, ast);
+			exit(g_status);
 		}
 		ast = ast->next;
 	}
 	post_child_process(ms);
-	return (0);
+	return (g_status);
 }
 
 static int	execute(t_minishell *ms, char *line)
 {
 	t_AST	*ast;
+	int		status;
 
 	parse_line(&ms, line);
 	if (ms->p->flag == 1)
@@ -66,11 +66,12 @@ static int	execute(t_minishell *ms, char *line)
 		{
 			free_all(ms);
 			free(line);
-			return (1);
+			g_status = 0;
+			return (g_status);
 		}
-		run_process(ms, ast);
+		status = run_process(ms, ast);
 	}
-	return (0);
+	return (status);
 }
 
 void	minishell(char **env_v)
@@ -88,20 +89,22 @@ void	minishell(char **env_v)
 			line = "exit";
 		if (!ft_strcmp(line, ""))
 			continue ;
-		if (execute(ms, line))
+		if (execute(ms, line) >= 0)
 			continue ;
 		free(line);
 	}
 }
 
-void	minishell_arg(char **envp, char *line)
+int	minishell_arg(char **envp, char *line)
 {
 	t_minishell	*ms;
 	t_AST		*ast;
+	int			status;
 
 	hook();
 	ms = init_minishell_struct(envp);
-	execute(ms, line);
+	status = execute(ms, line);
+	return (status);
 }
 
 int	main(int argc, char *argv[], char **envp)
@@ -109,7 +112,7 @@ int	main(int argc, char *argv[], char **envp)
 	(void)argv;
 	(void)argc;
 	if (argc >= 2 && !ft_strcmp(argv[1], "-c"))
-		minishell_arg(envp, argv[2]);
+		return (minishell_arg(envp, argv[2]));
 	else
 		minishell(envp);
 	return (0);
