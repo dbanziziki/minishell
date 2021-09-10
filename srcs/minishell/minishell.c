@@ -65,8 +65,8 @@ static int	execute(t_minishell *ms, char *line)
 			&& find_cmd(*((t_cmd *)ast->body)->argv, ms, ast))
 		{
 			free_all(ms);
-			free(line);
-			return (1);
+			g_status = 0;
+			return (g_status);
 		}
 		status = run_process(ms, ast);
 	}
@@ -88,7 +88,7 @@ void	minishell(char **env_v)
 			line = "exit";
 		if (!ft_strcmp(line, ""))
 			continue ;
-		if (execute(ms, line) >= 0)
+		if (execute(ms, line))
 			continue ;
 		free(line);
 	}
