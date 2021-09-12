@@ -35,8 +35,12 @@ void	echo(char **s, t_AST *ast)
 		}
 		if (!flag)
 			write(1, "\n", 1);
-		dup2(cmd->save_out, STDOUT_FILENO);
-		close(cmd->save_out);
+		if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+				|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+		{
+			dup2(cmd->save_out, STDOUT_FILENO);
+			close(cmd->save_out);
+		}
 	}
 }
 

@@ -11,5 +11,6 @@ void	exit_minishell(t_minishell *ms, int status)
 	free(ms->var->items);
 	free(ms->var);
 	free(ms);
+	clear_history();
 	exit(status);
 }

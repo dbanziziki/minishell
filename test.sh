@@ -36,6 +36,18 @@ run_simple_test () {
     fi
 }
 
+test_redirections () {
+    make > /dev/null
+    ./$NAME -c "cat < Makefile > outfile" 2> /dev/null
+    local ms_ret=$?
+    cat < Makefile > bash_outfile
+    diff outfile bash_outfile
+    local bash_ret=$?
+    if [ "$ms_ret" -eq 0 ] && [ "$bash_ret" -eq 0 ]; then
+        printf ""
+    fi
+}
+
 run_tests () {
     make > /dev/null
     while IFS= read -r line; do
@@ -44,4 +56,4 @@ run_tests () {
 }
 
 run_tests test_cmd.txt
-#test_redirections "ls > outfile"
+#test_redirections
