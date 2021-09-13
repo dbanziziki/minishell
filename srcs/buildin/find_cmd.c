@@ -4,11 +4,16 @@
 
 int	g_status;
 
-void	get_env(char **env_v, int flag)
+void	get_env(char **env_v, int flag, t_AST *ast)
 {
-	int	i;
+	int		i;
+	t_cmd	*cmd;
 
 	i = -1;
+	cmd = (t_cmd *)ast->body;
+	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+		redirect_output(cmd);
 	if (!flag)
 	{
 		while (env_v[++i])
@@ -18,6 +23,12 @@ void	get_env(char **env_v, int flag)
 	{
 		while (env_v[++i])
 			printf("declare -x %s\n", env_v[i]);
+	}
+	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	{
+		dup2(cmd->save_out, STDOUT_FILENO);
+		close(cmd->save_out);
 	}
 }
 
@@ -115,14 +126,18 @@ int	swap_lines(char **s1, char **s2)
 	return (0);
 }
 
-void	sorted_exp(t_minishell *ms)
+void	sorted_exp(t_minishell *ms, t_AST *ast)
 {
 	char	**tab;
 	int		j;
 	int		i;
 	char	*temp;
 	char	*to_free;
+	t_cmd	*cmd;
 
+	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+		redirect_output(cmd);
 	tab = cp_tab((char **)ms->var->items);
 	if (!tab)
 		exit_minishell(ms, EXIT_FAILURE);
@@ -141,10 +156,16 @@ void	sorted_exp(t_minishell *ms)
 		j = -1;
 	}
 	get_env(tab, 1);
+	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	{
+		dup2(cmd->save_out, STDOUT_FILENO);
+		close(cmd->save_out);
+	}
 	free_tab(tab);
 }
 
-void	export_v(t_minishell *ms, char *new_arg)
+void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
 {
 	char	*tmp;
 	char	**tab;
@@ -152,7 +173,7 @@ void	export_v(t_minishell *ms, char *new_arg)
 
 	if (!new_arg)
 	{
-		sorted_exp(ms);
+		sorted_exp(ms, ast);
 		return ;
 	}
 	tab = ft_split(new_arg, '=');
@@ -219,23 +240,21 @@ void	unset(t_minishell *ms, char *var)
 
 int	find_cmd(t_array cmd, t_minishell *ms, t_AST *ast)
 {
-	if (cmd.items)
+	if (cmd.items && (char *)cmd.items[0])
 	{
-		if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "echo"))
+		if (!ft_strcmp((char *)cmd.items[0], "echo"))
 			echo((char **)cmd.items, ast);
-		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "cd"))
+		else if (!ft_strcmp((char *)cmd.items[0], "cd"))
 			change_dir((char *)cmd.items[1], ms);
-		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "pwd"))
-			pwd();
-		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "exit"))
+		else if (!ft_strcmp((char *)cmd.items[0], "pwd"))
+			pwd(ast);
+		else if (!ft_strcmp((char *)cmd.items[0], "exit"))
 			exit_minishell(ms, EXIT_SUCCESS);
-		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env"))
-			get_env((char **)ms->var->items, 0);
-		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "env_v"))
-			printf("%s\n", get_env_v((char *)cmd.items[1], ms->var));
-		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "export"))
-			export_v(ms, (char *)cmd.items[1]);
-		else if ((char *)cmd.items[0] && !ft_strcmp((char *)cmd.items[0], "unset"))
+		else if (!ft_strcmp((char *)cmd.items[0], "env"))
+			get_env((char **)ms->var->items, 0, ast);
+		else if (!ft_strcmp((char *)cmd.items[0], "export"))
+			export_v(ms, (char *)cmd.items[1], ast);
+		else if (!ft_strcmp((char *)cmd.items[0], "unset"))
 			unset(ms, (char *)cmd.items[1]);
 		else
 			return (0);

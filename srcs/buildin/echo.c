@@ -102,15 +102,26 @@ void	change_dir(char *path, t_minishell *ms)
 }
 
 /*
-** The pwd function reproduces behavior of "pwd" bash command.
+** The pwd function mimic behavior of "pwd" bash command.
 */
 
-void	pwd(void)
+void	pwd(t_AST *ast)
 {
 	char	curr_dir[1024];
+	t_cmd	*cmd;
 
+	cmd = (t_cmd *)ast->body;
+	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+		redirect_output(cmd);
 	getcwd(curr_dir, 1024);
 	printf("%s\n", curr_dir);
+	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	{
+		dup2(cmd->save_out, STDOUT_FILENO);
+		close(cmd->save_out);
+	}
 }
 
 void	time_to_exit(t_minishell *ms)
