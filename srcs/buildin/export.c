@@ -90,4 +90,5 @@ void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
 			exit_minishell(ms, EXIT_FAILURE);
 		list_push(ms->var, tmp);
 	}
+	free_tab(tab);
 }
