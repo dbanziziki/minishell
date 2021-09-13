@@ -23,14 +23,26 @@ void	action(int signum)
 	}
 	else if (signum == SIGINT)
 	{
-		g_sig.exit_status = SIGINT;
-		rl_on_new_line();
-		rl_replace_line("  ", 1);
-		rl_redisplay();
-		rl_replace_line("", 1);
-		printf("\n");
-		rl_on_new_line();
-		rl_redisplay();
+		if (g_sig.id == 0)
+		{
+			g_sig.exit_status = 1;
+			rl_on_new_line();
+			rl_replace_line("  ", 1);
+			rl_redisplay();
+			rl_replace_line("", 1);
+			printf("\n");
+			rl_on_new_line();
+			rl_redisplay();
+		}
+		else
+		{
+			g_sig.exit_status = SIGINT;
+			rl_on_new_line();
+			rl_replace_line("  ", 1);
+			rl_replace_line("", 1);
+			printf("\n");
+			rl_on_new_line();
+		}
 	}
 }
 

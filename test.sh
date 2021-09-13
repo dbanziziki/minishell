@@ -37,9 +37,9 @@ run_simple_test () {
 }
 
 test_redirections () {
-    ms_outfile="$LOGS/ms_outfile"
+    local ms_outfile="$LOGS/ms_outfile"
     local ms_full_cmd="$1 $ms_outfile"
-    bash_outfile="$LOGS/bash_outfile"
+    local bash_outfile="$LOGS/bash_outfile"
     local bash_full_cmd="$1 $bash_outfile"
     make > /dev/null
     ./$NAME -c "$ms_full_cmd" 2> $LOGS/ms.log
@@ -85,7 +85,7 @@ run_tests () {
     while IFS= read -r line; do
        test_redirections "$line" 
     done < test_redir.txt
-    clean_up
+    #clean_up
 }
 
 
