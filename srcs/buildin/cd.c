@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-int g_status;
+int	g_status;
 
 /*
 ** The change_dir function reproduces behavior of "cd" bash command
@@ -24,7 +24,6 @@ void	move_to(t_minishell *ms, t_AST *ast, char *path)
 	if (!goal || !new)
 	{
 		printf("Malloc error\n");
-		g_status = 1;
 		exit_minishell(ms, EXIT_FAILURE);
 	}
 	if (err)
@@ -55,7 +54,6 @@ void	move_to_root(t_minishell *ms, t_AST *ast)
 	if (!goal || !new)
 	{
 		printf("Malloc error\n");
-		g_status = 1;
 		exit_minishell(ms, EXIT_FAILURE);
 	}
 	if (err)

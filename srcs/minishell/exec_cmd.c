@@ -10,6 +10,14 @@ static void	free_split(char **split)
 	free(split);
 }
 
+void	test(int signum)
+{
+		rl_on_new_line();
+		rl_replace_line("           ", 1);
+		rl_redisplay();
+		rl_replace_line("", 0);
+}
+
 int	exec_cmd(t_cmd *cmd, t_array *var)
 {
 	char	**res;
@@ -20,6 +28,7 @@ int	exec_cmd(t_cmd *cmd, t_array *var)
 	i = -1;
 	if (!cmd)
 		return (-1);
+	//signal(SIGQUIT, &test);
 	path = get_env_v("PATH", var);
 	if (!path)
 		return (-1);

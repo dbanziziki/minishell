@@ -24,12 +24,7 @@ void	get_env(char **env_v, int flag, t_AST *ast)
 		while (env_v[++i])
 			printf("declare -x %s\n", env_v[i]);
 	}
-	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
-	{
-		dup2(cmd->save_out, STDOUT_FILENO);
-		close(cmd->save_out);
-	}
+	for_dup(cmd);
 }
 
 void	init_env(char **env_v, t_minishell *ms)
@@ -92,7 +87,7 @@ int	find_cmd(t_array cmd, t_minishell *ms, t_AST *ast)
 		else if (!ft_strcmp((char *)cmd.items[0], "pwd"))
 			pwd(ast);
 		else if (!ft_strcmp((char *)cmd.items[0], "exit"))
-			exit_minishell(ms, EXIT_SUCCESS);
+			time_to_exit(ms, (char **)cmd.items);
 		else if (!ft_strcmp((char *)cmd.items[0], "env"))
 			get_env((char **)ms->var->items, 0, ast);
 		else if (!ft_strcmp((char *)cmd.items[0], "export"))

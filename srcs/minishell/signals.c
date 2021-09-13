@@ -7,7 +7,7 @@ void	action(int signum)
 		rl_on_new_line();
 		rl_replace_line("  ", 1);
 		rl_redisplay();
-		rl_replace_line("", 1);
+		rl_replace_line("", 0);
 	}
 	else if (signum == SIGINT)
 	{

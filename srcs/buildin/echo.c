@@ -26,6 +26,16 @@ void	echo_2(char **s, int i, char *flag)
 		write(1, "\n", 1);
 }
 
+void	for_dup(t_cmd *cmd)
+{
+	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
+			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	{
+		dup2(cmd->save_out, STDOUT_FILENO);
+		close(cmd->save_out);
+	}
+}
+
 void	echo(char **s, t_AST *ast)
 {
 	char	*flag;
@@ -39,13 +49,8 @@ void	echo(char **s, t_AST *ast)
 				|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
 			redirect_output(cmd);
 		echo_2(s, i, flag);
-		if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-				|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
-		{
-			dup2(cmd->save_out, STDOUT_FILENO);
-			close(cmd->save_out);
-		}
 	}
+	for_dup(cmd);
 }
 
 /*
@@ -63,15 +68,15 @@ void	pwd(t_AST *ast)
 		redirect_output(cmd);
 	getcwd(curr_dir, 1024);
 	printf("%s\n", curr_dir);
-	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
-	{
-		dup2(cmd->save_out, STDOUT_FILENO);
-		close(cmd->save_out);
-	}
+	for_dup(cmd);
 }
 
-void	time_to_exit(t_minishell *ms)
+void	time_to_exit(t_minishell *ms, char **line)
 {
-	exit_minishell(ms, EXIT_SUCCESS);
+	int	res;
+
+	res = 0;
+	if (line[1])
+		res = ft_atoi(line[1]);
+	exit_minishell(ms, res);
 }
