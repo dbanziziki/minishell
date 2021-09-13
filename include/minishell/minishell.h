@@ -52,7 +52,10 @@ void		minishell(char **env_v);
 int			find_cmd(t_array cmd, t_minishell *ms, t_AST *ast);
 void		echo(char **s, t_AST *ast);
 void		pwd(t_AST *ast);
-void		change_dir(char *path, t_minishell *ms);
+void		change_dir(char *path, t_minishell *ms, t_AST *ast);
+void		get_env(char **env_v, int flag, t_AST *ast);
+void		unset(t_minishell *ms, char *var);
+
 void		time_to_exit(t_minishell *ms);
 void		init_env(char **env_v, t_minishell *ms);
 char		*get_env_v(char *key, t_array *var);

@@ -49,7 +49,7 @@ void	echo(char **s, t_AST *ast)
 ** but only with a relative or absolute path.
 */
 
-void	change_dir(char *path, t_minishell *ms)
+void	change_dir(char *path, t_minishell *ms, t_AST *ast)
 {
 	int		err;
 	char	curr_dir[1024];
@@ -73,8 +73,8 @@ void	change_dir(char *path, t_minishell *ms)
 			printf("cd: %s: No such file or directory \n", path);
 			return ;
 		}
-		export_v(ms, goal);
-		export_v(ms, new);
+		export_v(ms, goal, ast);
+		export_v(ms, new, ast);
 	}
 	else
 	{
@@ -94,8 +94,8 @@ void	change_dir(char *path, t_minishell *ms)
 			printf("cd: %s: No such file or directory \n", goal);
 			return ;
 		}
-		export_v(ms, new);
-		export_v(ms, goal);
+		export_v(ms, new, ast);
+		export_v(ms, goal, ast);
 	}
 	free(goal);
 	free(new);

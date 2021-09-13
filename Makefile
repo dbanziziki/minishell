@@ -59,6 +59,8 @@ LIST_DIR = $(SRCS_DIR)/list
 BUILDIN_SRCS_DIR = $(addprefix $(BUILDIN_DIR)/, \
 						echo.c \
 						find_cmd.c \
+						export.c \
+						unset.c \
 )
 
 TEST_SRCS_DIR = $(addprefix $(TEST_DIR)/, \
