@@ -2,8 +2,6 @@
 #include "libft.h"
 #include <stdio.h>
 
-int	g_status;
-
 void	get_env(char **env_v, int flag, t_AST *ast)
 {
 	int		i;

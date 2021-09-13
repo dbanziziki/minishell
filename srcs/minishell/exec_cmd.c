@@ -10,6 +10,11 @@ static void	free_split(char **split)
 	free(split);
 }
 
+void	test(int signum)
+{
+	printf("yep\n");
+}
+
 int	exec_cmd(t_cmd *cmd, t_array *var)
 {
 	char	**res;
@@ -17,6 +22,7 @@ int	exec_cmd(t_cmd *cmd, t_array *var)
 	char	*path_join;
 	size_t	i;
 
+	signal(SIGQUIT, &test);
 	i = -1;
 	if (!cmd)
 		return (-1);

@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-int	g_status;
+t_sig	g_sig;
 
 static int	post_child_process(t_minishell *ms)
 {
@@ -14,7 +14,12 @@ static int	post_child_process(t_minishell *ms)
 	while (++i < ms->nb_proc)
 	{
 		waitpid(ms->p_ids[i], &status, 0);
-		g_status = WEXITSTATUS(status);
+		if (g_sig.exit_status == SIGQUIT)
+			g_sig.exit_status = 128 + SIGQUIT;
+		else if (g_sig.exit_status == SIGINT)
+			g_sig.exit_status = 128 + SIGINT;
+		else
+			g_sig.exit_status = WEXITSTATUS(status);
 	}
 	free_all(ms);
 	return (0);
@@ -30,6 +35,7 @@ static int	run_process(t_minishell *ms, t_AST *ast)
 	while (++i < ms->nb_proc)
 	{
 		ms->p_ids[i] = fork();
+		g_sig.id = ms->p_ids[i];
 		if (ms->p_ids[i] == -1)
 			return (1);
 		if (ms->p_ids[i] == 0)
@@ -37,13 +43,13 @@ static int	run_process(t_minishell *ms, t_AST *ast)
 			close_unused_pipes(ms->pipes, ms->nb_proc, i);
 			cmd = (t_cmd *)ast->body;
 			cmd->proc_idx = i;
-			g_status = cmd_and_args(ms, ast);
-			exit(g_status);
+			g_sig.exit_status = cmd_and_args(ms, ast);
+			exit(g_sig.exit_status);
 		}
 		ast = ast->next;
 	}
 	post_child_process(ms);
-	return (g_status);
+	return (g_sig.exit_status);
 }
 
 static int	execute(t_minishell *ms, char *line)
@@ -54,7 +60,7 @@ static int	execute(t_minishell *ms, char *line)
 	parse_line(&ms, line);
 	if (ms->p->flag == 1)
 	{
-		g_status = 258;
+		g_sig.exit_status = 258;
 		free_all(ms);
 		return (1);
 	}
@@ -65,8 +71,8 @@ static int	execute(t_minishell *ms, char *line)
 			&& find_cmd(*((t_cmd *)ast->body)->argv, ms, ast))
 		{
 			free_all(ms);
-			g_status = 0;
-			return (g_status);
+			g_sig.exit_status = 0;
+			return (g_sig.exit_status);
 		}
 		status = run_process(ms, ast);
 	}
@@ -79,10 +85,13 @@ void	minishell(char **env_v)
 	char		*line;
 	t_AST		*ast;
 
-	hook();
 	ms = init_minishell_struct(env_v);
+	hook();
 	while (1)
 	{
+		g_sig.id = 0;
+		g_sig.sig_int = 0;
+		g_sig.sig_quit = 0;
 		line = ms_readline();
 		if (line == NULL)
 			line = "exit";
@@ -100,7 +109,7 @@ int	minishell_arg(char **envp, char *line)
 	t_AST		*ast;
 	int			status;
 
-	hook();
+	//hook();
 	ms = init_minishell_struct(envp);
 	status = execute(ms, line);
 	return (status);
@@ -108,8 +117,6 @@ int	minishell_arg(char **envp, char *line)
 
 int	main(int argc, char *argv[], char **envp)
 {
-	(void)argv;
-	(void)argc;
 	if (argc >= 2 && !ft_strcmp(argv[1], "-c"))
 		return (minishell_arg(envp, argv[2]));
 	else

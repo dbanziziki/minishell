@@ -1,6 +1,6 @@
-#include "parser.h"
+#include "minishell.h"
 
-int	g_status;
+t_sig	g_sig;
 
 void	parse_env_var(t_parser *p, t_AST *ast)
 {
@@ -12,7 +12,7 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 	if (!token)
 		return ;
 	if (!ft_strcmp(token->value, "$?"))
-		env_var = ft_itoa(g_status);
+		env_var = ft_itoa(g_sig.exit_status);
 	else
 		env_var = ft_strdup(get_env_v((token->value) + 1, p->var));
 	while (ast->next)

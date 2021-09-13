@@ -11,7 +11,15 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-extern int	g_status;
+typedef struct s_sig
+{
+	int			sig_int;
+	int			sig_quit;
+	int			exit_status;
+	pid_t		id;
+}				t_sig;
+
+extern t_sig	g_sig;
 
 typedef struct s_minishell
 {
@@ -46,7 +54,6 @@ t_minishell	*init_minishell_struct(char **env_v);
 int			**init_pipes(int nb_pipes);
 void		free_all(t_minishell *ms);
 int			close_unused_pipes(int **pipes, int size, int i);
-void		hook(void);
 int			close_main_pipes(int **pipes, int size);
 void		minishell(char **env_v);
 int			find_cmd(t_array cmd, t_minishell *ms, t_AST *ast);

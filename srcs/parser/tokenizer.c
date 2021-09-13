@@ -46,10 +46,7 @@ static t_token	*switch_token(t_tokenizer *t, char *temp)
 {
 	t_token	*token;
 
-	if (ft_isalpha(temp[0]) || temp[0] == '-' || temp[0] == '.'
-		|| ft_isdigit(temp[0]) || temp[0] == '/')
-		return (word_token(t, temp));
-	else if (temp[0] == PIPE)
+	if (temp[0] == PIPE)
 		return (simple_token(t, temp));
 	else if (!ft_strncmp(temp, HEREDOC, 2))
 		return (double_redirect_token(t, temp, HEREDOC_TOKEN));
@@ -64,7 +61,7 @@ static t_token	*switch_token(t_tokenizer *t, char *temp)
 	else if (!temp[0])
 		return (new_token(EOF_TOKEN, ft_strndup("EOF", 3)));
 	else
-		return (new_token(UNKNOWN_TOKEN, ft_strndup(temp, 1)));
+		return (word_token(t, temp));
 }
 
 t_token	*get_next_token(t_tokenizer *t)

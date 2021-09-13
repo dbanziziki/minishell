@@ -2,8 +2,6 @@
 #include "libft.h"
 #include <stdio.h>
 
-int g_status;
-
 /*
 ** The change_dir function reproduces behavior of "cd" bash command
 ** but only with a relative or absolute path.
@@ -24,13 +22,13 @@ void	move_to(t_minishell *ms, t_AST *ast, char *path)
 	if (!goal || !new)
 	{
 		printf("Malloc error\n");
-		g_status = 1;
+		g_sig.exit_status = 1;
 		exit_minishell(ms, EXIT_FAILURE);
 	}
 	if (err)
 	{
 		printf("cd: %s: No such file or directory \n", path);
-		g_status = 1;
+		g_sig.exit_status = 1;
 		return ;
 	}
 	export_v(ms, goal, ast);
@@ -55,13 +53,13 @@ void	move_to_root(t_minishell *ms, t_AST *ast)
 	if (!goal || !new)
 	{
 		printf("Malloc error\n");
-		g_status = 1;
+		g_sig.exit_status = 1;
 		exit_minishell(ms, EXIT_FAILURE);
 	}
 	if (err)
 	{
 		printf("cd: %s: No such file or directory \n", goal);
-		g_status = 1;
+		g_sig.exit_status = 1;
 		return ;
 	}
 	export_v(ms, new, ast);

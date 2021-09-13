@@ -37,23 +37,56 @@ run_simple_test () {
 }
 
 test_redirections () {
+    ms_outfile="$LOGS/ms_outfile"
+    local ms_full_cmd="$1 $ms_outfile"
+    bash_outfile="$LOGS/bash_outfile"
+    local bash_full_cmd="$1 $bash_outfile"
     make > /dev/null
-    ./$NAME -c "cat < Makefile > outfile" 2> /dev/null
+    ./$NAME -c "$ms_full_cmd" 2> $LOGS/ms.log
     local ms_ret=$?
-    cat < Makefile > bash_outfile
-    diff outfile bash_outfile
+    eval $bash_full_cmd  2> $LOGS/bash.log
     local bash_ret=$?
-    if [ "$ms_ret" -eq 0 ] && [ "$bash_ret" -eq 0 ]; then
-        printf ""
+    if [ "$bash_ret" -eq "$ms_ret" ]; then
+        diff $ms_outfile $bash_outfile
+        local cmp_res=$?
+        if [ "$cmp_res" -eq 0 ]; then
+            printf "%s\n\e[32m%s\n" "$ms_full_cmd" "[OK]"
+            printf "\033[0m"
+        else
+            printf "\e[31m%s\n" "[KO]"
+            printf "\033[0m"
+            local expected=$(cat "$bash_outfile")
+            local received=$(cat "$ms_outfile")
+            printf "Expected %s\n" "$expected"
+            printf "Got %s\n" "$received"
+        fi
+    else
+        printf "\e[31m%s\n" "[KO]"
+        printf "\033[0m"
+        printf "Wrong exit status: expected [%d] and got [%d]\n" "$bash_ret" "$ms_ret"
     fi
 }
 
+clean_up() {
+    make fclean > /dev/null
+    rm -f $bash_outfile $ms_outfile
+}
+
 run_tests () {
+    printf "Compiling minishell...\n"
     make > /dev/null
+    printf "\033[0;35m--------%s-------------\n" "Testing simple commands"
+    printf "\033[0m"
     while IFS= read -r line; do
         run_simple_test "$line"
     done < $1
+    printf "\033[0;35m--------%s-------------\n" "Testing redirections"
+    printf "\033[0m"
+    while IFS= read -r line; do
+       test_redirections "$line" 
+    done < test_redir.txt
+    clean_up
 }
 
+
 run_tests test_cmd.txt
-#test_redirections

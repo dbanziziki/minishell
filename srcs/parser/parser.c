@@ -58,6 +58,7 @@ int	parse(t_parser *p, t_AST **ast)
 {
 	if (!p->token || p->token->type == EOF_TOKEN || p->flag)
 		return (-1);
+	hook();
 	if (switch_token(p, ast) == -1)
 		return (-1);
 	parse(p, ast);
