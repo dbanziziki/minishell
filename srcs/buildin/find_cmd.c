@@ -50,6 +50,17 @@ void	init_env(char **env_v, t_minishell *ms)
 	}
 }
 
+int	swap_lines(char **s1, char **s2)
+{
+	char	*temp;
+	char	*to_free;
+
+	temp = *s1;
+	*s1 = *s2;
+	*s2 = temp;
+	return (0);
+}
+
 char	*get_env_v(char *key, t_array *var)
 {
 	size_t	i;

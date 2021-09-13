@@ -61,6 +61,7 @@ BUILDIN_SRCS_DIR = $(addprefix $(BUILDIN_DIR)/, \
 						find_cmd.c \
 						export.c \
 						unset.c \
+						cd.c \
 )
 
 TEST_SRCS_DIR = $(addprefix $(TEST_DIR)/, \

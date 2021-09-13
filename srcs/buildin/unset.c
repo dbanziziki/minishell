@@ -15,21 +15,11 @@ int	in_list(char *key, t_minishell *ms)
 	return (-1);
 }
 
-void	list_rm(t_array *list, void *to_rm, t_minishell *ms)
+void	list_mv(t_array *list, char **tmp, int place)
 {
-	char	**tmp;
 	int		i;
-	int		place;
 
 	i = -1;
-	if (!list->items)
-		return ;
-	tmp = malloc(((list->size + 1) * list->item_size));
-	place = in_list(to_rm, ms);
-	if (!tmp)
-		exit(1);
-	if (place == -1)
-		return ;
 	while (list->items[++i])
 	{
 		if (i < place)
@@ -39,6 +29,22 @@ void	list_rm(t_array *list, void *to_rm, t_minishell *ms)
 		else
 			tmp[i - 1] = list->items[i];
 	}
+}
+
+void	list_rm(t_array *list, void *to_rm, t_minishell *ms)
+{
+	char	**tmp;
+	int		place;
+
+	if (!list->items)
+		return ;
+	tmp = malloc(((list->size + 1) * list->item_size));
+	place = in_list(to_rm, ms);
+	if (!tmp)
+		exit(1);
+	if (place == -1)
+		return ;
+	list_mv(list, tmp, place);
 	free(list->items);
 	list->items = (void **)tmp;
 	list->size--;

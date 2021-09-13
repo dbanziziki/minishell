@@ -34,17 +34,6 @@ char	**cp_tab(char **tab)
 	return (new_tab);
 }
 
-int	swap_lines(char **s1, char **s2)
-{
-	char	*temp;
-	char	*to_free;
-
-	temp = *s1;
-	*s1 = *s2;
-	*s2 = temp;
-	return (0);
-}
-
 void	sorted_exp(t_minishell *ms, t_AST *ast)
 {
 	char	**tab;
@@ -81,26 +70,20 @@ void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
 	int		i;
 
 	if (!new_arg)
-	{
-		sorted_exp(ms, ast);
-		return ;
-	}
+		return (sorted_exp(ms, ast));
 	tab = ft_split(new_arg, '=');
 	if (!tab)
 		exit_minishell(ms, EXIT_FAILURE);
 	i = in_list(tab[0], ms);
-	if (i != -1)
+	if (i != -1 && tab[1])
 	{
-		if (tab[1])
-		{
-			tmp = ms->var->items[i];
-			ms->var->items[i] = ft_strdup(new_arg);
-			if (!ms->var->items[i])
-				exit_minishell(ms, EXIT_FAILURE);
-			free(tmp);
-		}
+		tmp = ms->var->items[i];
+		ms->var->items[i] = ft_strdup(new_arg);
+		if (!ms->var->items[i])
+			exit_minishell(ms, EXIT_FAILURE);
+		free(tmp);
 	}
-	else
+	else if (i == -1)
 	{
 		tmp = ft_strdup(new_arg);
 		if (!tmp)

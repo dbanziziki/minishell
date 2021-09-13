@@ -31,7 +31,7 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 	token = eat(p, DOUBLE_QUOTE_TOKEN);
 	if (!token)
 		return (NULL);
-	cmd = create_cmd(p, last, token);	
+	cmd = create_cmd(p, last, token);
 	free(token->value);
 	free(token);
 	return (cmd);

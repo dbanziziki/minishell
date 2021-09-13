@@ -1,8 +1,8 @@
 #include "list.h"
 
-t_array  *init_list(size_t item_size)
+t_array	*init_list(size_t item_size)
 {
-	t_array  *list;
+	t_array	*list;
 
 	list = (t_array *)malloc(sizeof(t_array));
 	if (!list)
@@ -13,7 +13,7 @@ t_array  *init_list(size_t item_size)
 	return (list);
 }
 
-void    list_push(t_array *list, void *item)
+void	list_push(t_array *list, void *item)
 {
 	size_t	old_size;
 	size_t	new_size;

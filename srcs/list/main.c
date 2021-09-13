@@ -4,10 +4,10 @@
 #include "list.h"
 #include <string.h>
 
-int main(int argc, char const *argv[])
+int	main(int argc, char const *argv[])
 {
-	t_array *list;
-	int 	i;
+	t_array	*list;
+	int		i;
 
 	list = init_list(sizeof(char *));
 	list_push(list, strdup("Hello"));
@@ -18,5 +18,5 @@ int main(int argc, char const *argv[])
 		free(list->items[i]);
 	free(list->items);
 	free(list);
-	return 0;
+	return (0);
 }

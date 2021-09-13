@@ -55,6 +55,7 @@ void		pwd(t_AST *ast);
 void		change_dir(char *path, t_minishell *ms, t_AST *ast);
 void		get_env(char **env_v, int flag, t_AST *ast);
 void		unset(t_minishell *ms, char *var);
+int			swap_lines(char **s1, char **s2);
 
 void		time_to_exit(t_minishell *ms);
 void		init_env(char **env_v, t_minishell *ms);
