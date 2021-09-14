@@ -86,12 +86,13 @@ void	minishell(char **env_v)
 	t_AST		*ast;
 
 	ms = init_minishell_struct(env_v);
-	hook();
 	while (1)
 	{
 		g_sig.id = 0;
 		g_sig.sig_int = 0;
 		g_sig.sig_quit = 0;
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, &action);
 		line = ms_readline();
 		if (line == NULL)
 			line = "exit";
