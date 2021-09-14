@@ -26,6 +26,7 @@ int	exec_cmd(t_cmd *cmd, t_array *var)
 	res = ft_split(path, ':');
 	if (!res)
 		return (-1);
+	hook();
 	while (res[++i])
 	{
 		execve(cmd->cmd, (char **)cmd->argv->items, (char **)var->items);
