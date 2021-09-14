@@ -1,18 +1,7 @@
 #include "minishell.h"
 #include "libft.h"
-#include <stdio.h>
 
 t_sig	g_sig;
-
-void	free_tab(char **tab)
-{
-	int	len;
-
-	len = -1;
-	while (tab[++len])
-		free(tab[len]);
-	free(tab);
-}
 
 char	**cp_tab(char **tab)
 {
@@ -61,6 +50,7 @@ void	sorted_exp(t_minishell *ms, t_AST *ast)
 	}
 	get_env(tab, 1, ast);
 	free_tab(tab);
+	g_sig.exit_status = 0;
 }
 
 static void	put(t_minishell *ms, int i, char *new_arg)
@@ -74,23 +64,11 @@ static void	put(t_minishell *ms, int i, char *new_arg)
 	free(tmp);
 }
 
-void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
+static void	check_env_var_exist(char **tab, t_minishell *ms, char *new_arg)
 {
 	char	*tmp;
-	char	**tab;
 	int		i;
 
-	if (!new_arg)
-		return (sorted_exp(ms, ast));
-	tab = ft_split(new_arg, '=');
-	if (!tab)
-		exit_minishell(ms, EXIT_FAILURE);
-	if (ft_isdigit(tab[0][0]))
-	{
-		g_sig.exit_status = 1;
-		free_tab(tab);
-		return (print_error("bash: export: not a valid identifier", NULL));
-	}
 	i = in_list(tab[0], ms);
 	if (i != -1)
 		put(ms, i, new_arg);
@@ -101,5 +79,24 @@ void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
 			exit_minishell(ms, EXIT_FAILURE);
 		list_push(ms->var, tmp);
 	}
+}
+
+void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
+{
+	char	**tab;
+
+	if (!new_arg)
+		return (sorted_exp(ms, ast));
+	tab = ft_split(new_arg, '=');
+	if (!tab)
+		exit_minishell(ms, EXIT_FAILURE);
+	check_env_var_exist(tab, ms, new_arg);
+	if (ft_isdigit(tab[0][0]))
+	{
+		g_sig.exit_status = 1;
+		free_tab(tab);
+		return (print_error("bash: export: not a valid identifier", NULL));
+	}
 	free_tab(tab);
+	g_sig.exit_status = 0;
 }

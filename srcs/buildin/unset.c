@@ -57,4 +57,5 @@ void	unset(t_minishell *ms, char *var)
 		return ;
 	else
 		list_rm(ms->var, var, ms);
+	g_sig.exit_status = 0;
 }

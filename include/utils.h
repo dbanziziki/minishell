@@ -16,4 +16,5 @@ char	*ft_strjoin_sep(char const *s1, char const *s2, int c);
 char	*get_env_v(char *key, t_array *var);
 void	print_error(char *str, char *arg);
 void	hook(void);
+void	free_tab(char **tab);
 #endif

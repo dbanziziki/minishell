@@ -5,6 +5,7 @@ t_sig	g_sig;
 ** Echo function reproduces behavior of "echo" bash command
 **	but with limited functionality "-n" flag only.
 */
+
 static void	echo_2(char **s)
 {
 	int		i;
@@ -52,6 +53,7 @@ void	echo(char **s, t_AST *ast)
 			redirect_output(cmd);
 		echo_2(s);
 	}
+	g_sig.exit_status = 0;
 	for_dup(cmd);
 }
 
@@ -77,23 +79,21 @@ void	time_to_exit(t_minishell *ms, t_array *cmd)
 {
 	int		res;
 	size_t	i;
-	char	**line;
+	char	*line;
 
 	res = 0;
 	i = -1;
-	line = (char **)cmd->items;
-	if (line[1])
+	line = (char *)cmd->items[1];
+	if (line)
 	{
-		while (line[1][++i] && (ft_isdigit(line[1][i])
-			|| ft_isspace(line[1][i])))
+		while (line[++i] && (ft_isdigit(line[i]) || ft_isspace(line[i])))
 			;
-		if (i != ft_strlen(line[1]))
+		res = ft_atoi(line);
+		if (i != ft_strlen(line))
 		{
 			print_error("minishell: exit: numeric argument required", NULL);
 			res = 255;
 		}
-		else
-			res = ft_atoi(line[1]);
 		if (cmd->size > 2)
 		{
 			print_error("minishell: exit: too many arguments", NULL);

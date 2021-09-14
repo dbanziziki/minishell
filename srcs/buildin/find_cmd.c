@@ -22,6 +22,7 @@ void	get_env(char **env_v, int flag, t_AST *ast)
 		while (env_v[++i])
 			printf("declare -x %s\n", env_v[i]);
 	}
+	g_sig.exit_status = 0;
 	for_dup(cmd);
 }
 

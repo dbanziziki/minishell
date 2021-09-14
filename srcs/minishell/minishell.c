@@ -69,7 +69,8 @@ int	execute(t_minishell *ms, char *line)
 		{
 			free_all(ms);
 			free(line);
-			g_sig.exit_status = 0;
+			if (!g_sig.exit_status)
+				g_sig.exit_status = 0;
 			return (g_sig.exit_status);
 		}
 		g_sig.exit_status = run_process(ms, ast);
@@ -95,7 +96,10 @@ void	minishell(char **env_v)
 		if (line == NULL)
 			line = "exit";
 		if (!ft_strcmp(line, ""))
+		{
+			free(line);
 			continue ;
+		}
 		if (execute(ms, line))
 			continue ;
 	}

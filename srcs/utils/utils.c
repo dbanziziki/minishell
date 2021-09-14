@@ -24,3 +24,13 @@ char	*ft_strjoin_sep(char const *s1, char const *s2, int c)
 	res[index + i] = 0;
 	return (res);
 }
+
+void	free_tab(char **tab)
+{
+	int	len;
+
+	len = -1;
+	while (tab[++len])
+		free(tab[len]);
+	free(tab);
+}
