@@ -13,12 +13,6 @@ void	action(int signum)
 			ft_putchar_fd('\n', STDERR_FILENO);
 		}
 		else
-		{
-			rl_on_new_line();
-			rl_replace_line("  ", 0);
-			rl_redisplay();
-			rl_replace_line("", 1);
-		}
 		g_sig.exit_status = SIGQUIT;
 	}
 	else if (signum == SIGINT)
@@ -48,6 +42,9 @@ void	action(int signum)
 
 void	hook(void)
 {
-	signal(SIGQUIT, &action);
+	if (g_sig.id == 0)
+		signal(SIGQUIT, SIG_IGN);
+	else 
+		signal(SIGQUIT, &action);
 	signal(SIGINT, &action);
 }
