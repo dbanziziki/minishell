@@ -10,6 +10,18 @@ static void	free_split(char **split)
 	free(split);
 }
 
+static void	find_and_exec(t_cmd *cmd, t_array *var, char *res)
+{
+	char	*path_join;
+
+	execve(cmd->cmd, (char **)cmd->argv->items, (char **)var->items);
+	path_join = ft_strjoin_sep(res, cmd->cmd, '/');
+	if (!path_join)
+		return ;
+	execve(path_join, (char **)cmd->argv->items, (char **)var->items);
+	free(path_join);
+}
+
 int	exec_cmd(t_cmd *cmd, t_array *var)
 {
 	char	**res;
@@ -28,14 +40,7 @@ int	exec_cmd(t_cmd *cmd, t_array *var)
 		return (-1);
 	hook();
 	while (res[++i])
-	{
-		execve(cmd->cmd, (char **)cmd->argv->items, (char **)var->items);
-		path_join = ft_strjoin_sep(res[i], cmd->cmd, '/');
-		if (!path_join)
-			return (-1);
-		execve(path_join, (char **)cmd->argv->items, (char **)var->items);
-		free(path_join);
-	}
+		find_and_exec(cmd, var, res[i]);
 	free_split(res);
 	return (-1);
 }

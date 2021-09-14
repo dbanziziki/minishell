@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+int	minishell_arg(char **envp, char *line)
+{
+	t_minishell	*ms;
+	t_AST		*ast;
+	int			status;
+
+	ms = init_minishell_struct(envp);
+	status = execute(ms, line);
+	return (status);
+}
+
 char	*ms_readline(void)
 {
 	char	*line;

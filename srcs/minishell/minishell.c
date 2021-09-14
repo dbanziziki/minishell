@@ -1,6 +1,4 @@
 #include "minishell.h"
-#include "libft.h"
-#include <stdio.h>
 
 t_sig	g_sig;
 
@@ -52,7 +50,7 @@ static int	run_process(t_minishell *ms, t_AST *ast)
 	return (g_sig.exit_status);
 }
 
-static int	execute(t_minishell *ms, char *line)
+int	execute(t_minishell *ms, char *line)
 {
 	t_AST	*ast;
 	int		status;
@@ -102,17 +100,6 @@ void	minishell(char **env_v)
 			continue ;
 		free(line);
 	}
-}
-
-int	minishell_arg(char **envp, char *line)
-{
-	t_minishell	*ms;
-	t_AST		*ast;
-	int			status;
-
-	ms = init_minishell_struct(envp);
-	status = execute(ms, line);
-	return (status);
 }
 
 int	main(int argc, char *argv[], char **envp)

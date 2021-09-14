@@ -1,15 +1,19 @@
 #include "tokenizer.h"
 
-t_token	*new_token(int type, char *value)
+static void	advence_cursor(t_tokenizer *t, int type)
 {
-	t_token	*new;
-
-	new = (t_token *)malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->type = type;
-	new->value = value;
-	return (new);
+	if (!t)
+		return ;
+	if (type == DOUBLE_QUOTE_TOKEN)
+	{
+		while (t->str[t->cursor] && t->str[t->cursor] != DOUBLE_QUOTE)
+			t->cursor++;
+	}
+	else
+	{
+		while (t->str[t->cursor] && t->str[t->cursor] != SINGLE_QUOTE)
+			t->cursor++;
+	}
 }
 
 t_token	*quote_token(t_tokenizer *t, char *temp)
@@ -24,16 +28,7 @@ t_token	*quote_token(t_tokenizer *t, char *temp)
 		type = SIMPLE_QUOTE_TOKEN;
 	i = t->cursor;
 	t->cursor++;
-	if (type == DOUBLE_QUOTE_TOKEN)
-	{
-		while (t->str[t->cursor] && t->str[t->cursor] != DOUBLE_QUOTE)
-			t->cursor++;
-	}
-	else
-	{
-		while (t->str[t->cursor] && t->str[t->cursor] != SINGLE_QUOTE)
-			t->cursor++;
-	}
+	advence_cursor(t, type);
 	token = new_token(type, ft_strndup(++temp, (t->cursor - 1) - i));
 	if (t->cursor < t->len)
 		t->cursor++;

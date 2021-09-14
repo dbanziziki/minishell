@@ -65,7 +65,7 @@ void		unset(t_minishell *ms, char *var);
 int			swap_lines(char **s1, char **s2);
 void		for_dup(t_cmd *cmd);
 void		action(int signum);
-
+int			minishell_arg(char **envp, char *line);
 void		time_to_exit(t_minishell *ms, char **line);
 void		init_env(char **env_v, t_minishell *ms);
 char		*get_env_v(char *key, t_array *var);
@@ -82,4 +82,5 @@ int			read_from_pipe(t_minishell *ms, t_cmd *cmd);
 int			exec_cmd(t_cmd *cmd, t_array *var);
 void		parse_line(t_minishell **ms, char *line);
 char		*ms_readline(void);
+int			execute(t_minishell *ms, char *line);
 #endif

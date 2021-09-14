@@ -94,6 +94,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								parse_heredoc.c \
 								parse_pipe.c \
 								parse_env_var_utils.c \
+								token.c \
 )
 
 PARSER_MAIN = $(PARSER_DIR)/main.c
