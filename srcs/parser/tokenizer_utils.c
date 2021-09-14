@@ -58,6 +58,11 @@ t_token	*dollarsign_token(t_tokenizer *t, char *temp)
 	size_t	i;
 
 	i = t->cursor;
+	if (!temp[1] || ft_isspace(temp[1]))
+	{
+		t->cursor++;
+		return (new_token(WORD_TOKEN, ft_strndup(temp, 1)));
+	}
 	while (t->str[t->cursor] && t->str[t->cursor] != ' ')
 		t->cursor++;
 	token = new_token(DOLLARSIGN_TOKEN, ft_strndup(temp, t->cursor - i));

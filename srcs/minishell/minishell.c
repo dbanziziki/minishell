@@ -109,7 +109,6 @@ int	minishell_arg(char **envp, char *line)
 	t_AST		*ast;
 	int			status;
 
-	//hook();
 	ms = init_minishell_struct(envp);
 	status = execute(ms, line);
 	return (status);

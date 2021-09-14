@@ -38,6 +38,7 @@ t_tokenizer	*init_tokenizer(char *str);
 t_token		*get_next_token(t_tokenizer *t);
 t_token		*new_token(int type, char *value);
 t_token		*quote_token(t_tokenizer *t, char *temp);
+t_token		*word_token(t_tokenizer *t, char *temp);
 char		*skip_whitespace(char *str, t_tokenizer *t);
 t_token		*dollarsign_token(t_tokenizer *t, char *temp);
 t_token		*simple_token(t_tokenizer *t, char *temp);
