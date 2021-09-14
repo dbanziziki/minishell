@@ -31,7 +31,7 @@ void	parse_line(t_minishell **ms, char *line)
 	temp->nb_proc = prog->nb_pipes + 1;
 	temp->nb_pipe = temp->nb_proc + 1;
 	temp->pipes = init_pipes(temp->nb_pipe);
-	temp->p_ids = (pid_t *)malloc(sizeof(pid_t) * temp->nb_proc);
+	temp->p_ids = (pid_t *)malloc(sizeof(pid_t) * temp->nb_proc);// TODO
 	if (!temp->pipes || !temp->p_ids)
 		return ;
 }

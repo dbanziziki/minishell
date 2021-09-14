@@ -37,7 +37,7 @@ int main()
 	t_io_mod	*io_mod;
 	char		*line;
 
-	prog = (t_program *)malloc(sizeof(t_program));
+	prog = (t_program *)malloc(sizeof(t_program));// TODO
 	prog->has_pipes = 0;
 	prog->nb_pipes = 0;
 	root = init_AST(PROGRAM, prog);

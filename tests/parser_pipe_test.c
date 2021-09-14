@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
 	t_program	*base;
 	t_io_mod	*io_mod;
 
-	base = (t_program *)malloc(sizeof(t_program));
+	base = (t_program *)malloc(sizeof(t_program));// TODO
 	base->has_pipes = 0;
 	base->nb_pipes = 0;
 	root = init_AST(PROGRAM, base);

@@ -22,9 +22,9 @@ void	list_push(t_array *list, void *item)
 	list->size++;
 	new_size = (list->size + 1) * list->item_size;
 	if (!list->items)
-		list->items = malloc(list->item_size * (list->size + 1));
+		list->items = malloc(list->item_size * (list->size + 1)); // TODO
 	else
-		list->items = ft_realloc(list->items, new_size, old_size);
+		list->items = ft_realloc(list->items, new_size, old_size); // TODO
 	list->items[list->size - 1] = item;
 	list->items[list->size] = 0;
 }

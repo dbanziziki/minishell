@@ -6,7 +6,7 @@ static t_cmd	*create_cmd(t_parser *p, t_AST *last, t_token *token)
 	t_cmd	*cmd;
 
 	cmd = NULL;
-	parsed = parse_str(ft_strdup(token->value), p->var);
+	parsed = parse_str(ft_strdup(token->value), p->var);// TODO
 	if (last->type == PROGRAM)
 	{
 		cmd = init_cmd(parsed);

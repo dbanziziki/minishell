@@ -4,7 +4,7 @@
 ** Echo function reproduces behavior of "echo" bash command
 **	but with limited functionality "-n" flag only.
 */
-void	echo_2(char **s, int i, char *flag)
+static void	echo_2(char **s, int i, char *flag)
 {
 	if (s[1] && !ft_strcmp("-n", s[1]))
 	{
@@ -76,6 +76,7 @@ void	time_to_exit(t_minishell *ms, char **line)
 	int	res;
 
 	res = 0;
+	// printf("exit\n");
 	if (line[1])
 		res = ft_atoi(line[1]);
 	exit_minishell(ms, res);
