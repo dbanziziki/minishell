@@ -24,7 +24,6 @@ extern t_sig	g_sig;
 typedef struct s_minishell
 {
 	int			nb_proc;
-	int			exit_status;
 	int			has_pipes;
 	int			nb_pipe;
 	int			**pipes;

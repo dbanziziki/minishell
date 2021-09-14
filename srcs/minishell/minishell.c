@@ -74,6 +74,7 @@ int	execute(t_minishell *ms, char *line)
 		}
 		status = run_process(ms, ast);
 	}
+	free(line);
 	return (status);
 }
 
@@ -98,7 +99,6 @@ void	minishell(char **env_v)
 			continue ;
 		if (execute(ms, line))
 			continue ;
-		free(line);
 	}
 }
 
