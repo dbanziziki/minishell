@@ -60,11 +60,14 @@ char	*get_env_v(char *key, t_array *var)
 	char	*res;
 
 	i = -1;
+	if (!key)
+		return (NULL);
 	while (++i < var->size)
 	{
-		if (!ft_strncmp(key, var->items[i], ft_strlen(var->items[i])))
+		res = ft_strchr(var->items[i], '=');
+		if (res && !ft_strncmp(key, var->items[i],
+				 ft_strlen(var->items[i]) - ft_strlen(res)))
 		{
-			res = ft_strchr(var->items[i], '=');
 			if (!res)
 				return (NULL);
 			else

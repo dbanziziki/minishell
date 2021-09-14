@@ -10,6 +10,8 @@ static char	*get_env_var(char *str, t_array *var)
 	while (str[++var_len] && str[var_len] != ' ')
 		;
 	temp = ft_strndup(str, var_len);
+	if (!temp)
+		return ("$");
 	env_var = get_env_v(temp, var);
 	free(temp);
 	return (env_var);
