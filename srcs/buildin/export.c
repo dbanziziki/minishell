@@ -63,6 +63,17 @@ void	sorted_exp(t_minishell *ms, t_AST *ast)
 	free_tab(tab);
 }
 
+static void	put(t_minishell *ms, int i, char *new_arg)
+{
+	char	*tmp;
+
+	tmp = ms->var->items[i];
+	ms->var->items[i] = ft_strdup(new_arg);
+	if (!ms->var->items[i])
+		exit_minishell(ms, EXIT_FAILURE);
+	free(tmp);
+}
+
 void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
 {
 	char	*tmp;
@@ -76,13 +87,7 @@ void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
 		exit_minishell(ms, EXIT_FAILURE);
 	i = in_list(tab[0], ms);
 	if (i != -1 && tab[1])
-	{
-		tmp = ms->var->items[i];
-		ms->var->items[i] = ft_strdup(new_arg);
-		if (!ms->var->items[i])
-			exit_minishell(ms, EXIT_FAILURE);
-		free(tmp);
-	}
+		put(ms, i, new_arg);
 	else if (i == -1)
 	{
 		tmp = ft_strdup(new_arg);

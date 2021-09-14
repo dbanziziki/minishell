@@ -4,7 +4,7 @@
 ** Echo function reproduces behavior of "echo" bash command
 **	but with limited functionality "-n" flag only.
 */
-void	echo_2(char **s, int i, char *flag)
+static void	echo_2(char **s, int i, char *flag)
 {
 	if (s[1] && !ft_strcmp("-n", s[1]))
 	{

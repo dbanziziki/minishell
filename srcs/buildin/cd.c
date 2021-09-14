@@ -22,7 +22,6 @@ void	move_to(t_minishell *ms, t_AST *ast, char *path)
 	if (!goal || !new)
 	{
 		printf("Malloc error\n");
-		g_sig.exit_status = 1;
 		exit_minishell(ms, EXIT_FAILURE);
 	}
 	if (err)
@@ -35,6 +34,22 @@ void	move_to(t_minishell *ms, t_AST *ast, char *path)
 	export_v(ms, new, ast);
 	free(goal);
 	free(new);
+}
+
+static int	err_check(char *goal, char *new, int err)
+{
+	if (!goal || !new)
+	{
+		printf("Malloc error\n");
+		return (1);
+	}
+	if (err)
+	{
+		printf("cd: %s: No such file or directory \n", goal);
+		g_sig.exit_status = 1;
+		return (1);
+	}
+	return (0);
 }
 
 void	move_to_root(t_minishell *ms, t_AST *ast)
@@ -50,18 +65,8 @@ void	move_to_root(t_minishell *ms, t_AST *ast)
 	goal = ft_strjoin("OLDPWD=", curr_dir);
 	getcwd(curr_dir, 1024);
 	new = ft_strjoin("PWD=", curr_dir);
-	if (!goal || !new)
-	{
-		printf("Malloc error\n");
-		g_sig.exit_status = 1;
+	if (err_check(goal, new, err))
 		exit_minishell(ms, EXIT_FAILURE);
-	}
-	if (err)
-	{
-		printf("cd: %s: No such file or directory \n", goal);
-		g_sig.exit_status = 1;
-		return ;
-	}
 	export_v(ms, new, ast);
 	export_v(ms, goal, ast);
 	free(goal);

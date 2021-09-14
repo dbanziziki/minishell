@@ -77,6 +77,8 @@ char	*parse_str(char *str, t_array *var)
 	if (!ft_strchr(temp, '$'))
 		return (str);
 	res = ft_strdup(str);
+	if (!res)
+		return (NULL);
 	temp = str;
 	while (*temp)
 	{
