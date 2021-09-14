@@ -53,7 +53,6 @@ static int	run_process(t_minishell *ms, t_AST *ast)
 int	execute(t_minishell *ms, char *line)
 {
 	t_AST	*ast;
-	int		status;
 
 	parse_line(&ms, line);
 	if (ms->p->flag == 1)
@@ -69,20 +68,20 @@ int	execute(t_minishell *ms, char *line)
 			&& find_cmd(*((t_cmd *)ast->body)->argv, ms, ast))
 		{
 			free_all(ms);
+			free(line);
 			g_sig.exit_status = 0;
 			return (g_sig.exit_status);
 		}
-		status = run_process(ms, ast);
+		g_sig.exit_status = run_process(ms, ast);
 	}
 	free(line);
-	return (status);
+	return (g_sig.exit_status);
 }
 
 void	minishell(char **env_v)
 {
 	t_minishell	*ms;
 	char		*line;
-	t_AST		*ast;
 
 	ms = init_minishell_struct(env_v);
 	while (1)

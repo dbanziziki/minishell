@@ -43,8 +43,6 @@ t_token	*double_redirect_token(t_tokenizer *t, char *temp, int type)
 
 static t_token	*switch_token(t_tokenizer *t, char *temp)
 {
-	t_token	*token;
-
 	if (temp[0] == PIPE)
 		return (simple_token(t, temp));
 	else if (!ft_strncmp(temp, HEREDOC, 2))

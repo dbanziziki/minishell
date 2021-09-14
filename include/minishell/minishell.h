@@ -65,7 +65,7 @@ int			swap_lines(char **s1, char **s2);
 void		for_dup(t_cmd *cmd);
 void		action(int signum);
 int			minishell_arg(char **envp, char *line);
-void		time_to_exit(t_minishell *ms, char **line);
+void		time_to_exit(t_minishell *ms, t_array *arr);
 void		init_env(char **env_v, t_minishell *ms);
 char		*get_env_v(char *key, t_array *var);
 int			in_list(char *key, t_minishell *ms);

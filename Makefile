@@ -40,7 +40,7 @@ endif
 ifeq ($(OSNAME), Darwin)
 	RFLAGS = -L $(RPATH)lib -I $(RPATH)include -lreadline -Wno-unused-command-line-argument
 endif
-CFLAGS = -g #-fsanitize=address #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 PARSER_DIR = $(SRCS_DIR)/parser
 
@@ -97,8 +97,6 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								token.c \
 )
 
-PARSER_MAIN = $(PARSER_DIR)/main.c
-
 MINISHELL_MAIN = $(SRCS_DIR)/minishell.c
 
 LIST_HEADERS = $(addprefix $(LIST_INC)/, \
@@ -111,7 +109,6 @@ MINISHELL_HEADERS = $(addprefix $(INC_DIR)/$(NAME)/, \
 
 UTILS_SRCS = $(addprefix $(UTILS_DIR)/, \
 							utils.c \
-							print_ast.c \
 							free_all.c \
 							exit_minishell.c \
 							print_error.c \
@@ -159,16 +156,6 @@ BUILTIN_OBJS = $(BUILDIN_SRCS_DIR:.c=.o)
 
 $(NAME): $(LIBFT_LIB) $(MINISHELL_OBJS) $(HEADERS) $(MINISHELL_HEADERS)
 	@$(CC) $(CFLAGS) $(RFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) -I $(MINISHELL_INC_DIR) -I $(LIBFT_INC_DIR) $(MINISHELL_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) $(LINUX_FALG) -o $@
-
-$(PARSER): $(LIBFT_LIB) $(OBJS) $(LIST_OBJS) $(BUILTIN_OBJS) $(HEADERS)
-	@$(CC) $(CFLAGS) $(RFLAGS) -I $(LIBFT_INC_DIR) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(PARSER_MAIN) $(OBJS) $(BUILTIN_OBJS) $(LIBFT_DIR)/$(LIBFT_LIB) $(LINUX_FALG) -o $@
-	./$(PARSER)
-
-test: $(OBJS) $(TEST_OBJS)
-	@$(CC) $(CFLAGS) $(RFLAGS) -I $(INC_DIR) -I $(PARSER_INC) -I $(LIST_INC) $(OBJS) $(TEST_OBJS) -o $@
-
-$(LIST): $(LIST_OBJS)
-	@$(CC) $(CFLAGS) $(RFLAGS) -I $(LIST_INC) $(LIST_OBJS) $(LIST_DIR)/main.c -o $@
 
 #LIBFT
 libft: $(LIBFT_LIB)

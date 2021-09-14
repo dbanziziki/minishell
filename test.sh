@@ -14,7 +14,7 @@ run_simple_test () {
     local bash_ret=$?
     if [ "$ms_ret" -eq 0 ] && [ "$bash_ret" -eq 0 ]; then
         if [ "$ms_output" = "$bash_output" ]; then
-            printf "%s\n\e[32m%s\n" "$cmd" "[OK]"
+            printf "banana%s\n\e[32m%s\n" "$cmd" "[OK]"
         else
             printf "\e[31m%s\n" "[KO]"
             printf "\033[0m"
@@ -80,13 +80,7 @@ run_tests () {
     while IFS= read -r line; do
         run_simple_test "$line"
     done < $1
-    printf "\033[0;35m--------%s-------------\n" "Testing redirections"
-    printf "\033[0m"
-    while IFS= read -r line; do
-       test_redirections "$line" 
-    done < test_redir.txt
     #clean_up
 }
-
 
 run_tests test_cmd.txt

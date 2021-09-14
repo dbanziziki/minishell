@@ -75,10 +75,6 @@ void	move_to_root(t_minishell *ms, t_AST *ast)
 
 void	change_dir(char *path, t_minishell *ms, t_AST *ast)
 {
-	int		err;
-	char	*goal;
-	char	*new;
-
 	if (path)
 		move_to(ms, ast, path);
 	else

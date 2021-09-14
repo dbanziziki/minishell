@@ -3,11 +3,10 @@
 int	minishell_arg(char **envp, char *line)
 {
 	t_minishell	*ms;
-	t_AST		*ast;
 	int			status;
 
 	ms = init_minishell_struct(envp);
-	status = execute(ms, line);
+	status = execute(ms, ft_strdup(line));
 	return (status);
 }
 

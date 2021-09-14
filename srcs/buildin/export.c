@@ -2,6 +2,8 @@
 #include "libft.h"
 #include <stdio.h>
 
+t_sig	g_sig;
+
 void	free_tab(char **tab)
 {
 	int	len;
@@ -39,8 +41,6 @@ void	sorted_exp(t_minishell *ms, t_AST *ast)
 	char	**tab;
 	int		j;
 	int		i;
-	char	*temp;
-	char	*to_free;
 
 	tab = cp_tab((char **)ms->var->items);
 	if (!tab)
@@ -85,8 +85,14 @@ void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
 	tab = ft_split(new_arg, '=');
 	if (!tab)
 		exit_minishell(ms, EXIT_FAILURE);
+	if (ft_isdigit(tab[0][0]))
+	{
+		g_sig.exit_status = 1;
+		free_tab(tab);
+		return (print_error("bash: export: not a valid identifier", NULL));
+	}
 	i = in_list(tab[0], ms);
-	if (i != -1 && tab[1])
+	if (i != -1)
 		put(ms, i, new_arg);
 	else if (i == -1)
 	{

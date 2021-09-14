@@ -2,7 +2,7 @@
 
 t_sig	g_sig;
 
-static void	set_cmd(t_parser *p, t_AST *ast, t_token *token, char *env_var)
+static void	set_cmd(t_AST *ast, char *env_var)
 {
 	t_cmd	*cmd;
 
@@ -23,7 +23,6 @@ static void	set_cmd(t_parser *p, t_AST *ast, t_token *token, char *env_var)
 void	parse_env_var(t_parser *p, t_AST *ast)
 {
 	t_token		*token;
-	t_cmd		*cmd;
 	char		*env_var;
 
 	token = eat(p, DOLLARSIGN_TOKEN);
@@ -35,7 +34,7 @@ void	parse_env_var(t_parser *p, t_AST *ast)
 		env_var = ft_strdup(get_env_v((token->value) + 1, p->var));
 	while (ast->next)
 		ast = ast->next;
-	set_cmd(p, ast, token, env_var);
+	set_cmd(ast, env_var);
 	free(token->value);
 	free(token);
 }

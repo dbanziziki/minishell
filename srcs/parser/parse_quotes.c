@@ -25,7 +25,6 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 {
 	t_token	*token;
 	t_cmd	*cmd;
-	char	*parsed;
 
 	cmd = NULL;
 	token = eat(p, DOUBLE_QUOTE_TOKEN);

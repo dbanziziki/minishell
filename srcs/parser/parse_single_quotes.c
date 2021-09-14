@@ -6,8 +6,6 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 	t_token	*token;
 
 	cmd = NULL;
-	if (last->type != PROGRAM)
-		cmd = (t_cmd *)last->body;
 	token = eat(p, SIMPLE_QUOTE_TOKEN);
 	if (!token)
 		return (NULL);
@@ -34,7 +32,12 @@ void	parse_single_quotes(t_parser *p, t_AST *ast)
 	if (p->token->type != SIMPLE_QUOTE_TOKEN)
 		return ;
 	last = get_last(&ast);
-	cmd = set_cmd(p, ast);
+	cmd = NULL;
+	if (last->type != PROGRAM)
+		cmd = (t_cmd *)last->body;
+	cmd = set_cmd(p, last);
+	if (!cmd)
+		return ;
 	eat_words(p, cmd);
 	parse_single_quotes(p, ast);
 }

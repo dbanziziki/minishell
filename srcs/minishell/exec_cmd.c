@@ -26,7 +26,6 @@ int	exec_cmd(t_cmd *cmd, t_array *var)
 {
 	char	**res;
 	char	*path;
-	char	*path_join;
 	size_t	i;
 
 	i = -1;

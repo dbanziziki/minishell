@@ -31,8 +31,6 @@ static int	parsing_error(t_parser *p)
 
 static int	switch_token(t_parser *p, t_AST **ast)
 {
-	t_AST	*temp;
-
 	if (p->token->type == WORD_TOKEN)
 		parse_word(p, *ast);
 	else if (p->token->type == PIPE_TOKEN)

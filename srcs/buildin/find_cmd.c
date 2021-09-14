@@ -46,7 +46,6 @@ void	init_env(char **env_v, t_minishell *ms)
 int	swap_lines(char **s1, char **s2)
 {
 	char	*temp;
-	char	*to_free;
 
 	temp = *s1;
 	*s1 = *s2;
@@ -88,7 +87,7 @@ int	find_cmd(t_array cmd, t_minishell *ms, t_AST *ast)
 		else if (!ft_strcmp((char *)cmd.items[0], "pwd"))
 			pwd(ast);
 		else if (!ft_strcmp((char *)cmd.items[0], "exit"))
-			time_to_exit(ms, (char **)cmd.items);
+			time_to_exit(ms, &cmd);
 		else if (!ft_strcmp((char *)cmd.items[0], "env"))
 			get_env((char **)ms->var->items, 0, ast);
 		else if (!ft_strcmp((char *)cmd.items[0], "export"))
