@@ -41,10 +41,10 @@ static t_io_mod	*set_io_mod(t_cmd *cmd, t_token *token, int type)
 			list_push(cmd->io_mod->out, token->value);
 		if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile
 			&& type == GREATER_THAN_TOKEN)
-			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT;
+			cmd->io_mod->e_type = REDIRECT_INPUT_OUTPUT;
 		else if (cmd->io_mod->out->size > 0 && cmd->io_mod->infile
 			&& type == GGREATER_THAN_TOKEN)
-			cmd->io_mod->type = REDIRECT_INPUT_OUTPUT_APPEND;
+			cmd->io_mod->e_type = REDIRECT_INPUT_OUTPUT_APPEND;
 		return (cmd->io_mod);
 	}
 	else
@@ -79,7 +79,7 @@ static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
 
 	token = NULL;
 	cmd = NULL;
-	if (p->token->type == WORD_TOKEN)
+	if (p->token->e_type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
 		if (!token)
@@ -107,13 +107,13 @@ void	parse_redirections(t_parser *p, t_AST *ast)
 	last = get_last(&ast);
 	cmd = NULL;
 	io_mod = NULL;
-	if (last->type != PROGRAM)
+	if (last->e_type != PROGRAM)
 		cmd = (t_cmd *)last->body;
-	if (p->token->type == GREATER_THAN_TOKEN)
+	if (p->token->e_type == GREATER_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, GREATER_THAN_TOKEN);
-	else if (p->token->type == LESS_THAN_TOKEN)
+	else if (p->token->e_type == LESS_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, LESS_THAN_TOKEN);
-	else if (p->token->type == GGREATER_THAN_TOKEN)
+	else if (p->token->e_type == GGREATER_THAN_TOKEN)
 		io_mod = parse_redirect(p, cmd, GGREATER_THAN_TOKEN);
 	if (!io_mod)
 		return ;

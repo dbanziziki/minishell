@@ -7,7 +7,7 @@ t_token	*new_token(int type, char *value)
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
-	new->type = type;
+	new->e_type = type;
 	new->value = value;
 	return (new);
 }

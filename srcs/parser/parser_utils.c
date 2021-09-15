@@ -5,7 +5,7 @@ void	eat_words(t_parser *p, t_cmd *cmd)
 	t_token	*token;
 
 	token = NULL;
-	while (p->token->type == WORD_TOKEN)
+	while (p->token->e_type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
 		if (!token)
@@ -38,7 +38,7 @@ t_io_mod	*init_io_mod(int type)
 	io_mod = (t_io_mod *)malloc(sizeof(t_io_mod));
 	if (!io_mod)
 		return (NULL);
-	io_mod->type = type;
+	io_mod->e_type = type;
 	io_mod->infile = NULL;
 	io_mod->hd_flag = 0;
 	io_mod->out = init_list(sizeof(char *));

@@ -23,7 +23,7 @@ typedef struct s_token
 		DOUBLE_QUOTE_TOKEN,
 		SIMPLE_QUOTE_TOKEN,
 		DOLLARSIGN_TOKEN
-	}			type;
+	}			e_type;
 	char		*value;
 }				t_token;
 

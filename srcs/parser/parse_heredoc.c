@@ -6,7 +6,7 @@ static void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
 	t_token	*token;
 
 	cmd = NULL;
-	if (p->token->type == WORD_TOKEN)
+	if (p->token->e_type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);
 		cmd = init_cmd(token->value);
@@ -56,12 +56,12 @@ void	parse_heredoc(t_parser *p, t_AST *ast)
 	t_AST		*last;
 	t_cmd		*cmd;
 
-	if (p->token->type != HEREDOC_TOKEN)
+	if (p->token->e_type != HEREDOC_TOKEN)
 		return ;
 	last = get_last(&ast);
 	hd = NULL;
 	cmd = NULL;
-	if (last->type != PROGRAM)
+	if (last->e_type != PROGRAM)
 		cmd = (t_cmd *)last->body;
 	token = eat(p, HEREDOC_TOKEN);
 	if (!token)

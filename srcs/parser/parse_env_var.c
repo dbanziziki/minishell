@@ -7,7 +7,7 @@ static void	set_cmd(t_AST *ast, char *env_var)
 	t_cmd	*cmd;
 
 	cmd = NULL;
-	if (ast->type == PROGRAM)
+	if (ast->e_type == PROGRAM)
 	{
 		cmd = init_cmd(env_var);
 		list_push(cmd->argv, env_var);

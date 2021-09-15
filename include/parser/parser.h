@@ -16,7 +16,7 @@ typedef struct s_io_modifier
 		REDIRECT_INPUT,
 		REDIRECT_INPUT_OUTPUT,
 		REDIRECT_INPUT_OUTPUT_APPEND
-	}			type;
+	}			e_type;
 	char		*infile;
 	t_array		*out;
 	int			fds[2];

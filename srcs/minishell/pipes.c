@@ -4,7 +4,7 @@ int	pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 {
 	if (!(cmd->io_mod && cmd->io_mod->out->items))
 		dup2(ms->pipes[cmd->proc_idx + 1][1], STDOUT_FILENO);
-	if (curr_ast->next->type != PIPE_CMD_AND_ARG)
+	if (curr_ast->next->e_type != PIPE_CMD_AND_ARG)
 	{
 		if (close(ms->pipes[cmd->proc_idx][0]) < 0 ||
 			close(ms->pipes[cmd->proc_idx + 1][1]) < 0)

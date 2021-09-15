@@ -9,8 +9,8 @@ void	get_env(char **env_v, int flag, t_AST *ast)
 
 	i = -1;
 	cmd = (t_cmd *)ast->body;
-	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_OUTPUT
+			|| cmd->io_mod->e_type == REDIRECT_OUTPUT_APPEND))
 		redirect_output(cmd);
 	if (!flag)
 	{

@@ -2,19 +2,19 @@
 
 static	int	redirections(t_cmd *cmd)
 {
-	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_OUTPUT
+			|| cmd->io_mod->e_type == REDIRECT_OUTPUT_APPEND))
 	{
 		if (redirect_output(cmd) < 0)
 			return (-1);
 	}
-	else if (cmd->io_mod && cmd->io_mod->type == REDIRECT_INPUT)
+	else if (cmd->io_mod && cmd->io_mod->e_type == REDIRECT_INPUT)
 	{
 		if (redirect_input(cmd))
 			return (-1);
 	}
-	else if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_INPUT_OUTPUT
-			|| cmd->io_mod->type == REDIRECT_INPUT_OUTPUT_APPEND))
+	else if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_INPUT_OUTPUT
+			|| cmd->io_mod->e_type == REDIRECT_INPUT_OUTPUT_APPEND))
 	{
 		if (redirect_input(cmd) < 0)
 			return (-1);
@@ -36,7 +36,7 @@ static int	pipes(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 		if (pipe_stdout(ms, curr_ast, cmd) < 0)
 			return (-1);
 	}
-	if (curr_ast->type == PIPE_CMD_AND_ARG && !cmd->hd)
+	if (curr_ast->e_type == PIPE_CMD_AND_ARG && !cmd->hd)
 	{
 		if (read_from_pipe(ms, cmd) < 0)
 			return (-1);

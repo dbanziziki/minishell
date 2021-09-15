@@ -8,7 +8,7 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 	token = eat(p, WORD_TOKEN);
 	if (!token)
 		return (NULL);
-	if (last->type != PROGRAM)
+	if (last->e_type != PROGRAM)
 	{
 		cmd = (t_cmd *)last->body;
 		if (!cmd->cmd)
@@ -31,7 +31,7 @@ int	parse_word(t_parser *p, t_AST *ast)
 	if (!cmd)
 		return (-1);
 	eat_words(p, cmd);
-	if (last->type == PROGRAM)
+	if (last->e_type == PROGRAM)
 		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
 	return (1);
 }

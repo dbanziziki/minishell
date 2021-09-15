@@ -12,7 +12,7 @@ t_token	*eat(t_parser *p, int type)
 		p->flag = 1;
 		return (NULL);
 	}
-	if (token->type != type)
+	if (token->e_type != type)
 	{
 		print_error("minishell: parse error near ", token->value);
 		p->flag = 1;
@@ -31,21 +31,21 @@ static int	parsing_error(t_parser *p)
 
 static int	switch_token(t_parser *p, t_AST **ast)
 {
-	if (p->token->type == WORD_TOKEN)
+	if (p->token->e_type == WORD_TOKEN)
 		parse_word(p, *ast);
-	else if (p->token->type == PIPE_TOKEN)
+	else if (p->token->e_type == PIPE_TOKEN)
 		addback_AST(ast, parse_pipe(p, *ast));
-	else if (p->token->type == LESS_THAN_TOKEN
-		|| p->token->type == GGREATER_THAN_TOKEN
-		|| p->token->type == GREATER_THAN_TOKEN)
+	else if (p->token->e_type == LESS_THAN_TOKEN
+		|| p->token->e_type == GGREATER_THAN_TOKEN
+		|| p->token->e_type == GREATER_THAN_TOKEN)
 		parse_redirections(p, *ast);
-	else if (p->token->type == DOUBLE_QUOTE_TOKEN)
+	else if (p->token->e_type == DOUBLE_QUOTE_TOKEN)
 		parse_double_quotes(p, *ast);
-	else if (p->token->type == SIMPLE_QUOTE_TOKEN)
+	else if (p->token->e_type == SIMPLE_QUOTE_TOKEN)
 		parse_single_quotes(p, *ast);
-	else if (p->token->type == DOLLARSIGN_TOKEN)
+	else if (p->token->e_type == DOLLARSIGN_TOKEN)
 		parse_env_var(p, *ast);
-	else if (p->token->type == HEREDOC_TOKEN)
+	else if (p->token->e_type == HEREDOC_TOKEN)
 		parse_heredoc(p, *ast);
 	else
 		return (parsing_error(p));
@@ -54,7 +54,7 @@ static int	switch_token(t_parser *p, t_AST **ast)
 
 int	parse(t_parser *p, t_AST **ast)
 {
-	if (!p->token || p->token->type == EOF_TOKEN || p->flag)
+	if (!p->token || p->token->e_type == EOF_TOKEN || p->flag)
 		return (-1);
 	hook();
 	if (switch_token(p, ast) == -1)

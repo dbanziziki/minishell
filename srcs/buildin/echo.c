@@ -33,8 +33,8 @@ static void	echo_2(char **s)
 
 void	for_dup(t_cmd *cmd)
 {
-	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_OUTPUT
+			|| cmd->io_mod->e_type == REDIRECT_OUTPUT_APPEND))
 	{
 		dup2(cmd->save_out, STDOUT_FILENO);
 		close(cmd->save_out);
@@ -48,8 +48,8 @@ void	echo(char **s, t_AST *ast)
 	cmd = (t_cmd *)ast->body;
 	if (s)
 	{
-		if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-				|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+		if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_OUTPUT
+				|| cmd->io_mod->e_type == REDIRECT_OUTPUT_APPEND))
 			redirect_output(cmd);
 		echo_2(s);
 	}
@@ -67,8 +67,8 @@ void	pwd(t_AST *ast)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)ast->body;
-	if (cmd->io_mod && (cmd->io_mod->type == REDIRECT_OUTPUT
-			|| cmd->io_mod->type == REDIRECT_OUTPUT_APPEND))
+	if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_OUTPUT
+			|| cmd->io_mod->e_type == REDIRECT_OUTPUT_APPEND))
 		redirect_output(cmd);
 	getcwd(curr_dir, 1024);
 	printf("%s\n", curr_dir);

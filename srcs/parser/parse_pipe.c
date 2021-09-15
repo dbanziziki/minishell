@@ -13,7 +13,7 @@ static t_cmd	*set_pipe_cmd(t_parser *p)
 	t_cmd	*cmd;
 	t_token	*token;
 
-	if (p->token->type != WORD_TOKEN)
+	if (p->token->e_type != WORD_TOKEN)
 		return (init_cmd(NULL));
 	token = eat(p, WORD_TOKEN);
 	if (!token)
@@ -36,7 +36,7 @@ t_AST	*parse_pipe(t_parser *p, t_AST *ast)
 	token = eat(p, PIPE_TOKEN);
 	if (!token)
 		return (NULL);
-	if (last->type == PROGRAM)
+	if (last->e_type == PROGRAM)
 	{
 		print_error("minishell: parse error near ", token->value);
 		free(token->value);

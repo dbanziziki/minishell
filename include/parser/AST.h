@@ -8,7 +8,7 @@ typedef struct s_AST
 		PROGRAM,
 		CMD_AND_ARG,
 		PIPE_CMD_AND_ARG,
-	}				type;
+	}				e_type;
 	void			*body;
 	struct s_AST	*next;
 	struct s_AST	*prev;

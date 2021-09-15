@@ -7,7 +7,7 @@ t_AST	*init_AST(int type, void *body)
 	AST = malloc(sizeof(t_AST));
 	if (!AST)
 		return (NULL);
-	AST->type = type;
+	AST->e_type = type;
 	AST->body = body;
 	AST->next = 0;
 	return (AST);

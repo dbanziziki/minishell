@@ -39,10 +39,10 @@ int	redirect_output(t_cmd *cmd)
 	i = -1;
 	io_mod = cmd->io_mod;
 	out_size = io_mod->out->size;
-	if (create_files((char **)io_mod->out->items, out_size, io_mod->type) == -1)
+	if (create_files((char **)io_mod->out->items, out_size, io_mod->e_type) == -1)
 		return (-1);
-	if (io_mod->type == REDIRECT_OUTPUT
-		|| io_mod->type == REDIRECT_INPUT_OUTPUT)
+	if (io_mod->e_type == REDIRECT_OUTPUT
+		|| io_mod->e_type == REDIRECT_INPUT_OUTPUT)
 		io_mod->fds[1] = ro_open_fd(io_mod->out->items[out_size - 1], O_TRUNC);
 	else
 		io_mod->fds[1] = ro_open_fd(io_mod->out->items[out_size - 1], O_APPEND);
@@ -63,8 +63,8 @@ static int	check_infile(t_cmd *cmd)
 	io = cmd->io_mod;
 	if (io->out->items
 		&& !ft_strcmp(io->infile, io->out->items[io->out->size - 1])
-		&& io->type != REDIRECT_INPUT_OUTPUT_APPEND
-		&& io->type != REDIRECT_OUTPUT_APPEND)
+		&& io->e_type != REDIRECT_INPUT_OUTPUT_APPEND
+		&& io->e_type != REDIRECT_OUTPUT_APPEND)
 	{
 		if (pipe(fds) == -1)
 			return (-1);
