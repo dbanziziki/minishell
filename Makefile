@@ -40,7 +40,7 @@ endif
 ifeq ($(OSNAME), Darwin)
 	RFLAGS = -L $(RPATH)lib -I $(RPATH)include -lreadline -Wno-unused-command-line-argument
 endif
-CFLAGS = -g -fsanitize=address #-Wall -Wextra -Werror
+CFLAGS = -g #-fsanitize=address #-Wall -Wextra -Werror
 
 PARSER_DIR = $(SRCS_DIR)/parser
 

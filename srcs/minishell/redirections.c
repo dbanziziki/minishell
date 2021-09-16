@@ -39,7 +39,8 @@ int	redirect_output(t_cmd *cmd)
 	i = -1;
 	io_mod = cmd->io_mod;
 	out_size = io_mod->out->size;
-	if (create_files((char **)io_mod->out->items, out_size, io_mod->e_type) == -1)
+	if (create_files((char **)io_mod->out->items,
+			out_size, io_mod->e_type) == -1)
 		return (-1);
 	if (io_mod->e_type == REDIRECT_OUTPUT
 		|| io_mod->e_type == REDIRECT_INPUT_OUTPUT)
