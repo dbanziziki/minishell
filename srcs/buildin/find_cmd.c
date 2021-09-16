@@ -2,34 +2,32 @@
 #include "libft.h"
 #include <stdio.h>
 
-void	get_env(char **env_v, int flag, t_AST *ast)
+static void	cond(t_minishell *ms, char *line)
 {
-	int		i;
-	t_cmd	*cmd;
+	int		num;
+	char	*tmp;
+	char	*tmp_2;
 
-	i = -1;
-	cmd = (t_cmd *)ast->body;
-	if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_OUTPUT
-			|| cmd->io_mod->e_type == REDIRECT_OUTPUT_APPEND))
-		redirect_output(cmd);
-	if (!flag)
+	if (!ft_strncmp(line, "SHLVL=", 6))
 	{
-		while (env_v[++i])
-			printf("%s\n", env_v[i]);
+		num = ft_atoi(&line[6]);
+		tmp = ft_itoa(++num);
+		tmp_2 = ft_strjoin("SHLVL=", tmp);
+		if (!tmp || !tmp_2)
+			exit_minishell(ms, EXIT_FAILURE);
+		free(tmp);
+		tmp = tmp_2;
 	}
 	else
-	{
-		while (env_v[++i])
-			printf("declare -x %s\n", env_v[i]);
-	}
-	g_sig.exit_status = 0;
-	for_dup(cmd);
+		tmp = ft_strdup(line);
+	if (!tmp)
+		exit_minishell(ms, EXIT_FAILURE);
+	list_push(ms->var, tmp);
 }
 
 void	init_env(char **env_v, t_minishell *ms)
 {
 	int		i;
-	char	*tmp;
 
 	i = -1;
 	ms->var = init_list(sizeof(char *));
@@ -37,10 +35,7 @@ void	init_env(char **env_v, t_minishell *ms)
 		exit(1);
 	while (env_v[++i])
 	{
-		tmp = ft_strdup(env_v[i]);
-		if (!tmp)
-			exit_minishell(ms, EXIT_FAILURE);
-		list_push(ms->var, tmp);
+		cond(ms, env_v[i]);
 	}
 }
 
