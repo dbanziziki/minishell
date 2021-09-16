@@ -15,6 +15,30 @@ int	in_list(char *key, t_minishell *ms)
 	return (-1);
 }
 
+void	get_env(char **env_v, int flag, t_AST *ast)
+{
+	int		i;
+	t_cmd	*cmd;
+
+	i = -1;
+	cmd = (t_cmd *)ast->body;
+	if (cmd->io_mod && (cmd->io_mod->e_type == REDIRECT_OUTPUT
+			|| cmd->io_mod->e_type == REDIRECT_OUTPUT_APPEND))
+		redirect_output(cmd);
+	if (!flag)
+	{
+		while (env_v[++i])
+			printf("%s\n", env_v[i]);
+	}
+	else
+	{
+		while (env_v[++i])
+			printf("declare -x %s\n", env_v[i]);
+	}
+	g_sig.exit_status = 0;
+	for_dup(cmd);
+}
+
 void	list_mv(t_array *list, char **tmp, int place)
 {
 	int		i;
