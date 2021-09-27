@@ -58,6 +58,7 @@ t_parser	*init_parser(char *str)
 		return (NULL);
 	p->t = t;
 	p->flag = 0;
+	p->hd_err = 0;
 	p->token = get_next_token(t);
 	p->var = 0;
 	return (p);

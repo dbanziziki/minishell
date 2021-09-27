@@ -17,7 +17,12 @@ static int	post_child_process(t_minishell *ms)
 		else if (g_sig.exit_status == SIGINT)
 			g_sig.exit_status = 128 + SIGINT;
 		else
-			g_sig.exit_status = WEXITSTATUS(status);
+		{
+			if (ms->p->hd_err)
+				g_sig.exit_status = 258;
+			else
+				g_sig.exit_status = WEXITSTATUS(status);
+		}
 	}
 	free_all(ms);
 	return (0);

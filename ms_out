@@ -1,5 +1,0 @@
-INC_DIR = include
-READLINE_FLAG = -L/usr/include  -lreadline
-	LINUX_FALG = -L /usr/include -lreadline
-	RFLAGS = -L $(RPATH)lib -I $(RPATH)include -lreadline -Wno-unused-command-line-argument
-#include "minishell.h"

@@ -37,6 +37,7 @@ typedef struct s_cmd
 typedef struct s_parser
 {
 	int			flag;
+	int			hd_err;
 	t_tokenizer	*t;
 	t_token		*token;
 	t_array		*var;

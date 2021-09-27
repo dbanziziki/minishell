@@ -25,13 +25,11 @@ static void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
 	addback_AST(ast, init_AST(CMD_AND_ARG, cmd));
 }
 
-static void	set_heredoc(t_parser *p, t_AST *last, t_cmd *cmd)
+static void	push_hd(t_parser *p, t_AST *last, t_cmd *cmd, t_token *token)
 {
-	t_token	*token;
 	t_list	*hd;
 
 	hd = NULL;
-	token = eat(p, WORD_TOKEN);
 	if (!token)
 		return ;
 	if (cmd && cmd->hd)
@@ -47,6 +45,22 @@ static void	set_heredoc(t_parser *p, t_AST *last, t_cmd *cmd)
 			cmd->io_mod->hd_flag = 1;
 		ft_lstadd_back(&(cmd->hd), hd);
 	}
+}
+
+static void	set_heredoc(t_parser *p, t_AST *last, t_cmd *cmd)
+{
+	t_token	*token;
+
+	if (p->token->e_type == WORD_TOKEN)
+		token = eat(p, WORD_TOKEN);
+	else
+	{
+		token = eat(p, EOF_TOKEN);
+		p->hd_err = 1;
+	}
+	if (!token)
+		return ;
+	push_hd(p, last, cmd, token);
 }
 
 void	parse_heredoc(t_parser *p, t_AST *ast)

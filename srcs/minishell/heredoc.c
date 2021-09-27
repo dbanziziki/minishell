@@ -39,6 +39,11 @@ int	heredoc(t_minishell *ms, t_AST *curr_ast)
 	hd = cmd->hd;
 	while (hd)
 	{
+		if (!ft_strcmp(hd->content, "NULL"))
+		{
+			print_error("minishell: parse error near ", "`newline'");
+			return (-1);
+		}
 		in = write_line(hd, ms->var);
 		if (in < 0)
 			return (-1);
