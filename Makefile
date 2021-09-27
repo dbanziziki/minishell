@@ -95,6 +95,7 @@ PARSER_SRCS = $(addprefix $(PARSER_DIR)/, \
 								parse_pipe.c \
 								parse_env_var_utils.c \
 								token.c \
+								tokenize_quotes.c \
 )
 
 MINISHELL_MAIN = $(SRCS_DIR)/minishell.c
