@@ -4,8 +4,11 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "tokens.h"
+# include "list.h"
 # include "utils.h"
 # include "libft.h"
+
+typedef struct s_quote	t_quote;
 
 typedef struct s_token
 {
@@ -27,8 +30,17 @@ typedef struct s_token
 	char		*value;
 }				t_token;
 
+struct s_quote
+{
+	int		open;
+	int		con;
+	int		close;
+	char	*val;
+};
+
 typedef struct s_tokenizer
 {
+	t_array				*envp;
 	char				*str;
 	size_t				len;
 	size_t				cursor;

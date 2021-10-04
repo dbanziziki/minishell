@@ -10,6 +10,7 @@ t_tokenizer	*init_tokenizer(char *str)
 	new->len = ft_strlen(str);
 	new->str = str;
 	new->cursor = 0;
+	new->envp = 0;
 	return (new);
 }
 
@@ -22,7 +23,9 @@ t_token	*word_token(t_tokenizer *t, char *temp)
 	while (t->str[t->cursor] && !ft_isspace(t->str[t->cursor])
 		&& t->str[t->cursor] != '<'
 		&& t->str[t->cursor] != '>'
-		&& t->str[t->cursor] != '|')
+		&& t->str[t->cursor] != '|'
+		&& t->str[t->cursor] != '"'
+		&& t->str[t->cursor] != '\'')
 		t->cursor++;
 	token = new_token(WORD_TOKEN, ft_strndup(temp, t->cursor - i));
 	if (!token)
