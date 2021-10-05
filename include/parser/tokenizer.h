@@ -34,6 +34,7 @@ struct s_quote
 {
 	int		open;
 	int		con;
+	int		len;
 	int		close;
 	char	*val;
 };
@@ -49,9 +50,12 @@ typedef struct s_tokenizer
 t_tokenizer	*init_tokenizer(char *str);
 t_token		*get_next_token(t_tokenizer *t);
 t_token		*new_token(int type, char *value);
-t_token		*quote_token(t_tokenizer *t, char *temp);
+t_token		*single_quote_token(t_tokenizer *t);
+t_token		*quote_token(t_tokenizer *t);
 t_token		*word_token(t_tokenizer *t, char *temp);
 char		*skip_whitespace(char *str, t_tokenizer *t);
 t_token		*dollarsign_token(t_tokenizer *t, char *temp);
 t_token		*simple_token(t_tokenizer *t, char *temp);
+void		parse_again(t_tokenizer *t, t_quote *q);
+void		join_token_value(t_tokenizer *t, t_quote *q, int i);
 #endif

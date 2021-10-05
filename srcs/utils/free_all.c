@@ -65,10 +65,12 @@ void	free_all(t_minishell *ms)
 	int	i;
 
 	i = -1;
-	free(ms->p->token->value);
-	free(ms->p->token);
-	free(ms->p->t);
-	free(ms->p);
+	if (ms->p->token)
+		free_memory(ms->p->token->value);
+	free_memory(ms->p->token);
+	free_memory(ms->p->t);
+	free_memory(ms->p);
+	free_memory(ms->line);
 	free_ast(&(ms->ast));
 	free(ms->p_ids);
 	if (ms->pipes)

@@ -49,6 +49,7 @@ SRCS =	ft_bzero.c \
 		ft_strcmp.c \
 		ft_free_strtab.c \
 		ft_isspace.c \
+		ft_strjoin_free_both.c \
 
 BONUS =	ft_lstnew.c \
 		ft_lstmap.c \

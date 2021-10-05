@@ -5,6 +5,11 @@ void	eat_words(t_parser *p, t_cmd *cmd)
 	t_token	*token;
 
 	token = NULL;
+	if (!p->token)
+	{
+		p->flag = 1;
+		return ;
+	}
 	while (p->token->e_type == WORD_TOKEN)
 	{
 		token = eat(p, WORD_TOKEN);

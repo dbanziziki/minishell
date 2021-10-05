@@ -19,6 +19,12 @@ t_token	*eat(t_parser *p, int type)
 		return (NULL);
 	}
 	p->token = get_next_token(p->t);
+	if (!p->token)
+	{
+		print_error("minishell: syntax error", NULL);
+		p->flag = 1;
+		return (NULL);
+	}
 	return (token);
 }
 

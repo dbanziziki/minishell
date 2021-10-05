@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*   By: dbanzizi <dbanzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:11:06 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/05/31 11:34:01 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/05 15:01:54 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ int					ft_strcmp(char *s1, char *s2);
 char				**free_strtab(char **tab, int n);
 int					ft_isspace(char c);
 void				*ft_realloc(void *ptr, size_t size, size_t old_size);
+char				*ft_strjoin_free_both(char *s1, char *s2);
 #endif

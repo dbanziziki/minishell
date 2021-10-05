@@ -56,8 +56,10 @@ static t_token	*switch_token(t_tokenizer *t, char *temp)
 		return (simple_token(t, temp));
 	else if (temp[0] == DOLLARSIGN)
 		return (dollarsign_token(t, temp));
-	else if (temp[0] == DOUBLE_QUOTE || temp[0] == SINGLE_QUOTE)
-		return (quote_token(t, temp));
+	else if (temp[0] == DOUBLE_QUOTE)
+		return (quote_token(t));
+	/*else if (temp[0] == SINGLE_QUOTE)
+		return (single_quote_token(t));*/
 	else if (!temp[0])
 		return (new_token(EOF_TOKEN, ft_strndup("NULL", 4)));
 	else

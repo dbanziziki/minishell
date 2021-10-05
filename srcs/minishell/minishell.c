@@ -73,21 +73,18 @@ int	execute(t_minishell *ms, char *line)
 			&& find_cmd(*((t_cmd *)ast->body)->argv, ms, ast))
 		{
 			free_all(ms);
-			free(line);
 			if (!g_sig.exit_status)
 				g_sig.exit_status = 0;
 			return (g_sig.exit_status);
 		}
 		g_sig.exit_status = run_process(ms, ast);
 	}
-	free(line);
 	return (g_sig.exit_status);
 }
 
 void	minishell(char **env_v)
 {
 	t_minishell	*ms;
-	char		*line;
 
 	ms = init_minishell_struct(env_v);
 	while (1)
@@ -97,15 +94,15 @@ void	minishell(char **env_v)
 		g_sig.sig_quit = 0;
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &action);
-		line = ms_readline();
-		if (line == NULL)
-			line = "exit";
-		if (!ft_strcmp(line, ""))
+		ms->line = ms_readline();
+		if (ms->line == NULL)
+			ms->line = ft_strdup("exit");
+		if (!ft_strcmp(ms->line, ""))
 		{
-			free(line);
+			free(ms->line);
 			continue ;
 		}
-		if (execute(ms, line))
+		if (execute(ms, ms->line))
 			continue ;
 	}
 }
