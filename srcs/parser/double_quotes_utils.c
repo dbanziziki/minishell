@@ -60,7 +60,7 @@ void	join_token_value(t_tokenizer *t, t_quote *q, int i)
 	}
 }
 
-void	parse_again(t_tokenizer *t, t_quote *q)
+int	parse_again(t_tokenizer *t, t_quote *q)
 {
 	char	*temp_val;
 	int		i;
@@ -74,7 +74,7 @@ void	parse_again(t_tokenizer *t, t_quote *q)
 	{
 		token = quote_token(t, q->other, q->type);
 		if (!token)
-			return ;
+			return (0);
 		temp_val = q->val;
 		if (!temp_val)
 			q->val = token->value;
@@ -91,4 +91,5 @@ void	parse_again(t_tokenizer *t, t_quote *q)
 	}
 	else
 		q->con = 0;
+	return (1);
 }

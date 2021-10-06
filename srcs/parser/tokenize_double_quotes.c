@@ -1,6 +1,6 @@
 #include "tokenizer.h"
 #include "minishell.h"
-//""'"hello"'""
+//echo ""'"hello"'""
 
 static void	togle_open_close(t_quote *q, int o, int c)
 {
@@ -67,9 +67,9 @@ static void	full_str(t_tokenizer *t, t_quote *q)
 		t->cursor++;
 		togle_open_close(q, 0, 1);
 	}
-	else if (t->str[t->cursor == q->other])
+	else if (t->str[t->cursor] == q->other)
 		togle_open_close(q, 1, 1);
-	else //TODO
+	else
 		togle_open_close(q, 1, 0);
 }
 
@@ -93,7 +93,12 @@ t_token	*quote_token(t_tokenizer *t, int c, int other)
 			free(q.val);
 			return (NULL);
 		}
-		parse_again(t, &q);
+		if (!parse_again(t, &q))
+		{
+			if (q.val)
+				free(q.val);
+			return (NULL);
+		}
 	}
 	if (q.type == DOUBLE_QUOTE)
 		token = new_token(DOUBLE_QUOTE_TOKEN, q.val);

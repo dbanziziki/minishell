@@ -58,6 +58,6 @@ t_token		*word_token(t_tokenizer *t, char *temp);
 char		*skip_whitespace(char *str, t_tokenizer *t);
 t_token		*dollarsign_token(t_tokenizer *t, char *temp);
 t_token		*simple_token(t_tokenizer *t, char *temp);
-void		parse_again(t_tokenizer *t, t_quote *q);
+int			parse_again(t_tokenizer *t, t_quote *q);
 void		join_token_value(t_tokenizer *t, t_quote *q, int i);
 #endif
