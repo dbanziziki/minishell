@@ -8,7 +8,8 @@ static void	update_quote_value(t_tokenizer *t, t_quote *q, int i)
 	char	*temp_dup;
 
 	q->len = 0;
-	while (t->str[t->cursor] && t->str[t->cursor] != q->type)
+	while (t->str[t->cursor] && t->str[t->cursor] != q->type
+		&& t->str[t->cursor] != q->other)
 	{
 		q->len++;
 		t->cursor++;
@@ -23,8 +24,11 @@ static void	update_quote_value(t_tokenizer *t, t_quote *q, int i)
 		temp_dup = ft_strdup(get_env_v(temp + 1, t->envp));
 		free(temp);
 	}
-	q->val = ft_strjoin_free_both(q->val, temp_dup);
-	if (t->str[t->cursor] != q->type)
+	if (!temp_val)
+		q->val = temp_dup;
+	else
+		q->val = ft_strjoin_free_both(q->val, temp_dup);
+	if (ft_isspace(t->str[t->cursor]))
 		q->con = 0;
 }
 
@@ -68,15 +72,22 @@ void	parse_again(t_tokenizer *t, t_quote *q)
 		update_quote_value(t, q, i);
 	else if (t->str[t->cursor] == q->other) //:TODO
 	{
-		printf("doing some stuff %s\n", &t->str[t->cursor]);
-		/*token = single_quote_token(t);
+		token = quote_token(t, q->other, q->type);
 		if (!token)
 			return ;
 		temp_val = q->val;
-		q->val = ft_strjoin_free_both(temp_val, token->value);
+		if (!temp_val)
+			q->val = token->value;
+		else
+		{
+			if (token->value)
+				q->val = ft_strjoin_free_both(temp_val, token->value);
+			else
+				q->val = temp_val;
+		}
 		free(token);
-		if (t->str[t->cursor] != DOUBLE_QUOTE)
-			q->con = 0;*/
+		if (t->str[t->cursor] != q->type)
+			q->con = 0;
 	}
 	else
 		q->con = 0;

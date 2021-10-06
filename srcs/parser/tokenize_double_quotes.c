@@ -2,6 +2,12 @@
 #include "minishell.h"
 //""'"hello"'""
 
+static void	togle_open_close(t_quote *q, int o, int c)
+{
+	q->close = c;
+	q->open = o;
+}
+
 static int	update_vals(t_tokenizer *t, t_quote *q, int c)
 {
 	int	i;
@@ -41,12 +47,6 @@ static void	set_token_value(t_tokenizer *t, t_quote *q, int i)
 	}
 }
 
-static void	togle_open_close(t_quote *q, int o, int c)
-{
-	q->close = c;
-	q->open = o;
-}
-
 static void	full_str(t_tokenizer *t, t_quote *q)
 {
 	int		i;
@@ -58,7 +58,7 @@ static void	full_str(t_tokenizer *t, t_quote *q)
 	if (q->len)
 	{
 		if (!q->val)
-			set_token_value(t, q, i);	
+			set_token_value(t, q, i);
 		else
 			join_token_value(t, q, i);
 	}
@@ -67,11 +67,10 @@ static void	full_str(t_tokenizer *t, t_quote *q)
 		t->cursor++;
 		togle_open_close(q, 0, 1);
 	}
+	else if (t->str[t->cursor == q->other])
+		togle_open_close(q, 1, 1);
 	else //TODO
-	{
-		printf("causes the error\n");
 		togle_open_close(q, 1, 0);
-	}
 }
 
 t_token	*quote_token(t_tokenizer *t, int c, int other)
@@ -91,12 +90,14 @@ t_token	*quote_token(t_tokenizer *t, int c, int other)
 		full_str(t, &q);
 		if (!q.close)
 		{
-			printf("ERROR\n");
 			free(q.val);
 			return (NULL);
 		}
 		parse_again(t, &q);
 	}
-	token = new_token(DOUBLE_QUOTE_TOKEN, q.val);
+	if (q.type == DOUBLE_QUOTE)
+		token = new_token(DOUBLE_QUOTE_TOKEN, q.val);
+	else
+		token = new_token(SIMPLE_QUOTE_TOKEN, q.val);
 	return (token);
 }
