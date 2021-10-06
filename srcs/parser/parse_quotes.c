@@ -6,7 +6,7 @@ static t_cmd	*create_cmd(t_parser *p, t_AST *last, t_token *token)
 	t_cmd	*cmd;
 
 	cmd = NULL;
-	parsed =  ft_strdup(token->value); //parse_str(ft_strdup(token->value), p->var);
+	parsed =  ft_strdup(token->value);
 	if (last->e_type == PROGRAM)
 	{
 		cmd = init_cmd(parsed);
@@ -41,7 +41,8 @@ void	parse_double_quotes(t_parser *p, t_AST *ast)
 	t_cmd	*cmd;
 	t_AST	*last;
 
-	if (p->token->e_type != DOUBLE_QUOTE_TOKEN)
+	if (!p->token ||
+		p->token->e_type != DOUBLE_QUOTE_TOKEN)
 		return ;
 	if (!p->token)
 	{

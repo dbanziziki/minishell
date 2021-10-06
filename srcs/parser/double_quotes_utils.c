@@ -60,34 +60,42 @@ void	join_token_value(t_tokenizer *t, t_quote *q, int i)
 	}
 }
 
+static int	parse_other(t_tokenizer *t, t_quote *q)
+{
+	t_token	*token;
+	char	*temp_val;
+
+	token = quote_token(t, q->other, q->type);
+	if (!token)
+		return (0);
+	temp_val = q->val;
+	if (!temp_val)
+		q->val = token->value;
+	else
+	{
+		if (token->value)
+			q->val = ft_strjoin_free_both(temp_val, token->value);
+		else
+			q->val = temp_val;
+	}
+	free(token);
+	if (t->str[t->cursor] != q->type)
+		q->con = 0;
+	return (1);
+}
+
 int	parse_again(t_tokenizer *t, t_quote *q)
 {
-	char	*temp_val;
 	int		i;
-	t_token	*token;
 
 	i = t->cursor;
 	if (!ft_isspace(t->str[t->cursor]) && t->str[t->cursor]
 		&& t->str[t->cursor] != q->other)
 		update_quote_value(t, q, i);
-	else if (t->str[t->cursor] == q->other) //:TODO
+	else if (t->str[t->cursor] == q->other)
 	{
-		token = quote_token(t, q->other, q->type);
-		if (!token)
+		if (!parse_other(t, q))
 			return (0);
-		temp_val = q->val;
-		if (!temp_val)
-			q->val = token->value;
-		else
-		{
-			if (token->value)
-				q->val = ft_strjoin_free_both(temp_val, token->value);
-			else
-				q->val = temp_val;
-		}
-		free(token);
-		if (t->str[t->cursor] != q->type)
-			q->con = 0;
 	}
 	else
 		q->con = 0;

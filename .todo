@@ -38,4 +38,7 @@
     - [ ] 🎉 redirections with builtin funcitons
     - [x] 🎉 use the right exec fun
 ----
+(#9) quotes:
+    - [ ] 🎨 leaks when there is a syntax error with quotes
+----
 

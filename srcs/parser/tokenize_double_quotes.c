@@ -1,6 +1,5 @@
 #include "tokenizer.h"
 #include "minishell.h"
-//echo ""'"hello"'""
 
 static void	togle_open_close(t_quote *q, int o, int c)
 {
@@ -18,7 +17,7 @@ static int	update_vals(t_tokenizer *t, t_quote *q, int c)
 		t->cursor++;
 		q->open = 1;
 	}
-	else //shound be an error?
+	else
 		return (0);
 	i = t->cursor;
 	while (t->str[t->cursor] && t->str[t->cursor] != c)
