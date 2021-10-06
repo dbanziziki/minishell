@@ -1,9 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   double_quotes_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 15:19:26 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/06 15:19:27 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "tokenizer.h"
 #include "minishell.h"
 
+static void	set_new_quote_value(t_tokenizer *t, t_quote *q, char *temp_dup)
+{
+	char	*temp;
+
+	if (*temp_dup == '$' && q->type == DOUBLE_QUOTE)
+	{
+		temp = temp_dup;
+		temp_dup = ft_strdup(get_env_v(temp + 1, t->envp));
+		free(temp);
+	}
+	if (!q->val)
+		q->val = temp_dup;
+	else
+		q->val = ft_strjoin_free_both(q->val, temp_dup);
+	if (ft_isspace(t->str[t->cursor]))
+		q->con = 0;
+}
+
 static void	update_quote_value(t_tokenizer *t, t_quote *q, int i)
 {
-	char	*temp_val;
 	char	*temp;
 	char	*temp_dup;
 
@@ -14,24 +44,11 @@ static void	update_quote_value(t_tokenizer *t, t_quote *q, int i)
 		q->len++;
 		t->cursor++;
 	}
-	temp_val = q->val;
 	temp_dup = ft_strndup(&t->str[i], q->len);
 	if (!temp_dup)
 		return ;
-	if (*temp_dup == '$' && q->type == DOUBLE_QUOTE)
-	{
-		temp = temp_dup;
-		temp_dup = ft_strdup(get_env_v(temp + 1, t->envp));
-		free(temp);
-	}
-	if (!temp_val)
-		q->val = temp_dup;
-	else
-		q->val = ft_strjoin_free_both(q->val, temp_dup);
-	if (ft_isspace(t->str[t->cursor]))
-		q->con = 0;
+	set_new_quote_value(t, q, temp_dup);
 }
-
 
 void	join_token_value(t_tokenizer *t, t_quote *q, int i)
 {

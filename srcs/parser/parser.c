@@ -1,4 +1,15 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 15:24:39 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/06 15:32:52 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 t_token	*eat(t_parser *p, int type)
@@ -22,6 +33,8 @@ t_token	*eat(t_parser *p, int type)
 	if (!p->token)
 	{
 		print_error("minishell: syntax error", NULL);
+		free(token->value);
+		free(token);
 		p->flag = 1;
 		return (NULL);
 	}

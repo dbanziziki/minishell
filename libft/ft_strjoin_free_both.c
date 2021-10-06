@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin_free_both.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 15:20:31 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/06 15:23:38 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strjoin_free_both(char *s1, char *s2)
@@ -21,7 +33,7 @@ char	*ft_strjoin_free_both(char *s1, char *s2)
 	while (++index < j)
 		res[index + i] = s2[index];
 	res[index + i] = 0;
-    free(s1);
-    free(s2);
+	free(s1);
+	free(s2);
 	return (res);
 }

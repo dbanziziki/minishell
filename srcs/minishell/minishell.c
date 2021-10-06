@@ -63,7 +63,6 @@ int	execute(t_minishell *ms, char *line)
 	if (ms->p->flag == 1)
 	{
 		g_sig.exit_status = 258;
-		free_all(ms);
 		return (1);
 	}
 	ast = ms->ast->next;
