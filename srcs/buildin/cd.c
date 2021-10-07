@@ -48,8 +48,8 @@ void	move_to(t_minishell *ms, t_AST *ast, char *path)
 		return ;
 	else if (fl == 2)
 		exit_minishell(ms, EXIT_FAILURE);
-	export_v(ms, goal, ast);
-	export_v(ms, new, ast);
+	export_v(ms, &goal, ast);
+	export_v(ms, &new, ast);
 	free(goal);
 	free(new);
 	g_sig.exit_status = 0;
@@ -92,8 +92,8 @@ void	move_to_root(t_minishell *ms, t_AST *ast)
 	new = ft_strjoin("PWD=", curr_dir);
 	if (err_check(goal, new, err))
 		exit_minishell(ms, EXIT_FAILURE);
-	export_v(ms, new, ast);
-	export_v(ms, goal, ast);
+	export_v(ms, &new, ast);
+	export_v(ms, &goal, ast);
 	free(goal);
 	free(new);
 	g_sig.exit_status = 0;

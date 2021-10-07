@@ -87,9 +87,9 @@ int	find_cmd(t_array cmd, t_minishell *ms, t_AST *ast)
 		else if (!ft_strcmp((char *)cmd.items[0], "env"))
 			get_env((char **)ms->var->items, 0, ast);
 		else if (!ft_strcmp((char *)cmd.items[0], "export"))
-			export_v(ms, (char *)cmd.items[1], ast);
+			export_v(ms, (char **)(cmd.items), ast);
 		else if (!ft_strcmp((char *)cmd.items[0], "unset"))
-			unset(ms, (char *)cmd.items[1]);
+			unset(ms, (char **)(cmd.items));
 		else
 			return (0);
 		return (1);

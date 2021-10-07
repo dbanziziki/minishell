@@ -75,11 +75,15 @@ void	list_rm(t_array *list, void *to_rm, t_minishell *ms)
 	list->items[list->size] = 0;
 }
 
-void	unset(t_minishell *ms, char *var)
+void	unset(t_minishell *ms, char **var)
 {
-	if (!var || in_list(var, ms) == -1)
-		return ;
-	else
-		list_rm(ms->var, var, ms);
-	g_sig.exit_status = 0;
+	while (*++var)
+	{
+		// printf("%d \n", in_list(*var, ms));
+		if (in_list(*var, ms) == -1)
+			continue ;
+		else
+			list_rm(ms->var, *var, ms);
+		g_sig.exit_status = 0;
+	}
 }

@@ -81,22 +81,33 @@ static void	check_env_var_exist(char **tab, t_minishell *ms, char *new_arg)
 	}
 }
 
-void	export_v(t_minishell *ms, char *new_arg, t_AST *ast)
+void	export_v(t_minishell *ms, char **new_arg, t_AST *ast)
 {
 	char	**tab;
+	char	*temp;
 
-	if (!new_arg)
+	if (!new_arg[0])
 		return (sorted_exp(ms, ast));
-	tab = ft_split(new_arg, '=');
-	if (!tab)
-		exit_minishell(ms, EXIT_FAILURE);
-	check_env_var_exist(tab, ms, new_arg);
-	if (ft_isdigit(tab[0][0]))
+	while (*++new_arg)
 	{
-		g_sig.exit_status = 1;
+		tab = ft_split(*new_arg, '=');
+		temp = *new_arg;
+		if (!tab)
+			exit_minishell(ms, EXIT_FAILURE);
+		if (!ft_strchr(temp, '='))
+		{
+			free_tab(tab);
+			g_sig.exit_status = 0;
+			return ;
+		}
+		check_env_var_exist(tab, ms, *new_arg);
+		if (ft_isdigit(tab[0][0]))
+		{
+			g_sig.exit_status = 1;
+			free_tab(tab);
+			return (print_error("bash: export: not a valid identifier", NULL));
+		}
 		free_tab(tab);
-		return (print_error("bash: export: not a valid identifier", NULL));
+		g_sig.exit_status = 0;
 	}
-	free_tab(tab);
-	g_sig.exit_status = 0;
 }
