@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkalinic <kkalinic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 14:28:34 by kkalinic          #+#    #+#             */
+/*   Updated: 2021/10/07 14:28:44 by kkalinic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "libft.h"
 #include <stdio.h>
@@ -79,7 +91,6 @@ void	unset(t_minishell *ms, char **var)
 {
 	while (*++var)
 	{
-		// printf("%d \n", in_list(*var, ms));
 		if (in_list(*var, ms) == -1)
 			continue ;
 		else

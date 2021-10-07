@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*   By: kkalinic <kkalinic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 11:15:54 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/07 11:49:17 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 14:32:29 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ int			exec_cmd(t_cmd *cmd, t_array *var);
 void		parse_line(t_minishell **ms, char *line);
 char		*ms_readline(void);
 int			execute(t_minishell *ms, char *line);
+char		**cp_tab(char **tab);
 #endif

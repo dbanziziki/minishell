@@ -1,29 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkalinic <kkalinic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 14:28:28 by kkalinic          #+#    #+#             */
+/*   Updated: 2021/10/07 14:33:17 by kkalinic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "libft.h"
 
 t_sig	g_sig;
-
-char	**cp_tab(char **tab)
-{
-	char	**new_tab;
-	int		len;
-
-	len = -1;
-	while (tab[++len])
-		;
-	new_tab = malloc(sizeof(char *) * (len + 1));
-	if (!new_tab)
-		return (NULL);
-	new_tab[len] = NULL;
-	len = -1;
-	while (tab[++len])
-	{
-		new_tab[len] = ft_strdup(tab[len]);
-		if (!new_tab[len])
-			return (NULL);
-	}
-	return (new_tab);
-}
 
 void	sorted_exp(t_minishell *ms, t_ast *ast)
 {
@@ -81,13 +71,11 @@ static void	check_env_var_exist(char **tab, t_minishell *ms, char *new_arg)
 	}
 }
 
-void	export_v(t_minishell *ms, char **new_arg, t_ast *ast)
+void	looping(t_minishell *ms, char **new_arg)
 {
 	char	**tab;
 	char	*temp;
 
-	if (!new_arg[0])
-		return (sorted_exp(ms, ast));
 	while (*++new_arg)
 	{
 		tab = ft_split(*new_arg, '=');
@@ -110,4 +98,11 @@ void	export_v(t_minishell *ms, char **new_arg, t_ast *ast)
 		free_tab(tab);
 		g_sig.exit_status = 0;
 	}
+}
+
+void	export_v(t_minishell *ms, char **new_arg, t_ast *ast)
+{
+	if (!new_arg[0])
+		return (sorted_exp(ms, ast));
+	looping(ms, new_arg);
 }
