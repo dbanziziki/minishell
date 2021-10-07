@@ -6,7 +6,7 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:19:41 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/07 12:08:15 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 13:22:22 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	set_token_value(t_tokenizer *t, t_quote *q, int i)
 		q->con = 0;
 		return ;
 	}
-	if (*(q->val) == '$' && q->type == DOUBLE_QUOTE)
+	if (q->type == DOUBLE_QUOTE)
 	{
 		temp = q->val;
 		q->val = parse_str(q->val, t->envp);

@@ -6,7 +6,7 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:19:26 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/07 11:42:55 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 13:22:03 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	join_token_value(t_tokenizer *t, t_quote *q, int i)
 	temp_dup = ft_strndup(&t->str[i], q->len);
 	if (!temp_dup)
 		return ;
-	if (*temp_dup == '$' && q->type == DOUBLE_QUOTE)
+	if (q->type == DOUBLE_QUOTE)
 	{
 		other = temp_dup;
 		temp_dup = parse_str(temp_dup, t->envp);
