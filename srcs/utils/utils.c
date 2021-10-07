@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*   By: kkalinic <kkalinic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 13:20:05 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/07 13:20:05 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 14:31:45 by kkalinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,26 @@ void	togle_open_close(t_quote *q, int o, int c)
 {
 	q->close = c;
 	q->open = o;
+}
+
+char	**cp_tab(char **tab)
+{
+	char	**new_tab;
+	int		len;
+
+	len = -1;
+	while (tab[++len])
+		;
+	new_tab = malloc(sizeof(char *) * (len + 1));
+	if (!new_tab)
+		return (NULL);
+	new_tab[len] = NULL;
+	len = -1;
+	while (tab[++len])
+	{
+		new_tab[len] = ft_strdup(tab[len]);
+		if (!new_tab[len])
+			return (NULL);
+	}
+	return (new_tab);
 }

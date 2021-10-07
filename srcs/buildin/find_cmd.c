@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkalinic <kkalinic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 14:28:06 by kkalinic          #+#    #+#             */
+/*   Updated: 2021/10/07 14:29:03 by kkalinic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "libft.h"
 #include <stdio.h>
@@ -61,7 +73,7 @@ char	*get_env_v(char *key, t_array *var)
 	{
 		res = ft_strchr(var->items[i], '=');
 		if (res && !ft_strncmp(key, var->items[i],
-				 ft_strlen(var->items[i]) - ft_strlen(res)))
+				ft_strlen(var->items[i]) - ft_strlen(res)))
 		{
 			if (!res)
 				return (NULL);
