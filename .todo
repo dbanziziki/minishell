@@ -12,8 +12,8 @@
 ----
 (#3) LEAKS:
     - [x] 📃 function to free the AST
-    - [ ] fix unknown leaks with valgrind
-    - [ ] 🎉 free memory when is a builtin fun
+    - [x] fix unknown leaks with valgrind
+    - [x] 🎉 free memory when is a builtin fun
     - [x] 🎉 fix free when using env var as cmd
 ----
 (#4) TOKENS:
@@ -35,10 +35,10 @@
 ----
 
 (#8) builtin:
-    - [ ] 🎉 redirections with builtin funcitons
+    - [x] 🎉 redirections with builtin funcitons
     - [x] 🎉 use the right exec fun
 ----
 (#9) quotes:
-    - [ ] 🎨 leaks when there is a syntax error with quotes
+    - [x] 🎨 leaks when there is a syntax error with quotes
 ----
 
