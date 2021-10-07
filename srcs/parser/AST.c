@@ -6,29 +6,28 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:18:10 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:19:15 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:17:24 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "parser.h"
 
-t_AST	*init_AST(int type, void *body)
+t_ast	*init_ast(int type, void *body)
 {
-	t_AST	*AST;
+	t_ast	*ast;
 
-	AST = malloc(sizeof(t_AST));
-	if (!AST)
+	ast = malloc(sizeof(t_ast));
+	if (!ast)
 		return (NULL);
-	AST->e_type = type;
-	AST->body = body;
-	AST->next = 0;
-	return (AST);
+	ast->e_type = type;
+	ast->body = body;
+	ast->next = 0;
+	return (ast);
 }
 
-void	addback_AST(t_AST **ast, t_AST *new)
+void	addback_ast(t_ast **ast, t_ast *new)
 {
-	t_AST	*temp;
+	t_ast	*temp;
 
 	if (!ast)
 		return ;

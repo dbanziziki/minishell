@@ -15,7 +15,7 @@ int	in_list(char *key, t_minishell *ms)
 	return (-1);
 }
 
-void	get_env(char **env_v, int flag, t_AST *ast)
+void	get_env(char **env_v, int flag, t_ast *ast)
 {
 	int		i;
 	t_cmd	*cmd;

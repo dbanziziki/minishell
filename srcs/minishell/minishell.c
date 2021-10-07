@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 11:58:20 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/07 11:58:21 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_sig	g_sig;
@@ -28,7 +40,7 @@ static int	post_child_process(t_minishell *ms)
 	return (0);
 }
 
-static int	run_process(t_minishell *ms, t_AST *ast)
+static int	run_process(t_minishell *ms, t_ast *ast)
 {
 	int		i;
 	t_cmd	*cmd;
@@ -57,12 +69,13 @@ static int	run_process(t_minishell *ms, t_AST *ast)
 
 int	execute(t_minishell *ms, char *line)
 {
-	t_AST	*ast;
+	t_ast	*ast;
 
 	parse_line(&ms, line);
 	if (ms->p->flag == 1)
 	{
 		g_sig.exit_status = 258;
+		free_all(ms);
 		return (1);
 	}
 	ast = ms->ast->next;

@@ -37,10 +37,10 @@ void	free_cmd_and_arg(t_cmd *cmd)
 	free_memory(cmd);
 }
 
-void	free_ast(t_AST **ast)
+void	free_ast(t_ast **ast)
 {
 	t_cmd	*cmd;
-	t_AST	*temp;
+	t_ast	*temp;
 	int		i;
 
 	i = -1;

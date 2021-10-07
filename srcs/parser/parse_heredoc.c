@@ -6,13 +6,13 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:24:11 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:24:12 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:14:58 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
+static void	set_cmd_and_arg(t_parser *p, t_ast **ast, t_list *hd)
 {
 	t_cmd	*cmd;
 	t_token	*token;
@@ -34,10 +34,10 @@ static void	set_cmd_and_arg(t_parser *p, t_AST **ast, t_list *hd)
 	}
 	if (cmd->io_mod)
 		cmd->io_mod->hd_flag = 1;
-	addback_AST(ast, init_AST(CMD_AND_ARG, cmd));
+	addback_ast(ast, init_ast(CMD_AND_ARG, cmd));
 }
 
-static void	push_hd(t_parser *p, t_AST *last, t_cmd *cmd, t_token *token)
+static void	push_hd(t_parser *p, t_ast *last, t_cmd *cmd, t_token *token)
 {
 	t_list	*hd;
 
@@ -59,7 +59,7 @@ static void	push_hd(t_parser *p, t_AST *last, t_cmd *cmd, t_token *token)
 	}
 }
 
-static void	set_heredoc(t_parser *p, t_AST *last, t_cmd *cmd)
+static void	set_heredoc(t_parser *p, t_ast *last, t_cmd *cmd)
 {
 	t_token	*token;
 
@@ -75,11 +75,11 @@ static void	set_heredoc(t_parser *p, t_AST *last, t_cmd *cmd)
 	push_hd(p, last, cmd, token);
 }
 
-void	parse_heredoc(t_parser *p, t_AST *ast)
+void	parse_heredoc(t_parser *p, t_ast *ast)
 {
 	t_token		*token;
 	t_list		*hd;
-	t_AST		*last;
+	t_ast		*last;
 	t_cmd		*cmd;
 
 	if (p->token->e_type != HEREDOC_TOKEN)

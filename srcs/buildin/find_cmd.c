@@ -72,7 +72,7 @@ char	*get_env_v(char *key, t_array *var)
 	return (NULL);
 }
 
-int	find_cmd(t_array cmd, t_minishell *ms, t_AST *ast)
+int	find_cmd(t_array cmd, t_minishell *ms, t_ast *ast)
 {
 	if (cmd.items && (char *)cmd.items[0])
 	{

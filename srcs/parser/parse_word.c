@@ -6,13 +6,13 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:24:29 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:24:30 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:14:58 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static t_cmd	*set_cmd(t_parser *p, t_AST *last)
+static t_cmd	*set_cmd(t_parser *p, t_ast *last)
 {
 	t_cmd	*cmd;
 	t_token	*token;
@@ -33,10 +33,10 @@ static t_cmd	*set_cmd(t_parser *p, t_AST *last)
 	return (cmd);
 }
 
-int	parse_word(t_parser *p, t_AST *ast)
+int	parse_word(t_parser *p, t_ast *ast)
 {
 	t_cmd	*cmd;
-	t_AST	*last;
+	t_ast	*last;
 
 	last = get_last(&ast);
 	cmd = set_cmd(p, last);
@@ -44,6 +44,6 @@ int	parse_word(t_parser *p, t_AST *ast)
 		return (-1);
 	eat_words(p, cmd);
 	if (last->e_type == PROGRAM)
-		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
+		addback_ast(&ast, init_ast(CMD_AND_ARG, cmd));
 	return (1);
 }

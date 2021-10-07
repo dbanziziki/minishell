@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double_quotes_utils.c                              :+:      :+:    :+:   */
+/*   tokenize_quotes_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:19:26 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:19:27 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:42:55 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "tokenizer.h"
 #include "minishell.h"
@@ -34,7 +33,6 @@ static void	set_new_quote_value(t_tokenizer *t, t_quote *q, char *temp_dup)
 
 static void	update_quote_value(t_tokenizer *t, t_quote *q, int i)
 {
-	char	*temp;
 	char	*temp_dup;
 
 	q->len = 0;
@@ -63,9 +61,8 @@ void	join_token_value(t_tokenizer *t, t_quote *q, int i)
 	if (*temp_dup == '$' && q->type == DOUBLE_QUOTE)
 	{
 		other = temp_dup;
-		temp_dup = ft_strdup(get_env_v(temp_dup + 1, t->envp));
+		temp_dup = parse_str(temp_dup, t->envp);
 		q->val = ft_strjoin_free_both(temp, temp_dup);
-		free(other);
 		if (!q->val)
 			return ;
 	}

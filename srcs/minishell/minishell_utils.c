@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 11:58:33 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/07 11:58:34 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	close_unused_pipes(int **pipes, int size, int i)
@@ -53,9 +65,9 @@ t_minishell	*init_minishell_struct(char **env_v)
 	return (ms);
 }
 
-t_AST	*init_minishell_parse(t_minishell **ms, char *str)
+t_ast	*init_minishell_parse(t_minishell **ms, char *str)
 {
-	t_AST		*ast;
+	t_ast		*ast;
 	t_program	*prog;
 	t_parser	*p;
 
@@ -63,7 +75,7 @@ t_AST	*init_minishell_parse(t_minishell **ms, char *str)
 	prog = init_prog();
 	if (!prog || !p)
 		return (NULL);
-	ast = init_AST(PROGRAM, prog);
+	ast = init_ast(PROGRAM, prog);
 	p->t->envp = (*ms)->var;
 	p->var = (*ms)->var;
 	parse(p, &ast);

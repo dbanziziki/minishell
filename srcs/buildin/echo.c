@@ -41,7 +41,7 @@ void	for_dup(t_cmd *cmd)
 	}
 }
 
-void	echo(char **s, t_AST *ast)
+void	echo(char **s, t_ast *ast)
 {
 	t_cmd	*cmd;
 
@@ -61,7 +61,7 @@ void	echo(char **s, t_AST *ast)
 ** The pwd function mimic behavior of "pwd" bash command.
 */
 
-void	pwd(t_AST *ast)
+void	pwd(t_ast *ast)
 {
 	char	curr_dir[1024];
 	t_cmd	*cmd;

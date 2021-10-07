@@ -6,7 +6,7 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:24:22 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:24:23 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:14:58 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static t_io_mod	*parse_redirect(t_parser *p, t_cmd *cmd, int type)
 	return (io_mod);
 }
 
-static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
+static void	parse_cmd_and_args(t_parser *p, t_ast **ast, t_io_mod *io_mod)
 {
 	t_cmd	*cmd;
 	t_token	*token;
@@ -107,13 +107,13 @@ static void	parse_cmd_and_args(t_parser *p, t_AST **ast, t_io_mod *io_mod)
 		cmd = init_cmd(NULL);
 		cmd->io_mod = io_mod;
 	}
-	addback_AST(ast, init_AST(CMD_AND_ARG, cmd));
+	addback_ast(ast, init_ast(CMD_AND_ARG, cmd));
 }
 
-void	parse_redirections(t_parser *p, t_AST *ast)
+void	parse_redirections(t_parser *p, t_ast *ast)
 {
 	t_cmd		*cmd;
-	t_AST		*last;
+	t_ast		*last;
 	t_io_mod	*io_mod;
 
 	last = get_last(&ast);

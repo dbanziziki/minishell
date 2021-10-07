@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   AST.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 11:15:58 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/07 11:15:59 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef AST_H
 # define AST_H
 
-typedef struct s_AST
+typedef struct s_ast
 {
 	enum
 	{
@@ -10,9 +22,9 @@ typedef struct s_AST
 		PIPE_CMD_AND_ARG,
 	}				e_type;
 	void			*body;
-	struct s_AST	*next;
-	struct s_AST	*prev;
-}					t_AST;
+	struct s_ast	*next;
+	struct s_ast	*prev;
+}					t_ast;
 
 typedef struct s_program
 {
@@ -20,9 +32,9 @@ typedef struct s_program
 	int			has_pipes;
 }				t_program;
 
-t_AST		*init_AST(int type, void *body);
-void		addback_AST(t_AST **ast, t_AST *new);
+t_ast		*init_ast(int type, void *body);
+void		addback_ast(t_ast **ast, t_ast *new);
 t_program	*init_prog(void);
-void		print_ast(t_AST *ast);
-t_AST		*get_last(t_AST **ast);
+void		print_ast(t_ast *ast);
+t_ast		*get_last(t_ast **ast);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:24:39 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:32:52 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:50:03 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static int	parsing_error(t_parser *p)
 	return (-1);
 }
 
-static int	switch_token(t_parser *p, t_AST **ast)
+static int	switch_token(t_parser *p, t_ast **ast)
 {
 	if (p->token->e_type == WORD_TOKEN)
 		parse_word(p, *ast);
 	else if (p->token->e_type == PIPE_TOKEN)
-		addback_AST(ast, parse_pipe(p, *ast));
+		addback_ast(ast, parse_pipe(p, *ast));
 	else if (p->token->e_type == LESS_THAN_TOKEN
 		|| p->token->e_type == GGREATER_THAN_TOKEN
 		|| p->token->e_type == GREATER_THAN_TOKEN)
@@ -71,7 +71,7 @@ static int	switch_token(t_parser *p, t_AST **ast)
 	return (1);
 }
 
-int	parse(t_parser *p, t_AST **ast)
+int	parse(t_parser *p, t_ast **ast)
 {
 	if (!p->token || p->token->e_type == EOF_TOKEN || p->flag)
 		return (-1);

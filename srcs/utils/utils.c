@@ -34,3 +34,9 @@ void	free_tab(char **tab)
 		free(tab[len]);
 	free(tab);
 }
+
+void	togle_open_close(t_quote *q, int o, int c)
+{
+	q->close = c;
+	q->open = o;
+}

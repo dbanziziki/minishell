@@ -25,7 +25,7 @@ char	**cp_tab(char **tab)
 	return (new_tab);
 }
 
-void	sorted_exp(t_minishell *ms, t_AST *ast)
+void	sorted_exp(t_minishell *ms, t_ast *ast)
 {
 	char	**tab;
 	int		j;
@@ -81,7 +81,7 @@ static void	check_env_var_exist(char **tab, t_minishell *ms, char *new_arg)
 	}
 }
 
-void	export_v(t_minishell *ms, char **new_arg, t_AST *ast)
+void	export_v(t_minishell *ms, char **new_arg, t_ast *ast)
 {
 	char	**tab;
 	char	*temp;

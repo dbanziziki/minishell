@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 11:58:37 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/07 11:58:38 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	pipe_stdout(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
+int	pipe_stdout(t_minishell *ms, t_ast *curr_ast, t_cmd *cmd)
 {
 	if (!(cmd->io_mod && cmd->io_mod->out->items))
 		dup2(ms->pipes[cmd->proc_idx + 1][1], STDOUT_FILENO);

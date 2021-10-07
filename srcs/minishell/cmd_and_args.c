@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_and_args.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 11:57:58 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/07 11:57:59 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static	int	redirections(t_cmd *cmd)
@@ -24,7 +36,7 @@ static	int	redirections(t_cmd *cmd)
 	return (0);
 }
 
-static int	pipes(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
+static int	pipes(t_minishell *ms, t_ast *curr_ast, t_cmd *cmd)
 {
 	t_cmd	*next_cmd;
 
@@ -44,7 +56,7 @@ static int	pipes(t_minishell *ms, t_AST *curr_ast, t_cmd *cmd)
 	return (0);
 }
 
-int	cmd_and_args(t_minishell *ms, t_AST *curr_ast)
+int	cmd_and_args(t_minishell *ms, t_ast *curr_ast)
 {
 	t_cmd	*next_cmd;
 	t_cmd	*cmd;

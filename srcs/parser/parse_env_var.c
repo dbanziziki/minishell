@@ -6,7 +6,7 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:24:06 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:24:07 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:14:58 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_sig	g_sig;
 
-static void	set_cmd(t_AST *ast, char *env_var)
+static void	set_cmd(t_ast *ast, char *env_var)
 {
 	t_cmd	*cmd;
 
@@ -23,7 +23,7 @@ static void	set_cmd(t_AST *ast, char *env_var)
 	{
 		cmd = init_cmd(env_var);
 		list_push(cmd->argv, env_var);
-		addback_AST(&ast, init_AST(CMD_AND_ARG, cmd));
+		addback_ast(&ast, init_ast(CMD_AND_ARG, cmd));
 	}
 	else
 	{
@@ -32,7 +32,7 @@ static void	set_cmd(t_AST *ast, char *env_var)
 	}
 }
 
-void	parse_env_var(t_parser *p, t_AST *ast)
+void	parse_env_var(t_parser *p, t_ast *ast)
 {
 	t_token		*token;
 	char		*env_var;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 11:58:10 by dbanzizi          #+#    #+#             */
+/*   Updated: 2021/10/07 12:10:46 by dbanzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	write_line(t_list *hd, t_array *var)
@@ -29,14 +41,10 @@ static int	write_line(t_list *hd, t_array *var)
 	return (fds[0]);
 }
 
-int	heredoc(t_minishell *ms, t_AST *curr_ast)
+static int	exec_herodoc(t_minishell *ms, t_list *hd)
 {
-	t_cmd		*cmd;
-	t_list		*hd;
-	int			in;
+	int	in;
 
-	cmd = (t_cmd *)curr_ast->body;
-	hd = cmd->hd;
 	while (hd)
 	{
 		if (!ft_strcmp(hd->content, "NULL"))
@@ -54,6 +62,20 @@ int	heredoc(t_minishell *ms, t_AST *curr_ast)
 		}
 		hd = hd->next;
 	}
+	return (in);
+}
+
+int	heredoc(t_minishell *ms, t_ast *curr_ast)
+{
+	t_cmd		*cmd;
+	t_list		*hd;
+	int			in;
+
+	cmd = (t_cmd *)curr_ast->body;
+	hd = cmd->hd;
+	in = exec_herodoc(ms, hd);
+	if (in < 0)
+		return (-1);
 	if (cmd->cmd)
 		dup2(in, STDIN_FILENO);
 	if (close(in) == -1)

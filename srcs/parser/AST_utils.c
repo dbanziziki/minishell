@@ -6,7 +6,7 @@
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:23:52 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:23:53 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 11:11:35 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_program	*init_prog(void)
 	return (prog);
 }
 
-t_AST	*get_last(t_AST **ast)
+t_ast	*get_last(t_ast **ast)
 {
-	t_AST	*temp;
+	t_ast	*temp;
 
 	temp = *ast;
 	while (temp->next)

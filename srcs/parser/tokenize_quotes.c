@@ -1,23 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_double_quotes.c                           :+:      :+:    :+:   */
+/*   tokenize_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbanzizi <dbanzizi@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:19:41 by dbanzizi          #+#    #+#             */
-/*   Updated: 2021/10/06 15:19:43 by dbanzizi         ###   ########.fr       */
+/*   Updated: 2021/10/07 12:08:15 by dbanzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 #include "minishell.h"
-
-static void	togle_open_close(t_quote *q, int o, int c)
-{
-	q->close = c;
-	q->open = o;
-}
 
 static int	update_vals(t_tokenizer *t, t_quote *q, int c)
 {
@@ -53,18 +47,14 @@ static void	set_token_value(t_tokenizer *t, t_quote *q, int i)
 	if (*(q->val) == '$' && q->type == DOUBLE_QUOTE)
 	{
 		temp = q->val;
-		q->val = ft_strdup(get_env_v(temp + 1, t->envp));
-		free(temp);
+		q->val = parse_str(q->val, t->envp);
 	}
 }
 
 static void	full_str(t_tokenizer *t, t_quote *q)
 {
 	int		i;
-	char	*temp;
-	char	*temp_dup;
 
-	
 	i = update_vals(t, q, q->type);
 	if (q->len)
 	{
@@ -84,12 +74,29 @@ static void	full_str(t_tokenizer *t, t_quote *q)
 		togle_open_close(q, 1, 0);
 }
 
+static int	parse_token_val(t_tokenizer *t, t_quote *q)
+{
+	q->open = 0;
+	full_str(t, q);
+	if (!q->close)
+	{
+		free(q->val);
+		return (0);
+	}
+	if (!parse_again(t, q))
+	{
+		if (q->val)
+			free(q->val);
+		return (0);
+	}
+	return (1);
+}
+
 t_token	*quote_token(t_tokenizer *t, int c, int other)
 {
 	t_token	*token;
 	t_quote	q;
 
-	token = NULL;
 	ft_memset(&q, 0, sizeof(t_quote));
 	q.close = 1;
 	q.con = 1;
@@ -97,19 +104,8 @@ t_token	*quote_token(t_tokenizer *t, int c, int other)
 	q.other = other;
 	while (q.con && q.close && t->str[t->cursor])
 	{
-		q.open = 0;
-		full_str(t, &q);
-		if (!q.close)
-		{
-			free(q.val);
+		if (!parse_token_val(t, &q))
 			return (NULL);
-		}
-		if (!parse_again(t, &q))
-		{
-			if (q.val)
-				free(q.val);
-			return (NULL);
-		}
 	}
 	if (q.type == DOUBLE_QUOTE)
 		token = new_token(DOUBLE_QUOTE_TOKEN, q.val);

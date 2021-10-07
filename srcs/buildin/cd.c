@@ -30,7 +30,7 @@ static int	check(char *path, char *goal, char *new, int err)
 	return (0);
 }
 
-void	move_to(t_minishell *ms, t_AST *ast, char *path)
+void	move_to(t_minishell *ms, t_ast *ast, char *path)
 {
 	int		err;
 	char	*goal;
@@ -77,7 +77,7 @@ static int	err_check(char *goal, char *new, int err)
 	return (0);
 }
 
-void	move_to_root(t_minishell *ms, t_AST *ast)
+void	move_to_root(t_minishell *ms, t_ast *ast)
 {
 	int		err;
 	char	*goal;
@@ -99,7 +99,7 @@ void	move_to_root(t_minishell *ms, t_AST *ast)
 	g_sig.exit_status = 0;
 }
 
-void	change_dir(char *path, t_minishell *ms, t_AST *ast)
+void	change_dir(char *path, t_minishell *ms, t_ast *ast)
 {
 	if (path)
 		move_to(ms, ast, path);
